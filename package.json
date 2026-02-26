@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 6060",
+    "dev": "next dev",
+    "dev:6060": "next dev -p 6060",
+    "dev:7070": "next dev -p 7070",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

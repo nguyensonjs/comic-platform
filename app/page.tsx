@@ -1,76 +1,110 @@
-import Image from 'next/image';
-import clsx from 'clsx';
-
 export default function Home() {
   return (
-    <div
-      className={clsx(
-        'flex',
-        'min-h-screen',
-        'items-center',
-        'justify-center',
-        'bg-zinc-50',
-        'font-sans',
-        'dark:bg-black',
-      )}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between bg-white px-16 py-32 sm:items-start dark:bg-black">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl leading-10 font-semibold tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{' '}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{' '}
-            or the{' '}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{' '}
-            center.
-          </p>
+    <div className="cosmic-gradient">
+      {/* Hero Section */}
+      <section className="relative py-20">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <div className="space-y-8">
+            <h1 className="text-4xl leading-tight font-bold md:text-6xl">
+              Khám phá thế giới
+              <br />
+              <span className="text-primary italic">truyện tranh vô tận</span>
+            </h1>
+            <p className="mx-auto max-w-3xl text-xl text-slate-400">
+              Hàng ngàn tác phẩm manga, manhwa, webtoon và tiểu thuyết đang chờ đón bạn. Bắt đầu
+              hành trình khám phá ngay hôm nay!
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <button className="bg-primary hover:bg-primary/80 hero-glow flex items-center gap-2 rounded-full px-8 py-4 font-bold text-white transition-all">
+                <span className="material-symbols-outlined">explore</span>
+                Khám phá ngay
+              </button>
+              <button className="rounded-full border border-white/20 bg-white/10 px-8 py-4 font-bold text-white backdrop-blur-md transition-all hover:bg-white/20">
+                Xem thịnh hành
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="bg-foreground text-background flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 transition-colors hover:bg-[#383838] md:w-39.5 dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/8 px-5 transition-colors hover:border-transparent hover:bg-black/4 md:w-39.5 dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="mb-4 text-3xl font-bold">Tại sao chọn chúng tôi?</h2>
+            <p className="mx-auto max-w-2xl text-slate-400">
+              Trải nghiệm đọc truyện tuyệt vời với nhiều tính năng độc đáo
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="bg-star-blue/30 hover:border-primary/50 rounded-xl border border-slate-800/50 p-6 text-center transition-all">
+              <div className="bg-primary/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+                <span className="material-symbols-outlined text-primary text-2xl">
+                  library_books
+                </span>
+              </div>
+              <h3 className="mb-2 text-xl font-bold">Kho tàng phong phú</h3>
+              <p className="text-slate-400">
+                Hàng ngàn tác phẩm từ khắp nơi trên thế giới, được cập nhật liên tục
+              </p>
+            </div>
+
+            <div className="bg-star-blue/30 hover:border-primary/50 rounded-xl border border-slate-800/50 p-6 text-center transition-all">
+              <div className="bg-primary/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+                <span className="material-symbols-outlined text-primary text-2xl">speed</span>
+              </div>
+              <h3 className="mb-2 text-xl font-bold">Tốc độ cực nhanh</h3>
+              <p className="text-slate-400">
+                Tải trang siêu nhanh, không cần chờ đợi, trải nghiệm mượt mà
+              </p>
+            </div>
+
+            <div className="bg-star-blue/30 hover:border-primary/50 rounded-xl border border-slate-800/50 p-6 text-center transition-all">
+              <div className="bg-primary/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+                <span className="material-symbols-outlined text-primary text-2xl">favorite</span>
+              </div>
+              <h3 className="mb-2 text-xl font-bold">Hoàn toàn miễn phí</h3>
+              <p className="text-slate-400">
+                Tất cả truyện đều có thể đọc miễn phí, không quảng cáo phiền nhiễu
+              </p>
+            </div>
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Categories Section */}
+      <section className="py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-3xl font-bold">Thể loại phổ biến</h2>
+            <p className="text-slate-400">Chọn thể loại yêu thích của bạn</p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
+            {[
+              { icon: 'swords', name: 'Hành động', color: 'qi-teal' },
+              { icon: 'favorite', name: 'Lãng mạn', color: 'pink-400' },
+              { icon: 'auto_fix_high', name: 'Huyền huyễn', color: 'purple-400' },
+              { icon: 'sports_martial_arts', name: 'Võ thuật', color: 'orange-400' },
+              { icon: 'school', name: 'Học đường', color: 'blue-400' },
+              { icon: 'psychology', name: 'Kinh dị', color: 'red-400' },
+            ].map((category, index) => (
+              <div
+                key={index}
+                className="bg-star-blue/40 hover:border-primary/50 group flex cursor-pointer flex-col items-center justify-center rounded-xl border border-slate-800/50 p-6 text-center transition-all"
+              >
+                <span
+                  className={`material-symbols-outlined mb-2 text-3xl text-${category.color} transition-transform group-hover:scale-110`}
+                >
+                  {category.icon}
+                </span>
+                <span className="text-sm font-bold">{category.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
