@@ -171,7 +171,7 @@ export default function CharacterPage() {
             </h1>
             <p className="mt-1 text-slate-500">Chọn trang bị từ hành trang, kéo sức mạnh đến đỉnh phong</p>
           </div>
-          <Link href="/profile" className="flex items-center gap-1.5 rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2 text-sm text-slate-400 hover:text-slate-200">
+          <Link href="/ca-nhan" className="flex items-center gap-1.5 rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2 text-sm text-slate-400 hover:text-slate-200">
             Hành trang <ChevronRight className="h-4 w-4" />
           </Link>
         </div>

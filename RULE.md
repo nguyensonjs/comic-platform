@@ -30,7 +30,38 @@
 
 ---
 
-## 2. Cấu Trúc File
+## 2. Quy Tắc Đặt Route (URL)
+
+> **Nguyên tắc bất biến: KHÔNG được trộn lẫn tiếng Việt và tiếng Anh trong cùng một route.**
+
+### Chọn một trong hai phong cách — áp dụng nhất quán cho toàn dự án:
+
+| Phong cách | Mô tả | Ví dụ ✅ |
+|-----------|--------|---------|
+| **Full Việt** (không dấu) | Toàn bộ URL là tiếng Việt không dấu, kebab-case | `/nhan-vat`, `/diem-danh`, `/nhiem-vu`, `/hang-trang` |
+| **Full Anh** | Toàn bộ URL là tiếng Anh, kebab-case | `/character`, `/check-in`, `/quests`, `/inventory` |
+
+### ❌ Sai — trộn lẫn:
+```
+/nhan-vat-profile   ← Việt + Anh
+/character-nhan-vat ← Anh + Việt
+/shop-cua-hang      ← Anh + Việt
+```
+
+### ✅ Đúng:
+```
+# Nếu chọn Full Việt:
+/nhan-vat   /diem-danh   /nhiem-vu   /hang-trang   /xep-hang   /cua-hang
+
+# Nếu chọn Full Anh:
+/character  /check-in    /quests     /inventory    /leaderboard  /shop
+```
+
+> ⚠️ **Dự án hiện tại** đang dùng **Full Việt** cho các trang game (`/nhan-vat`, `/diem-danh`, `/nhiem-vu`) và **giữ nguyên** `/shop`, `/leaderboard`, `/profile` vì đã push git. Trang mới tạo từ đây → **ưu tiên Full Việt**.
+
+---
+
+## 3. Cấu Trúc File
 
 ```
 app/

@@ -110,7 +110,7 @@ export default function LeaderboardPage() {
               <div className="text-xs text-slate-600">linh lực</div>
             </div>
           </div>
-          <Link href="/profile"
+          <Link href="/ca-nhan"
             className="flex items-center gap-1.5 rounded-xl border border-blue-700/40 bg-blue-900/30 px-4 py-2 text-sm font-semibold text-blue-300 transition-all hover:border-blue-600/60 hover:text-blue-200"
           >
             Hồ sơ <ChevronRight className="h-4 w-4" />

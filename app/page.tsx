@@ -1,6 +1,6 @@
+import Link from 'next/link';
+import Image from 'next/image';
 import {
-  Compass,
-  TrendingUp,
   BookOpen,
   Zap,
   HeartHandshake,
@@ -10,107 +10,185 @@ import {
   Skull,
   Laugh,
   GraduationCap,
+  Clock,
+  RefreshCcw,
+  ChevronRight,
 } from 'lucide-react';
+import type { HomeApiResponse, ComicItem } from '@/types/otruyen';
+import { thumbUrl, statusLabel } from '@/types/otruyen';
+
+/* ─────────── Static data ─────────── */
 
 const features = [
-  {
-    Icon: BookOpen,
-    title: 'Kho tàng phong phú',
-    desc: 'Hàng ngàn tác phẩm từ khắp nơi trên thế giới, được cập nhật liên tục mỗi ngày.',
-    color: 'text-blue-400',
-    bg: 'bg-blue-500/10',
-    border: 'hover:border-blue-500/50',
-  },
-  {
-    Icon: Zap,
-    title: 'Tốc độ cực nhanh',
-    desc: 'Tải trang siêu nhanh, không cần chờ đợi. Trải nghiệm đọc mượt mà tuyệt đối.',
-    color: 'text-yellow-400',
-    bg: 'bg-yellow-500/10',
-    border: 'hover:border-yellow-500/50',
-  },
-  {
-    Icon: HeartHandshake,
-    title: 'Hoàn toàn miễn phí',
-    desc: 'Tất cả truyện đều có thể đọc miễn phí, không quảng cáo gây phiền nhiễu.',
-    color: 'text-pink-400',
-    bg: 'bg-pink-500/10',
-    border: 'hover:border-pink-500/50',
-  },
+  { Icon: BookOpen,      title: 'Kho tàng phong phú',   desc: 'Hàng ngàn tác phẩm từ khắp nơi, cập nhật liên tục mỗi ngày.',          color: 'text-blue-400',   bg: 'bg-blue-500/10',   border: 'hover:border-blue-500/40'   },
+  { Icon: Zap,           title: 'Tốc độ cực nhanh',     desc: 'Tải trang siêu nhanh, không chờ đợi. Trải nghiệm đọc mượt tuyệt đối.',  color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'hover:border-yellow-500/40' },
+  { Icon: HeartHandshake, title: 'Hoàn toàn miễn phí',  desc: 'Tất cả truyện đọc miễn phí, không quảng cáo gây phiền nhiễu.',          color: 'text-pink-400',   bg: 'bg-pink-500/10',   border: 'hover:border-pink-500/40'   },
 ];
 
 const categories = [
-  { Icon: Swords, name: 'Hành động', color: 'text-orange-400', bg: 'bg-orange-500/10', href: '/truyen/action' },
-  { Icon: Heart, name: 'Lãng mạn', color: 'text-pink-400', bg: 'bg-pink-500/10', href: '/truyen/romance' },
-  { Icon: Wand2, name: 'Huyền huyễn', color: 'text-purple-400', bg: 'bg-purple-500/10', href: '/truyen/fantasy' },
-  { Icon: Skull, name: 'Kinh dị', color: 'text-red-400', bg: 'bg-red-500/10', href: '/truyen/horror' },
-  { Icon: Laugh, name: 'Hài hước', color: 'text-yellow-400', bg: 'bg-yellow-500/10', href: '/truyen/comedy' },
-  { Icon: GraduationCap, name: 'Học đường', color: 'text-blue-400', bg: 'bg-blue-500/10', href: '/truyen/school' },
+  { Icon: Swords,        name: 'Hành động',   color: 'text-orange-400', bg: 'bg-orange-500/10', href: '/the-loai/action'      },
+  { Icon: Heart,         name: 'Lãng mạn',    color: 'text-pink-400',   bg: 'bg-pink-500/10',   href: '/the-loai/romance'     },
+  { Icon: Wand2,         name: 'Huyền huyễn', color: 'text-purple-400', bg: 'bg-purple-500/10', href: '/the-loai/fantasy'     },
+  { Icon: Skull,         name: 'Kinh dị',     color: 'text-red-400',    bg: 'bg-red-500/10',    href: '/the-loai/horror'      },
+  { Icon: Laugh,         name: 'Hài hước',    color: 'text-yellow-400', bg: 'bg-yellow-500/10', href: '/the-loai/comedy'      },
+  { Icon: GraduationCap, name: 'Học đường',   color: 'text-blue-400',   bg: 'bg-blue-500/10',   href: '/the-loai/school-life' },
 ];
 
-export default function Home() {
+/* ─────────── Data fetching ─────────── */
+
+async function getHomeData(): Promise<HomeApiResponse | null> {
+  try {
+    const res = await fetch('https://otruyenapi.com/v1/api/home', {
+      next: { revalidate: 300 }, // revalidate every 5 minutes
+    });
+    if (!res.ok) return null;
+    return res.json() as Promise<HomeApiResponse>;
+  } catch {
+    return null;
+  }
+}
+
+/* ─────────── Sub-components ─────────── */
+
+function StatusBadge({ status }: { status: ComicItem['status'] }) {
+  const map = {
+    ongoing:     'border-green-700/50 bg-green-900/30 text-green-400',
+    completed:   'border-blue-700/50 bg-blue-900/30 text-blue-400',
+    coming_soon: 'border-amber-700/50 bg-amber-900/30 text-amber-400',
+  } as const;
   return (
-    <div className="min-h-screen bg-slate-950">
-      {/* ── Hero ── */}
-      <section className="relative overflow-hidden pt-32 pb-24">
-        {/* Background glows */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute top-0 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-blue-600/10 blur-[120px]" />
-          <div className="absolute top-10 left-1/4 h-64 w-64 rounded-full bg-cyan-500/8 blur-3xl" />
-          <div className="absolute top-20 right-1/4 h-48 w-48 rounded-full bg-purple-600/8 blur-3xl" />
+    <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${map[status] ?? map.ongoing}`}>
+      {statusLabel(status)}
+    </span>
+  );
+}
+
+function ComicCard({ comic, cdnBase }: { comic: ComicItem; cdnBase: string }) {
+  const imgUrl = `${cdnBase}/uploads/comics/${comic.thumb_url}`;
+  const latestChapter = (comic.chaptersLatest || [])[0];
+
+  return (
+    <Link
+      href={`/truyen/${comic.slug}`}
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-800/60 bg-slate-900/50 transition-all duration-300 hover:-translate-y-1 hover:border-slate-700/60 hover:shadow-2xl hover:shadow-black/40"
+    >
+      {/* Thumbnail */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden">
+        <Image
+          src={imgUrl}
+          alt={comic.name}
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
+
+        {/* Status badge */}
+        <div className="absolute top-2 left-2">
+          <StatusBadge status={comic.status} />
         </div>
 
-        <div className="relative mx-auto max-w-5xl px-4 text-center sm:px-6 lg:px-8">
-          {/* Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-sm font-medium text-blue-300 backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-blue-400"></span>
-            Hơn 12,000+ bộ truyện cập nhật mỗi ngày
-          </div>
-
-          <h1 className="mb-6 text-5xl font-black leading-[1.1] tracking-tight md:text-7xl">
-            <span className="text-white">Khám phá thế giới</span>
-            <br />
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent">
-              truyện tranh vô tận
+        {/* Latest chapter overlay */}
+        {latestChapter && (
+          <div className="absolute bottom-2 left-2 right-2">
+            <span className="flex items-center gap-1 rounded-xl bg-slate-950/80 px-2 py-1 text-[11px] font-semibold text-cyan-300 backdrop-blur-sm">
+              <Zap className="h-3 w-3" />
+              Chap {latestChapter.chapter_name}
             </span>
-          </h1>
-
-          <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-400">
-            Hàng ngàn tác phẩm manga, manhwa, webtoon và tiểu thuyết đang chờ đón bạn.
-            Bắt đầu hành trình khám phá ngay hôm nay!
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="group flex items-center gap-2 rounded-full bg-blue-600 px-8 py-3.5 font-bold text-white shadow-xl shadow-blue-600/30 transition-all duration-300 hover:bg-blue-500 hover:shadow-blue-500/40 hover:-translate-y-0.5">
-              <Compass className="h-5 w-5 transition-transform duration-200 group-hover:rotate-12" />
-              Khám phá ngay
-            </button>
-            <button className="flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/70 px-8 py-3.5 font-semibold text-slate-200 backdrop-blur-sm transition-all duration-300 hover:border-slate-600 hover:bg-slate-800 hover:-translate-y-0.5">
-              <TrendingUp className="h-5 w-5 text-slate-400" />
-              Xem thịnh hành
-            </button>
           </div>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="flex flex-1 flex-col gap-1.5 p-3">
+        <h3 className="line-clamp-2 text-sm font-bold leading-tight text-slate-200 transition-colors group-hover:text-white">
+          {comic.name}
+        </h3>
+
+        {/* Categories */}
+        <div className="flex flex-wrap gap-1">
+          {comic.category.slice(0, 2).map(cat => (
+            <span
+              key={cat.id}
+              className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] text-slate-500"
+            >
+              {cat.name}
+            </span>
+          ))}
+        </div>
+
+        {/* Updated time */}
+        <div className="mt-auto flex items-center gap-1 text-[11px] text-slate-600">
+          <Clock className="h-3 w-3" />
+          {new Date(comic.updatedAt).toLocaleDateString('vi-VN')}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+/* ─────────── Page ─────────── */
+
+export default async function Home() {
+  const data = await getHomeData();
+  const comics     = data?.data?.items ?? [];
+  const cdnBase    = data?.data?.APP_DOMAIN_CDN_IMAGE ?? 'https://img.otruyenapi.com';
+  const totalItems = data?.data?.params?.pagination?.totalItems ?? 0;
+  const updatedToday = data?.data?.params?.itemsUpdateInDay ?? 0;
+
+  return (
+    <div className="min-h-screen bg-slate-950">
+
+      {/* ── Latest Comics (from API) ── */}
+      <section className="pt-24 pb-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-6 flex items-center justify-between">
+            <div>
+              <h2 className="text-2xl font-black text-white md:text-3xl">
+                Truyện mới cập nhật
+              </h2>
+              <p className="mt-1 text-sm text-slate-500">
+                {updatedToday > 0 ? `${updatedToday} bộ được cập nhật hôm nay` : 'Dữ liệu thực từ OTruyen API'}
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1.5 text-xs text-slate-600">
+                <RefreshCcw className="h-3.5 w-3.5" />
+                Tự động làm mới 5 phút / lần
+              </div>
+              <Link href="/danh-sach" className="flex items-center gap-1.5 rounded-xl border border-slate-700/60 bg-slate-900/50 px-4 py-2 text-sm font-semibold text-slate-400 transition-all hover:border-slate-600 hover:text-slate-200">
+                Xem tất cả <ChevronRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          {comics.length > 0 ? (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+              {comics.map(comic => (
+                <ComicCard key={comic._id} comic={comic} cdnBase={cdnBase} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-800 bg-slate-900/30 py-20 text-slate-600">
+              <RefreshCcw className="mb-3 h-8 w-8 animate-spin" />
+              <p>Không thể tải dữ liệu từ API</p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* ── Features ── */}
-      <section className="py-20">
+      <section className="border-t border-slate-900 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-14 text-center">
-            <h2 className="mb-4 text-3xl font-black text-white md:text-4xl">
-              Tại sao chọn chúng tôi?
-            </h2>
-            <p className="mx-auto max-w-xl text-slate-400">
-              Trải nghiệm đọc truyện tuyệt vời với nhiều tính năng độc đáo được thiết kế riêng cho bạn
-            </p>
+          <div className="mb-8 text-center">
+            <h2 className="mb-2 text-2xl font-black text-white md:text-3xl">Tại sao chọn chúng tôi?</h2>
+            <p className="mx-auto max-w-xl text-sm text-slate-500">Trải nghiệm đọc truyện tuyệt vời với nhiều tính năng độc đáo</p>
           </div>
-
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {features.map(({ Icon, title, desc, color, bg, border }) => (
-              <div
-                key={title}
-                className={`group rounded-2xl border border-slate-800 bg-slate-900/50 p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-slate-900 hover:shadow-xl ${border}`}
-              >
+              <div key={title}
+                className={`group rounded-2xl border border-slate-800 bg-slate-900/50 p-7 transition-all duration-300 hover:-translate-y-1 hover:bg-slate-900 hover:shadow-xl ${border}`}>
                 <div className={`mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl ${bg}`}>
                   <Icon className={`h-7 w-7 ${color}`} />
                 </div>
@@ -123,29 +201,21 @@ export default function Home() {
       </section>
 
       {/* ── Categories ── */}
-      <section className="pb-20">
+      <section className="py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 text-center">
-            <h2 className="mb-3 text-3xl font-black text-white md:text-4xl">
-              Thể loại phổ biến
-            </h2>
-            <p className="text-slate-400">Chọn thể loại yêu thích của bạn</p>
+          <div className="mb-7 text-center">
+            <h2 className="mb-1.5 text-2xl font-black text-white md:text-3xl">Thể loại phổ biến</h2>
+            <p className="text-sm text-slate-500">Chọn thể loại yêu thích của bạn</p>
           </div>
-
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             {categories.map(({ Icon, name, color, bg, href }) => (
-              <a
-                key={name}
-                href={href}
-                className="group flex flex-col items-center gap-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-slate-700 hover:bg-slate-900 hover:shadow-xl"
-              >
+              <Link key={name} href={href}
+                className="group flex flex-col items-center gap-4 rounded-2xl border border-slate-800 bg-slate-900/50 p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-slate-700 hover:bg-slate-900 hover:shadow-xl">
                 <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${bg} transition-transform duration-300 group-hover:scale-110`}>
                   <Icon className={`h-7 w-7 ${color}`} />
                 </div>
-                <span className="text-sm font-bold text-slate-200 transition-colors group-hover:text-white">
-                  {name}
-                </span>
-              </a>
+                <span className="text-sm font-bold text-slate-200 transition-colors group-hover:text-white">{name}</span>
+              </Link>
             ))}
           </div>
         </div>

@@ -123,7 +123,7 @@ export default function ProfilePage() {
                 <div className="absolute bottom-1 right-1 h-4 w-4 rounded-full border-2 border-slate-900 bg-green-400 shadow-lg shadow-green-400/50" />
               </div>
               <div className="flex gap-2 pt-16">
-                <Link href="/profile/edit"
+                <Link href="/ca-nhan/edit"
                   className="flex items-center gap-2 rounded-xl border border-purple-700/50 bg-purple-900/30 px-4 py-2 text-sm font-medium text-purple-300 backdrop-blur-sm transition-all hover:border-purple-600/70 hover:text-purple-200"
                 >
                   <Edit3 className="h-3.5 w-3.5" /> Chỉnh sửa
@@ -218,7 +218,7 @@ export default function ProfilePage() {
             <div className="overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/80 backdrop-blur-sm">
               <div className="flex items-center justify-between border-b border-slate-800/50 px-5 py-4">
                 <h2 className="font-bold text-slate-200">Đọc gần đây</h2>
-                <Link href="/library" className="text-xs text-purple-400 hover:text-purple-300">Xem tất cả</Link>
+                <Link href="/thu-vien" className="text-xs text-purple-400 hover:text-purple-300">Xem tất cả</Link>
               </div>
               <div className="divide-y divide-slate-800/40">
                 {recentReads.map((item, i) => (
@@ -258,7 +258,7 @@ export default function ProfilePage() {
                       <p className="text-xs text-slate-500">Vị trí của bạn trong thiên hạ</p>
                     </div>
                   </div>
-                  <Link href="/leaderboard"
+                  <Link href="/xep-hang"
                     className="flex items-center gap-1.5 rounded-xl border border-amber-700/40 bg-amber-900/20 px-4 py-2 text-sm font-semibold text-amber-300 transition-all hover:border-amber-600/60 hover:bg-amber-900/30"
                   >
                     Bảng xếp hạng đầy đủ
@@ -362,10 +362,15 @@ export default function ProfilePage() {
                     {inventory.length} vật phẩm
                   </span>
                 </div>
-                <Link href="/shop" className="flex items-center gap-1.5 text-xs text-purple-400 transition-colors hover:text-purple-300">
-                  <ShoppingBag className="h-3.5 w-3.5" />
-                  Cửa hàng
-                </Link>
+                <div className="flex items-center gap-3">
+                  <Link href="/nhan-vat" className="flex items-center gap-1.5 rounded-xl border border-pink-800/40 bg-pink-900/20 px-3 py-1.5 text-xs font-semibold text-pink-300 transition-all hover:border-pink-700/60 hover:bg-pink-900/30">
+                    ⚔️ Trang bị
+                  </Link>
+                  <Link href="/cua-hang" className="flex items-center gap-1.5 text-xs text-purple-400 transition-colors hover:text-purple-300">
+                    <ShoppingBag className="h-3.5 w-3.5" />
+                    Cửa hàng
+                  </Link>
+                </div>
               </div>
 
               {/* Linh thạch banner */}
@@ -417,7 +422,7 @@ export default function ProfilePage() {
               </div>
 
               <div className="border-t border-slate-800/40 px-5 py-3 text-center">
-                <Link href="/shop" className="text-xs text-slate-600 hover:text-slate-400 transition-colors">
+                <Link href="/cua-hang" className="text-xs text-slate-600 hover:text-slate-400 transition-colors">
                   Xem cửa hàng để mua thêm vật phẩm →
                 </Link>
               </div>

@@ -37,7 +37,7 @@ export default function Header() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      router.push(`/tim-kiem?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
@@ -100,6 +100,21 @@ export default function Header() {
             {/* Desktop icons */}
             <div className="hidden items-center gap-1 md:flex">
 
+              <Link
+                href="/the-loai"
+                className="flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-400 transition-all hover:bg-slate-800 hover:text-white"
+              >
+                <BookOpen className="h-4 w-4" />
+                Thể loại
+              </Link>
+              <Link
+                href="/danh-sach"
+                className="flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-400 transition-all hover:bg-slate-800 hover:text-white"
+              >
+                <Menu className="h-4 w-4" />
+                Danh sách
+              </Link>
+
               {/* Dropdown: Khám phá */}
               <div className="group relative">
                 <button className="flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-400 transition-all hover:bg-slate-800 hover:text-white">
@@ -109,7 +124,7 @@ export default function Header() {
                 </button>
                 {/* Dropdown panel */}
                 <div className="invisible absolute right-0 top-full z-50 mt-2 w-56 origin-top-right scale-95 rounded-2xl border border-slate-800 bg-slate-950/95 p-2 opacity-0 shadow-2xl shadow-black/50 backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
-                  <Link href="/leaderboard" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-amber-400">
+                  <Link href="/xep-hang" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-amber-400">
                     <Crown className="h-4 w-4 text-amber-400" />
                     Bảng xếp hạng
                   </Link>
@@ -121,16 +136,20 @@ export default function Header() {
                     <Trophy className="h-4 w-4 text-blue-400" />
                     Nhiệm vụ
                   </Link>
-                  <Link href="/shop" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-purple-400">
+                  <Link href="/cua-hang" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-purple-400">
                     <ShoppingBag className="h-4 w-4 text-purple-400" />
                     Cửa hàng
+                  </Link>
+                  <Link href="/vong-quay" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-amber-400">
+                    <Sparkles className="h-4 w-4 text-amber-400" />
+                    Vòng quay
                   </Link>
                   <Link href="/nhan-vat" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-pink-400">
                     <Sword className="h-4 w-4 text-pink-400" />
                     Nhân vật
                   </Link>
                   <div className="my-1 border-t border-slate-800" />
-                  <Link href="/profile" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-cyan-400">
+                  <Link href="/ca-nhan" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-cyan-400">
                     <User className="h-4 w-4 text-cyan-400" />
                     Trang cá nhân
                   </Link>
@@ -144,17 +163,28 @@ export default function Header() {
               </button>
 
               <Link
-                href="/library"
+                href="/thu-vien"
                 className="group rounded-xl p-2.5 text-slate-400 transition-all hover:bg-slate-800 hover:text-cyan-400"
               >
                 <BookOpen className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
               </Link>
 
               <Link
-                href="/favorites"
+                href="/yeu-thich"
                 className="group rounded-xl p-2.5 text-slate-400 transition-all hover:bg-slate-800 hover:text-pink-400"
               >
                 <Heart className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
+              </Link>
+
+              {/* Profile avatar shortcut */}
+              <Link
+                href="/ca-nhan"
+                className="group relative ml-1 flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-lg shadow-lg shadow-blue-900/40 ring-2 ring-slate-800 transition-all hover:ring-blue-500/60 hover:shadow-blue-800/60"
+                title="Trang cá nhân"
+              >
+                ⚡
+                {/* Online dot */}
+                <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-slate-950 bg-green-400 shadow shadow-green-400/50" />
               </Link>
 
               <div className="mx-2 h-6 w-px bg-slate-800" />
@@ -202,17 +232,27 @@ export default function Header() {
 
             {/* Mobile nav links */}
             <div className="grid grid-cols-2 gap-2">
-              <Link href="/library" onClick={() => setIsMenuOpen(false)}
+              <Link href="/the-loai" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
+                <BookOpen className="h-5 w-5 text-purple-400" />
+                <span className="text-sm font-medium text-slate-200">Thể loại</span>
+              </Link>
+              <Link href="/danh-sach" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
+                <Menu className="h-5 w-5 text-indigo-400" />
+                <span className="text-sm font-medium text-slate-200">Danh sách</span>
+              </Link>
+              <Link href="/thu-vien" onClick={() => setIsMenuOpen(false)}
                 className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
                 <BookOpen className="h-5 w-5 text-cyan-400" />
                 <span className="text-sm font-medium text-slate-200">Thư viện</span>
               </Link>
-              <Link href="/favorites" onClick={() => setIsMenuOpen(false)}
+              <Link href="/yeu-thich" onClick={() => setIsMenuOpen(false)}
                 className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
                 <Heart className="h-5 w-5 text-pink-400" />
                 <span className="text-sm font-medium text-slate-200">Yêu thích</span>
               </Link>
-              <Link href="/leaderboard" onClick={() => setIsMenuOpen(false)}
+              <Link href="/xep-hang" onClick={() => setIsMenuOpen(false)}
                 className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
                 <Crown className="h-5 w-5 text-amber-400" />
                 <span className="text-sm font-medium text-slate-200">Xếp hạng</span>
@@ -227,7 +267,7 @@ export default function Header() {
                 <Trophy className="h-5 w-5 text-blue-400" />
                 <span className="text-sm font-medium text-slate-200">Nhiệm vụ</span>
               </Link>
-              <Link href="/shop" onClick={() => setIsMenuOpen(false)}
+              <Link href="/cua-hang" onClick={() => setIsMenuOpen(false)}
                 className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
                 <ShoppingBag className="h-5 w-5 text-purple-400" />
                 <span className="text-sm font-medium text-slate-200">Cửa hàng</span>
