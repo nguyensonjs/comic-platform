@@ -18,6 +18,9 @@ import {
   TrendingUp,
   Package,
   ShoppingBag,
+  Coins,
+  Castle,
+  Flag,
 } from 'lucide-react';
 
 /* ─────────── Data ─────────── */
@@ -25,6 +28,8 @@ import {
 const userRealm = { name: 'Hóa Thần', color: 'text-purple-400' };
 const userRank = 14;
 const userPower = 987_654;
+const userWealth = 1_280_000;
+const userSect = { name: 'Tân Thủ Hội', rank: 15, prestige: 150_000 };
 const progressToNext = 72;
 
 function formatPower(n: number) {
@@ -42,37 +47,37 @@ const menuItems = [
 
 const stats = [
   { label: 'Đang đọc', value: '12', Icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
-  { label: 'Yêu thích', value: '47', Icon: Heart,    color: 'text-pink-400',   bg: 'bg-pink-500/10',   border: 'border-pink-500/20'   },
-  { label: 'Hoàn thành', value: '23', Icon: Trophy,  color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
-  { label: 'Đánh giá', value: '89', Icon: Star,      color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
+  { label: 'Yêu thích', value: '47', Icon: Heart, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20' },
+  { label: 'Hoàn thành', value: '23', Icon: Trophy, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
+  { label: 'Đánh giá', value: '89', Icon: Star, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
 ];
 
 const recentReads = [
-  { title: 'Đấu La Đại Lục', chapter: 'Chapter 398',  time: '2 giờ trước',   gradient: 'from-blue-600 to-indigo-700'  },
-  { title: 'Solo Leveling',   chapter: 'Chapter 179',  time: '1 ngày trước',  gradient: 'from-purple-600 to-pink-600'  },
-  { title: 'Tiên Nghịch',     chapter: 'Chapter 1800', time: '2 ngày trước',  gradient: 'from-amber-600 to-orange-600' },
+  { title: 'Đấu La Đại Lục', chapter: 'Chapter 398', time: '2 giờ trước', gradient: 'from-blue-600 to-indigo-700' },
+  { title: 'Solo Leveling', chapter: 'Chapter 179', time: '1 ngày trước', gradient: 'from-purple-600 to-pink-600' },
+  { title: 'Tiên Nghịch', chapter: 'Chapter 1800', time: '2 ngày trước', gradient: 'from-amber-600 to-orange-600' },
 ];
 
 const weeklyReads = [40, 70, 30, 85, 55, 90, 65];
-const weekDays    = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+const weekDays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
 
 const nearbyRanks = [
-  { rank: 12, name: 'Ma Tôn Vô Danh', realm: 'Luyện Hư', power: 1_640_000, avatar: 'from-red-700 to-rose-800',     badge: '👹'  },
-  { rank: 13, name: 'Phong Thần',      realm: 'Luyện Hư', power: 1_388_200, avatar: 'from-cyan-500 to-teal-600',   badge: '🌪️' },
-  { rank: 14, name: 'Nguyễn Văn A',    realm: 'Hóa Thần', power: 987_654,   avatar: 'from-blue-500 to-indigo-600', badge: '⚡', isUser: true },
-  { rank: 15, name: 'Kiếm Thiên Sơn',  realm: 'Hóa Thần', power: 812_300,   avatar: 'from-green-600 to-emerald-700', badge: '🗡️' },
-  { rank: 16, name: 'Linh Nhi',         realm: 'Hóa Thần', power: 703_100,   avatar: 'from-pink-400 to-fuchsia-500', badge: '🌺' },
+  { rank: 12, name: 'Ma Tôn Vô Danh', realm: 'Luyện Hư', power: 1_640_000, avatar: 'from-red-700 to-rose-800', badge: '👹' },
+  { rank: 13, name: 'Phong Thần', realm: 'Luyện Hư', power: 1_388_200, avatar: 'from-cyan-500 to-teal-600', badge: '🌪️' },
+  { rank: 14, name: 'Nguyễn Văn A', realm: 'Hóa Thần', power: 987_654, avatar: 'from-blue-500 to-indigo-600', badge: '⚡', isUser: true },
+  { rank: 15, name: 'Kiếm Thiên Sơn', realm: 'Hóa Thần', power: 812_300, avatar: 'from-green-600 to-emerald-700', badge: '🗡️' },
+  { rank: 16, name: 'Linh Nhi', realm: 'Hóa Thần', power: 703_100, avatar: 'from-pink-400 to-fuchsia-500', badge: '🌺' },
 ];
 
 const inventory = [
-  { id: 1,  name: 'Tụ Linh Đan',       icon: '⚗️', qty: 5,  rarity: 'Phổ thông', effect: 'Tăng linh lực +500',          color: 'from-green-700 to-emerald-800',  badge: 'bg-slate-700 text-slate-300',    border: 'border-slate-700/40'   },
-  { id: 2,  name: 'Hoàn Nguyệt Đan',    icon: '🌙', qty: 2,  rarity: 'Hiếm',       effect: 'Bứt phá cảnh giới +30%',        color: 'from-blue-700 to-indigo-800',    badge: 'bg-blue-900 text-blue-300',      border: 'border-blue-700/40'    },
-  { id: 3,  name: 'Huyền Thiết Kiếm', icon: '🗡️', qty: 1,  rarity: 'Hiếm',       effect: 'Công kích linh lực +800',        color: 'from-slate-600 to-slate-800',    badge: 'bg-blue-900 text-blue-300',      border: 'border-blue-700/40'    },
-  { id: 4,  name: 'Hỏa Long Thương',   icon: '⚔️', qty: 1,  rarity: 'Sử thi',     effect: 'Hỏa thuộc tính, thiêu đốt kẻ thù',  color: 'from-orange-700 to-red-800',     badge: 'bg-purple-900 text-purple-300',  border: 'border-purple-700/40'  },
-  { id: 5,  name: 'Huyền Giáp',         icon: '🛡️', qty: 1,  rarity: 'Hiếm',       effect: 'Phòng thủ linh lực +1200',        color: 'from-slate-700 to-blue-900',     badge: 'bg-blue-900 text-blue-300',      border: 'border-blue-700/40'    },
-  { id: 6,  name: 'Ngọc Linh Nhẫn',    icon: '💍', qty: 3,  rarity: 'Phổ thông', effect: '+10% linh thạch từ nhiệm vụ',    color: 'from-green-700 to-teal-800',     badge: 'bg-slate-700 text-slate-300',    border: 'border-slate-700/40'   },
-  { id: 7,  name: 'Hóa Thần Đan',      icon: '💜', qty: 1,  rarity: 'Sử thi',     effect: '+100% linh lực, đột phá Hóa Thần', color: 'from-purple-700 to-violet-800',  badge: 'bg-purple-900 text-purple-300',  border: 'border-purple-700/40'  },
-  { id: 8,  name: 'Linh Thạch',          icon: '💎', qty: 1250, rarity: 'Tiền tệ',    effect: 'Dùng để mua vật phẩm tại Cửa hàng', color: 'from-amber-600 to-yellow-700',   badge: 'bg-amber-900 text-amber-300',    border: 'border-amber-700/40'   },
+  { id: 1, name: 'Tụ Linh Đan', icon: '⚗️', qty: 5, rarity: 'Phổ thông', effect: 'Tăng linh lực +500', color: 'from-green-700 to-emerald-800', badge: 'bg-slate-700 text-slate-300', border: 'border-slate-700/40' },
+  { id: 2, name: 'Hoàn Nguyệt Đan', icon: '🌙', qty: 2, rarity: 'Hiếm', effect: 'Bứt phá cảnh giới +30%', color: 'from-blue-700 to-indigo-800', badge: 'bg-blue-900 text-blue-300', border: 'border-blue-700/40' },
+  { id: 3, name: 'Huyền Thiết Kiếm', icon: '🗡️', qty: 1, rarity: 'Hiếm', effect: 'Công kích linh lực +800', color: 'from-slate-600 to-slate-800', badge: 'bg-blue-900 text-blue-300', border: 'border-blue-700/40' },
+  { id: 4, name: 'Hỏa Long Thương', icon: '⚔️', qty: 1, rarity: 'Sử thi', effect: 'Hỏa thuộc tính, thiêu đốt kẻ thù', color: 'from-orange-700 to-red-800', badge: 'bg-purple-900 text-purple-300', border: 'border-purple-700/40' },
+  { id: 5, name: 'Huyền Giáp', icon: '🛡️', qty: 1, rarity: 'Hiếm', effect: 'Phòng thủ linh lực +1200', color: 'from-slate-700 to-blue-900', badge: 'bg-blue-900 text-blue-300', border: 'border-blue-700/40' },
+  { id: 6, name: 'Ngọc Linh Nhẫn', icon: '💍', qty: 3, rarity: 'Phổ thông', effect: '+10% linh thạch từ nhiệm vụ', color: 'from-green-700 to-teal-800', badge: 'bg-slate-700 text-slate-300', border: 'border-slate-700/40' },
+  { id: 7, name: 'Hóa Thần Đan', icon: '💜', qty: 1, rarity: 'Sử thi', effect: '+100% linh lực, đột phá Hóa Thần', color: 'from-purple-700 to-violet-800', badge: 'bg-purple-900 text-purple-300', border: 'border-purple-700/40' },
+  { id: 8, name: 'Linh Thạch', icon: '💎', qty: 1250, rarity: 'Tiền tệ', effect: 'Dùng để mua vật phẩm tại Cửa hàng', color: 'from-amber-600 to-yellow-700', badge: 'bg-amber-900 text-amber-300', border: 'border-amber-700/40' },
 ];
 
 /* ─────────── Component ─────────── */
@@ -106,10 +111,15 @@ export default function ProfilePage() {
             <div className="absolute inset-0 opacity-60"
               style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a855f7' fill-opacity='0.04'%3E%3Cpath d='M36 34v6h6v-6h-6zm6 6v6h6v-6h-6zm-6 0v6h6v-6h-6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}
             />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
-            <div className="absolute top-4 right-4 flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-900/50 px-3 py-1.5 backdrop-blur-sm">
-              <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-              <span className="text-xs font-bold text-amber-300 tracking-wider">XẾP HẠNG #{userRank}</span>
+            <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
+              <div className="flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-900/50 px-3 py-1.5 backdrop-blur-sm">
+                <Zap className="h-3.5 w-3.5 text-blue-400" />
+                <span className="text-[10px] font-bold text-blue-300 tracking-wider">TU VI #14</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-900/50 px-3 py-1.5 backdrop-blur-sm">
+                <Coins className="h-3.5 w-3.5 text-amber-400" />
+                <span className="text-[10px] font-bold text-amber-300 tracking-wider">PHÚ HÀO #14</span>
+              </div>
             </div>
           </div>
 
@@ -275,49 +285,44 @@ export default function ProfilePage() {
                   </div>
                   <div className="flex-1 rounded-2xl border border-slate-800/50 bg-slate-900/50 p-4">
                     <div className="grid grid-cols-3 gap-4 text-center">
-                      <div>
-                        <div className="text-lg font-black text-purple-400">{userRealm.name}</div>
-                        <div className="text-xs text-slate-600">Cảnh giới</div>
-                      </div>
-                      <div>
-                        <div className="text-lg font-black text-amber-300">{formatPower(userPower)}</div>
-                        <div className="text-xs text-slate-600">Linh lực</div>
-                      </div>
-                      <div>
-                        <div className="text-lg font-black text-green-400">+2</div>
-                        <div className="text-xs text-slate-600">Tuần này</div>
-                      </div>
+                      <Link href="/xep-hang" className="group">
+                        <div className="text-lg font-black text-purple-400 group-hover:scale-110 transition-transform">#{userRank}</div>
+                        <div className="text-[10px] text-slate-600 uppercase font-bold">Tu Vi</div>
+                      </Link>
+                      <Link href="/xep-hang/tai-phu" className="group border-x border-slate-800/50">
+                        <div className="text-lg font-black text-amber-300 group-hover:scale-110 transition-transform">#14</div>
+                        <div className="text-[10px] text-slate-600 uppercase font-bold">Tài Phú</div>
+                      </Link>
+                      <Link href="/xep-hang/tong-mon" className="group">
+                        <div className="text-lg font-black text-teal-400 group-hover:scale-110 transition-transform">#{userSect.rank}</div>
+                        <div className="text-[10px] text-slate-600 uppercase font-bold">Tông Môn</div>
+                      </Link>
                     </div>
                   </div>
                 </div>
 
-                <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-600">Xung quanh bạn</p>
-                <div className="space-y-2">
-                  {nearbyRanks.map((e) => (
-                    <div key={e.rank}
-                      className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all ${
-                        e.isUser
-                          ? 'border border-blue-700/40 bg-blue-950/40'
-                          : 'border border-slate-800/40 bg-slate-900/30 hover:bg-slate-900/60'
-                      }`}
-                    >
-                      <span className={`w-6 text-center text-sm font-black ${e.isUser ? 'text-blue-400' : 'text-slate-500'}`}>{e.rank}</span>
-                      <div className={`flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br ${e.avatar} text-base`}>
-                        {e.badge}
+                <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-600">Thế lực tông môn</p>
+                <div className="flex items-center gap-4 rounded-xl border border-teal-900/20 bg-teal-900/10 p-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-2xl shadow-lg ring-1 ring-teal-500/30">
+                    🏰
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-bold text-slate-200">{userSect.name}</h3>
+                      <span className="text-xs font-black text-teal-400">Hạng #{userSect.rank}</span>
+                    </div>
+                    <div className="mt-1 flex items-center gap-4">
+                      <div className="flex items-center gap-1 text-[10px] text-slate-500">
+                        <Flag className="h-3 w-3" /> Uy danh: {formatPower(userSect.prestige)}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className={`text-sm font-bold ${e.isUser ? 'text-blue-300' : 'text-slate-300'}`}>{e.name}</span>
-                          {e.isUser && <span className="rounded-full bg-blue-500/20 px-1.5 py-0.5 text-[10px] font-bold text-blue-400">BẠN</span>}
-                        </div>
-                        <span className="text-xs text-slate-600">{e.realm}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-sm">
-                        <Zap className={`h-3.5 w-3.5 ${e.isUser ? 'text-blue-400' : 'text-slate-700'}`} />
-                        <span className={e.isUser ? 'font-black text-blue-300' : 'text-slate-500'}>{formatPower(e.power)}</span>
+                      <div className="flex items-center gap-1 text-[10px] text-slate-500">
+                        <Shield className="h-3 w-3" /> Cấp: Sơ cấp
                       </div>
                     </div>
-                  ))}
+                  </div>
+                  <Link href="/xep-hang/tong-mon" className="rounded-lg bg-teal-900/30 px-3 py-1.5 text-xs font-bold text-teal-300 hover:bg-teal-900/50">
+                    Vào sảnh
+                  </Link>
                 </div>
               </div>
             </div>

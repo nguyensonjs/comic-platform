@@ -1,44 +1,44 @@
 import Link from 'next/link';
-import { Crown, Zap, Flame, Sparkles, Trophy, ChevronRight, Star } from 'lucide-react';
+import { Crown, Zap, Flame, Sparkles, Trophy, ChevronRight, Star, Coins, Castle } from 'lucide-react';
 
 /* ─────────── Data ─────────── */
 
 const cultivationRealms = [
-  { name: 'Luyện Khí',  color: 'text-slate-400', bg: 'bg-slate-700/30', border: 'border-slate-600/30' },
-  { name: 'Trúc Cơ',   color: 'text-green-400',  bg: 'bg-green-900/20', border: 'border-green-700/30' },
-  { name: 'Kim Đan',   color: 'text-yellow-400', bg: 'bg-yellow-900/20', border: 'border-yellow-700/30' },
-  { name: 'Nguyên Anh',color: 'text-cyan-400',   bg: 'bg-cyan-900/20',  border: 'border-cyan-700/30'  },
-  { name: 'Hóa Thần',  color: 'text-purple-400', bg: 'bg-purple-900/20',border: 'border-purple-700/30'},
-  { name: 'Luyện Hư',  color: 'text-blue-300',   bg: 'bg-blue-900/20',  border: 'border-blue-700/30'  },
-  { name: 'Hợp Thể',   color: 'text-violet-300', bg: 'bg-violet-900/20',border: 'border-violet-700/30'},
-  { name: 'Đại Thừa',  color: 'text-orange-300', bg: 'bg-orange-900/20',border: 'border-orange-700/30'},
-  { name: 'Độ Kiếp',   color: 'text-red-300',    bg: 'bg-red-900/20',   border: 'border-red-700/30'   },
-  { name: 'Tiên Nhân', color: 'text-amber-300',  bg: 'bg-amber-900/20', border: 'border-amber-700/30' },
+  { name: 'Luyện Khí', color: 'text-slate-400', bg: 'bg-slate-700/30', border: 'border-slate-600/30' },
+  { name: 'Trúc Cơ', color: 'text-green-400', bg: 'bg-green-900/20', border: 'border-green-700/30' },
+  { name: 'Kim Đan', color: 'text-yellow-400', bg: 'bg-yellow-900/20', border: 'border-yellow-700/30' },
+  { name: 'Nguyên Anh', color: 'text-cyan-400', bg: 'bg-cyan-900/20', border: 'border-cyan-700/30' },
+  { name: 'Hóa Thần', color: 'text-purple-400', bg: 'bg-purple-900/20', border: 'border-purple-700/30' },
+  { name: 'Luyện Hư', color: 'text-blue-300', bg: 'bg-blue-900/20', border: 'border-blue-700/30' },
+  { name: 'Hợp Thể', color: 'text-violet-300', bg: 'bg-violet-900/20', border: 'border-violet-700/30' },
+  { name: 'Đại Thừa', color: 'text-orange-300', bg: 'bg-orange-900/20', border: 'border-orange-700/30' },
+  { name: 'Độ Kiếp', color: 'text-red-300', bg: 'bg-red-900/20', border: 'border-red-700/30' },
+  { name: 'Tiên Nhân', color: 'text-amber-300', bg: 'bg-amber-900/20', border: 'border-amber-700/30' },
 ];
 
 const realmConfig = Object.fromEntries(cultivationRealms.map(r => [r.name, r]));
 
 const leaderboard = [
-  { rank: 1,  name: 'Thiên Đạo Tôn',  title: 'Vô Thượng Thiên Tôn · Chúa Tể Vạn Giới', realm: 'Tiên Nhân', stage: 'Đỉnh phong', power: 9_999_999, avatar: 'from-amber-400 to-orange-500',   titleColor: 'from-amber-300 via-yellow-200 to-amber-400',   titleBorder: 'border-amber-500/40',   titleBg: 'bg-amber-900/30',   badge: '👑', reads: 2847, reviews: 312 },
-  { rank: 2,  name: 'Kiếm Vô Danh',   title: 'Kiếm Thánh Thiên Địa · Độc Tôn Kiếm Đạo',  realm: 'Tiên Nhân', stage: 'Hậu kỳ',    power: 8_754_320, avatar: 'from-violet-500 to-purple-600', titleColor: 'from-violet-300 via-purple-200 to-violet-400', titleBorder: 'border-violet-500/40', titleBg: 'bg-violet-900/30', badge: '⚔️', reads: 2341, reviews: 278 },
-  { rank: 3,  name: 'Huyễn Tiên Nữ',  title: 'Vạn Hoa Tiên Tử · Hoa Thần Huyền Cơ',      realm: 'Tiên Nhân', stage: 'Trung kỳ',  power: 7_203_810, avatar: 'from-pink-500 to-rose-600',     titleColor: 'from-rose-300 via-pink-200 to-rose-400',     titleBorder: 'border-rose-500/40',   titleBg: 'bg-rose-900/30',   badge: '🌸', reads: 1998, reviews: 241 },
-  { rank: 4,  name: 'Long Vương',            realm: 'Độ Kiếp',   stage: 'Đỉnh phong', power: 5_881_000, avatar: 'from-blue-500 to-cyan-600',    badge: '🐉', reads: 1654, reviews: 189 },
-  { rank: 5,  name: 'Vô Cực Tán Nhân',      realm: 'Độ Kiếp',   stage: 'Hậu kỳ',    power: 5_230_400, avatar: 'from-teal-500 to-green-600',   badge: '🌀', reads: 1502, reviews: 167 },
-  { rank: 6,  name: 'Hỏa Linh Tôn',         realm: 'Đại Thừa',  stage: 'Đỉnh phong', power: 4_110_700, avatar: 'from-orange-500 to-red-500',   badge: '🔥', reads: 1340, reviews: 145 },
-  { rank: 7,  name: 'Băng Phong Ma',         realm: 'Đại Thừa',  stage: 'Hậu kỳ',    power: 3_780_200, avatar: 'from-sky-400 to-blue-500',     badge: '❄️', reads: 1201, reviews: 131 },
-  { rank: 8,  name: 'Lôi Đế',               realm: 'Đại Thừa',  stage: 'Trung kỳ',  power: 3_412_900, avatar: 'from-yellow-500 to-amber-600',  badge: '⚡', reads: 1088, reviews: 119 },
-  { rank: 9,  name: 'Hắc Thiên',            realm: 'Hợp Thể',   stage: 'Đỉnh phong', power: 2_887_600, avatar: 'from-gray-700 to-slate-800',   badge: '🌑', reads: 978,  reviews: 103 },
-  { rank: 10, name: 'Cửu Dương Tiên Tông',  realm: 'Hợp Thể',   stage: 'Hậu kỳ',    power: 2_540_100, avatar: 'from-yellow-400 to-orange-400', badge: '☀️', reads: 889,  reviews: 97  },
-  { rank: 11, name: 'Nguyệt Ảnh',           realm: 'Luyện Hư',  stage: 'Đỉnh phong', power: 1_903_400, avatar: 'from-indigo-400 to-purple-500',badge: '🌙', reads: 801,  reviews: 88  },
-  { rank: 12, name: 'Ma Tôn Vô Danh',       realm: 'Luyện Hư',  stage: 'Hậu kỳ',    power: 1_640_000, avatar: 'from-red-700 to-rose-800',     badge: '👹', reads: 720,  reviews: 79  },
-  { rank: 13, name: 'Phong Thần',           realm: 'Luyện Hư',  stage: 'Trung kỳ',  power: 1_388_200, avatar: 'from-cyan-500 to-teal-600',    badge: '🌪️', reads: 651,  reviews: 71  },
-  { rank: 14, name: 'Nguyễn Văn A',         realm: 'Hóa Thần',  stage: 'Đỉnh phong', power: 987_654,  avatar: 'from-blue-500 to-indigo-600',  badge: '⚡', reads: 581,  reviews: 63, isUser: true },
-  { rank: 15, name: 'Kiếm Thiên Sơn',       realm: 'Hóa Thần',  stage: 'Hậu kỳ',    power: 812_300,  avatar: 'from-green-600 to-emerald-700', badge: '🗡️', reads: 524,  reviews: 57  },
-  { rank: 16, name: 'Linh Nhi',             realm: 'Hóa Thần',  stage: 'Trung kỳ',  power: 703_100,  avatar: 'from-pink-400 to-fuchsia-500',  badge: '🌺', reads: 471,  reviews: 51  },
-  { rank: 17, name: 'Tu La Vương',          realm: 'Nguyên Anh', stage: 'Đỉnh phong', power: 541_000, avatar: 'from-red-500 to-orange-600',   badge: '👿', reads: 412,  reviews: 44  },
-  { rank: 18, name: 'Bích Hải Thanh Long',  realm: 'Nguyên Anh', stage: 'Hậu kỳ',    power: 430_800, avatar: 'from-teal-400 to-cyan-500',    badge: '🐲', reads: 358,  reviews: 38  },
-  { rank: 19, name: 'Tiên Nữ Hạo Nhiên',   realm: 'Nguyên Anh', stage: 'Trung kỳ',  power: 312_500, avatar: 'from-violet-400 to-purple-500', badge: '🧚', reads: 301,  reviews: 33  },
-  { rank: 20, name: 'Hoàng Kim Đao',        realm: 'Kim Đan',    stage: 'Đỉnh phong', power: 198_700, avatar: 'from-yellow-500 to-amber-500',  badge: '🗡️', reads: 248,  reviews: 27  },
+  { rank: 1, name: 'Thiên Đạo Tôn', title: 'Vô Thượng Thiên Tôn · Chúa Tể Vạn Giới', realm: 'Tiên Nhân', stage: 'Đỉnh phong', power: 9_999_999, avatar: 'from-amber-400 to-orange-500', titleColor: 'from-amber-300 via-yellow-200 to-amber-400', titleBorder: 'border-amber-500/40', titleBg: 'bg-amber-900/30', badge: '👑', reads: 2847, reviews: 312 },
+  { rank: 2, name: 'Kiếm Vô Danh', title: 'Kiếm Thánh Thiên Địa · Độc Tôn Kiếm Đạo', realm: 'Tiên Nhân', stage: 'Hậu kỳ', power: 8_754_320, avatar: 'from-violet-500 to-purple-600', titleColor: 'from-violet-300 via-purple-200 to-violet-400', titleBorder: 'border-violet-500/40', titleBg: 'bg-violet-900/30', badge: '⚔️', reads: 2341, reviews: 278 },
+  { rank: 3, name: 'Huyễn Tiên Nữ', title: 'Vạn Hoa Tiên Tử · Hoa Thần Huyền Cơ', realm: 'Tiên Nhân', stage: 'Trung kỳ', power: 7_203_810, avatar: 'from-pink-500 to-rose-600', titleColor: 'from-rose-300 via-pink-200 to-rose-400', titleBorder: 'border-rose-500/40', titleBg: 'bg-rose-900/30', badge: '🌸', reads: 1998, reviews: 241 },
+  { rank: 4, name: 'Long Vương', realm: 'Độ Kiếp', stage: 'Đỉnh phong', power: 5_881_000, avatar: 'from-blue-500 to-cyan-600', badge: '🐉', reads: 1654, reviews: 189 },
+  { rank: 5, name: 'Vô Cực Tán Nhân', realm: 'Độ Kiếp', stage: 'Hậu kỳ', power: 5_230_400, avatar: 'from-teal-500 to-green-600', badge: '🌀', reads: 1502, reviews: 167 },
+  { rank: 6, name: 'Hỏa Linh Tôn', realm: 'Đại Thừa', stage: 'Đỉnh phong', power: 4_110_700, avatar: 'from-orange-500 to-red-500', badge: '🔥', reads: 1340, reviews: 145 },
+  { rank: 7, name: 'Băng Phong Ma', realm: 'Đại Thừa', stage: 'Hậu kỳ', power: 3_780_200, avatar: 'from-sky-400 to-blue-500', badge: '❄️', reads: 1201, reviews: 131 },
+  { rank: 8, name: 'Lôi Đế', realm: 'Đại Thừa', stage: 'Trung kỳ', power: 3_412_900, avatar: 'from-yellow-500 to-amber-600', badge: '⚡', reads: 1088, reviews: 119 },
+  { rank: 9, name: 'Hắc Thiên', realm: 'Hợp Thể', stage: 'Đỉnh phong', power: 2_887_600, avatar: 'from-gray-700 to-slate-800', badge: '🌑', reads: 978, reviews: 103 },
+  { rank: 10, name: 'Cửu Dương Tiên Tông', realm: 'Hợp Thể', stage: 'Hậu kỳ', power: 2_540_100, avatar: 'from-yellow-400 to-orange-400', badge: '☀️', reads: 889, reviews: 97 },
+  { rank: 11, name: 'Nguyệt Ảnh', realm: 'Luyện Hư', stage: 'Đỉnh phong', power: 1_903_400, avatar: 'from-indigo-400 to-purple-500', badge: '🌙', reads: 801, reviews: 88 },
+  { rank: 12, name: 'Ma Tôn Vô Danh', realm: 'Luyện Hư', stage: 'Hậu kỳ', power: 1_640_000, avatar: 'from-red-700 to-rose-800', badge: '👹', reads: 720, reviews: 79 },
+  { rank: 13, name: 'Phong Thần', realm: 'Luyện Hư', stage: 'Trung kỳ', power: 1_388_200, avatar: 'from-cyan-500 to-teal-600', badge: '🌪️', reads: 651, reviews: 71 },
+  { rank: 14, name: 'Nguyễn Văn A', realm: 'Hóa Thần', stage: 'Đỉnh phong', power: 987_654, avatar: 'from-blue-500 to-indigo-600', badge: '⚡', reads: 581, reviews: 63, isUser: true },
+  { rank: 15, name: 'Kiếm Thiên Sơn', realm: 'Hóa Thần', stage: 'Hậu kỳ', power: 812_300, avatar: 'from-green-600 to-emerald-700', badge: '🗡️', reads: 524, reviews: 57 },
+  { rank: 16, name: 'Linh Nhi', realm: 'Hóa Thần', stage: 'Trung kỳ', power: 703_100, avatar: 'from-pink-400 to-fuchsia-500', badge: '🌺', reads: 471, reviews: 51 },
+  { rank: 17, name: 'Tu La Vương', realm: 'Nguyên Anh', stage: 'Đỉnh phong', power: 541_000, avatar: 'from-red-500 to-orange-600', badge: '👿', reads: 412, reviews: 44 },
+  { rank: 18, name: 'Bích Hải Thanh Long', realm: 'Nguyên Anh', stage: 'Hậu kỳ', power: 430_800, avatar: 'from-teal-400 to-cyan-500', badge: '🐲', reads: 358, reviews: 38 },
+  { rank: 19, name: 'Tiên Nữ Hạo Nhiên', realm: 'Nguyên Anh', stage: 'Trung kỳ', power: 312_500, avatar: 'from-violet-400 to-purple-500', badge: '🧚', reads: 301, reviews: 33 },
+  { rank: 20, name: 'Hoàng Kim Đao', realm: 'Kim Đan', stage: 'Đỉnh phong', power: 198_700, avatar: 'from-yellow-500 to-amber-500', badge: '🗡️', reads: 248, reviews: 27 },
 ];
 
 function formatPower(n: number) {
@@ -86,7 +86,25 @@ export default function LeaderboardPage() {
               Tu Vi
             </span>
           </h1>
-          <p className="mt-3 text-slate-500">Top 20 tu sĩ mạnh nhất thiên hạ — cập nhật mỗi ngày</p>
+          <p className="mt-3 text-slate-500 text-sm">Top 20 tu sĩ mạnh nhất thiên hạ — cập nhật mỗi ngày</p>
+
+          {/* ── Tabs ── */}
+          <div className="mt-8 flex justify-center">
+            <div className="flex p-1 bg-slate-900/80 border border-slate-800 rounded-2xl backdrop-blur-md">
+              <Link href="/xep-hang" className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all bg-blue-600 text-white shadow-lg shadow-blue-600/20">
+                <Zap className="h-4 w-4" />
+                Tu Vi
+              </Link>
+              <Link href="/xep-hang/tai-phu" className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+                <Coins className="h-4 w-4" />
+                Tài Phú
+              </Link>
+              <Link href="/xep-hang/tong-mon" className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+                <Castle className="h-4 w-4" />
+                Tông Môn
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* ── Your rank banner ── */}
@@ -227,11 +245,10 @@ export default function LeaderboardPage() {
               return (
                 <div
                   key={entry.rank}
-                  className={`group grid grid-cols-12 items-center gap-4 px-5 py-4 transition-all ${
-                    isUser
-                      ? 'bg-blue-950/40 border-l-2 border-blue-500'
-                      : 'hover:bg-slate-900/50'
-                  }`}
+                  className={`group grid grid-cols-12 items-center gap-4 px-5 py-4 transition-all ${isUser
+                    ? 'bg-blue-950/40 border-l-2 border-blue-500'
+                    : 'hover:bg-slate-900/50'
+                    }`}
                 >
                   {/* Rank number */}
                   <div className="col-span-1 text-center text-sm font-black text-slate-500">{entry.rank}</div>
