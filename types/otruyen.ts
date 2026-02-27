@@ -170,6 +170,31 @@ export interface ComicDetailApiResponse {
   };
 }
 
+/* ── Chapter Detail (/chapter/[id]) ────────────────────────── */
+
+export interface ChapterImage {
+  image_file: string;
+  image_page: number;
+}
+
+export interface ChapterItem {
+  _id: string;
+  comic_name: string;
+  chapter_name: string;
+  chapter_title: string;
+  chapter_path: string;
+  chapter_image: ChapterImage[];
+}
+
+export interface ChapterDetailApiResponse {
+  status: 'success' | 'error';
+  message: string;
+  data: {
+    domain_cdn: string;
+    item: ChapterItem;
+  };
+}
+
 /* ── Helper ─────────────────────────────────────────────────── */
 
 export const CDN_BASE = 'https://img.otruyenapi.com/uploads/comics';

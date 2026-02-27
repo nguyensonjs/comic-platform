@@ -1,24 +1,41 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import {
   ChevronLeft,
   ChevronRight,
   Home,
   List,
-  Settings2,
   Sun,
   ZoomIn,
   ZoomOut,
-  BookOpen,
+  ArrowLeft,
 } from 'lucide-react';
+import type { ChapterDetailApiResponse, ComicDetailApiResponse } from '@/types/otruyen';
 
-const pages = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+async function getChapter(chapterId: string): Promise<ChapterDetailApiResponse | null> {
+  try {
+    const res = await fetch(`https://otruyenapi.com/v1/api/chapter/${chapterId}`, {
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
 
-const gradients = [
-  'from-slate-700 to-slate-800',
-  'from-slate-800 to-slate-700',
-  'from-slate-700 to-slate-900',
-  'from-slate-800 to-slate-700',
-];
+async function getComic(slug: string): Promise<ComicDetailApiResponse | null> {
+  try {
+    const res = await fetch(`https://otruyenapi.com/v1/api/truyen-tranh/${slug}`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
+}
 
 export default async function ReaderPage({
   params,
@@ -26,54 +43,82 @@ export default async function ReaderPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const chapterData = await getChapter(slug);
+
+  if (!chapterData || chapterData.status !== 'success') return notFound();
+
+  const { item, domain_cdn: cdnBase } = chapterData.data;
+  const images = item.chapter_image;
+
+  // Attempt to get comic info for navigation
+  const comicSlug = item.chapter_path.split('/')[0];
+  const comicData = await getComic(comicSlug);
+
+  let prevChapter = null;
+  let nextChapter = null;
+
+  if (comicData && comicData.status === 'success') {
+    const allChapters = comicData.data.item.chapters
+      .flatMap(s => s.server_data)
+      .sort((a, b) => parseFloat(a.chapter_name) - parseFloat(b.chapter_name));
+
+    const currentIndex = allChapters.findIndex(
+      ch => ch.chapter_api_data.split('/').pop() === slug
+    );
+
+    if (currentIndex > 0) prevChapter = allChapters[currentIndex - 1];
+    if (currentIndex < allChapters.length - 1) nextChapter = allChapters[currentIndex + 1];
+  }
 
   return (
     <div className="min-h-screen bg-[#111] pb-20">
-
       {/* Reader toolbar */}
       <div className="sticky top-0 z-40 flex items-center justify-between border-b border-white/10 bg-slate-950/95 px-4 py-3 backdrop-blur-xl">
-        {/* Left */}
         <div className="flex items-center gap-3">
           <Link
-            href="/truyen/1"
+            href={comicData ? `/truyen/${comicSlug}` : '/'}
             className="flex items-center gap-2 rounded-xl bg-slate-800 px-3 py-2 text-sm font-medium text-slate-200 transition-all hover:bg-slate-700"
           >
-            <ChevronLeft className="h-4 w-4" />
-            Quay lại
+            <ArrowLeft className="h-4 w-4" />
+            <span className="hidden sm:inline">Quay lại</span>
           </Link>
           <div className="hidden sm:block">
-            <p className="text-sm font-bold text-white">Đấu La Đại Lục</p>
-            <p className="text-xs text-slate-400">Chapter 398 · Cuộc chiến cuối cùng</p>
+            <p className="text-sm font-bold text-white line-clamp-1">{item.comic_name}</p>
+            <p className="text-xs text-slate-400">
+              Chương {item.chapter_name} {item.chapter_title && `· ${item.chapter_title}`}
+            </p>
           </div>
         </div>
 
         {/* Center: chapter nav */}
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-sm text-slate-300 transition-all hover:bg-slate-700 disabled:opacity-40">
-            <ChevronLeft className="h-4 w-4" />
-            <span className="hidden sm:inline">Ch.397</span>
-          </button>
-          <select className="rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-semibold text-white focus:outline-none">
-            <option>Chapter 398</option>
-            <option>Chapter 397</option>
-            <option>Chapter 396</option>
-          </select>
-          <button className="flex items-center gap-1 rounded-xl bg-blue-600 px-3 py-2 text-sm text-white transition-all hover:bg-blue-500">
-            <span className="hidden sm:inline">Ch.399</span>
-            <ChevronRight className="h-4 w-4" />
-          </button>
+          {prevChapter && (
+            <Link
+              href={`/doc/${prevChapter.chapter_api_data.split('/').pop()}`}
+              className="flex items-center gap-1 rounded-xl bg-slate-800 px-3 py-2 text-sm text-slate-300 transition-all hover:bg-slate-700"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Link>
+          )}
+          <div className="rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-semibold text-white">
+            Chương {item.chapter_name}
+          </div>
+          {nextChapter && (
+            <Link
+              href={`/doc/${nextChapter.chapter_api_data.split('/').pop()}`}
+              className="flex items-center gap-1 rounded-xl bg-blue-600 px-3 py-2 text-sm text-white transition-all hover:bg-blue-500"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+          )}
         </div>
 
-        {/* Right: tools */}
         <div className="flex items-center gap-2">
-          <button className="rounded-xl p-2 text-slate-400 transition-all hover:bg-slate-800 hover:text-white">
+          <button className="rounded-xl p-2 text-slate-400 transition-all hover:bg-slate-800 hover:text-white sm:block hidden">
             <ZoomOut className="h-4 w-4" />
           </button>
-          <button className="rounded-xl p-2 text-slate-400 transition-all hover:bg-slate-800 hover:text-white">
+          <button className="rounded-xl p-2 text-slate-400 transition-all hover:bg-slate-800 hover:text-white sm:block hidden">
             <ZoomIn className="h-4 w-4" />
-          </button>
-          <button className="rounded-xl p-2 text-slate-400 transition-all hover:bg-slate-800 hover:text-white">
-            <Sun className="h-4 w-4" />
           </button>
           <button className="rounded-xl p-2 text-slate-400 transition-all hover:bg-slate-800 hover:text-white">
             <List className="h-4 w-4" />
@@ -82,42 +127,52 @@ export default async function ReaderPage({
       </div>
 
       {/* Reading area */}
-      <div className="mx-auto max-w-2xl px-2 py-6">
-        <div className="space-y-1">
-          {pages.map((page, i) => (
-            <div key={page} className="relative">
-              {/* Mock manga page */}
-              <div
-                className={`w-full bg-gradient-to-b ${gradients[i % gradients.length]} flex items-center justify-center overflow-hidden`}
-                style={{ aspectRatio: '700/1000', minHeight: '300px' }}
-              >
-                {/* Fake manga panel grid */}
-                <div className="absolute inset-3 grid grid-cols-2 grid-rows-3 gap-1 opacity-30">
-                  {[...Array(6)].map((_, j) => (
-                    <div key={j} className="rounded bg-slate-600/40" />
-                  ))}
-                </div>
-                {/* Page number indicator */}
-                <div className="relative flex flex-col items-center gap-2 text-slate-500">
-                  <BookOpen className="h-8 w-8" />
-                  <span className="text-sm">Trang {page}</span>
-                </div>
+      <div className="mx-auto max-w-3xl px-0 sm:px-2 py-6">
+        <div className="flex flex-col items-center">
+          {images.map((img, i) => {
+            const imgUrl = `${cdnBase}/${item.chapter_path}/${img.image_file}`;
+            return (
+              <div key={img.image_page} className="relative w-full">
+                <Image
+                  src={imgUrl}
+                  alt={`Trang ${img.image_page}`}
+                  width={1000}
+                  height={1500}
+                  className="w-full h-auto object-contain"
+                  priority={i < 2}
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                  unoptimized
+                />
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* End of chapter */}
-        <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-900 p-8 text-center">
-          <h3 className="mb-2 text-xl font-black text-white">Hết Chapter 398!</h3>
-          <p className="mb-6 text-slate-400">Chapter tiếp theo dự kiến cập nhật vào thứ 6</p>
+        <div className="mt-10 mx-4 rounded-2xl border border-slate-800 bg-slate-900 p-8 text-center">
+          <h3 className="mb-2 text-xl font-black text-white">Hết Chương {item.chapter_name}!</h3>
+          <p className="mb-6 text-slate-400">Bạn đã đọc hết nội dung chương này.</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
-            <button className="flex items-center justify-center gap-2 rounded-xl bg-slate-800 px-6 py-3 font-semibold text-slate-200 transition-all hover:bg-slate-700">
-              <ChevronLeft className="h-4 w-4" />
-              Chapter trước
-            </button>
+            {prevChapter && (
+              <Link
+                href={`/doc/${prevChapter.chapter_api_data.split('/').pop()}`}
+                className="flex items-center justify-center gap-2 rounded-xl bg-slate-800 px-6 py-3 font-semibold text-slate-200 transition-all hover:bg-slate-700"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Chương trước
+              </Link>
+            )}
+            {nextChapter && (
+              <Link
+                href={`/doc/${nextChapter.chapter_api_data.split('/').pop()}`}
+                className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition-all hover:bg-blue-500"
+              >
+                Chương tiếp theo
+                <ChevronRight className="h-4 w-4" />
+              </Link>
+            )}
             <Link
-              href="/truyen/1"
+              href={comicData ? `/truyen/${comicSlug}` : '/'}
               className="flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800/50 px-6 py-3 font-semibold text-slate-200 transition-all hover:bg-slate-800"
             >
               <Home className="h-4 w-4" />
@@ -127,15 +182,14 @@ export default async function ReaderPage({
         </div>
       </div>
 
-      {/* Bottom progress bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-slate-950/95 px-4 py-3 backdrop-blur-xl">
         <div className="mx-auto max-w-2xl">
           <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
-            <span>Trang 1/{pages.length}</span>
-            <span>Chapter 398</span>
+            <span>{images.length} Trang</span>
+            <span>Chương {item.chapter_name}</span>
           </div>
           <div className="h-1 rounded-full bg-slate-800">
-            <div className="h-full w-[5%] rounded-full bg-blue-500" />
+            <div className="h-full w-full rounded-full bg-blue-500" />
           </div>
         </div>
       </div>

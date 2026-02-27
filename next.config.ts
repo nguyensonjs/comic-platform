@@ -5,8 +5,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'img.otruyenapi.com',
-        pathname: '/uploads/comics/**',
+        hostname: '**.otruyenapi.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.otruyencdn.com',
       },
     ],
   },

@@ -37,9 +37,9 @@ export default async function TruyenDetailPage({ params }: Props) {
     .sort((a, b) => parseFloat(b.chapter_name) - parseFloat(a.chapter_name));
 
   const statusColor = {
-    ongoing:    'bg-green-900/40 text-green-400 border-green-700/50',
-    completed:  'bg-blue-900/40 text-blue-400 border-blue-700/50',
-    coming_soon:'bg-amber-900/40 text-amber-400 border-amber-700/50',
+    ongoing: 'bg-green-900/40 text-green-400 border-green-700/50',
+    completed: 'bg-blue-900/40 text-blue-400 border-blue-700/50',
+    coming_soon: 'bg-amber-900/40 text-amber-400 border-amber-700/50',
   }[item.status] ?? 'bg-slate-800 text-slate-400 border-slate-700';
 
   return (
@@ -78,11 +78,11 @@ export default async function TruyenDetailPage({ params }: Props) {
             <div className="mt-4 space-y-2">
               {allChapters.length > 0 && (
                 <>
-                  <Link href={`/doc/${allChapters[allChapters.length - 1].chapter_api_data.split('/').pop()}`}
+                  <Link href={`/doc/${slug}/${allChapters[allChapters.length - 1].chapter_api_data.split('/').pop()}`}
                     className="flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-blue-600/30 transition-all hover:bg-blue-500">
                     <BookOpen className="h-4 w-4" /> Đọc từ đầu
                   </Link>
-                  <Link href={`/doc/${allChapters[0].chapter_api_data.split('/').pop()}`}
+                  <Link href={`/doc/${slug}/${allChapters[0].chapter_api_data.split('/').pop()}`}
                     className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700/60 bg-slate-900/50 px-4 py-3 text-sm font-semibold text-slate-300 transition-all hover:bg-slate-800 hover:text-white">
                     Đọc chap mới nhất
                   </Link>
@@ -167,7 +167,7 @@ export default async function TruyenDetailPage({ params }: Props) {
               {allChapters.map(ch => (
                 <Link
                   key={ch.chapter_api_data}
-                  href={`/doc/${ch.chapter_api_data.split('/').pop()}`}
+                  href={`/doc/${slug}/${ch.chapter_api_data.split('/').pop()}`}
                   className="group flex items-center gap-3 rounded-xl border border-slate-800/40 bg-slate-900/30 px-4 py-2.5 text-sm transition-all hover:border-slate-700/60 hover:bg-slate-900/60 hover:text-white"
                 >
                   <BookOpen className="h-4 w-4 shrink-0 text-slate-600 group-hover:text-blue-400" />
