@@ -16,6 +16,8 @@ import {
   Zap,
   Sparkles,
   TrendingUp,
+  Package,
+  ShoppingBag,
 } from 'lucide-react';
 
 /* ─────────── Data ─────────── */
@@ -60,6 +62,17 @@ const nearbyRanks = [
   { rank: 14, name: 'Nguyễn Văn A',    realm: 'Hóa Thần', power: 987_654,   avatar: 'from-blue-500 to-indigo-600', badge: '⚡', isUser: true },
   { rank: 15, name: 'Kiếm Thiên Sơn',  realm: 'Hóa Thần', power: 812_300,   avatar: 'from-green-600 to-emerald-700', badge: '🗡️' },
   { rank: 16, name: 'Linh Nhi',         realm: 'Hóa Thần', power: 703_100,   avatar: 'from-pink-400 to-fuchsia-500', badge: '🌺' },
+];
+
+const inventory = [
+  { id: 1,  name: 'Tụ Linh Đan',       icon: '⚗️', qty: 5,  rarity: 'Phổ thông', effect: 'Tăng linh lực +500',          color: 'from-green-700 to-emerald-800',  badge: 'bg-slate-700 text-slate-300',    border: 'border-slate-700/40'   },
+  { id: 2,  name: 'Hoàn Nguyệt Đan',    icon: '🌙', qty: 2,  rarity: 'Hiếm',       effect: 'Bứt phá cảnh giới +30%',        color: 'from-blue-700 to-indigo-800',    badge: 'bg-blue-900 text-blue-300',      border: 'border-blue-700/40'    },
+  { id: 3,  name: 'Huyền Thiết Kiếm', icon: '🗡️', qty: 1,  rarity: 'Hiếm',       effect: 'Công kích linh lực +800',        color: 'from-slate-600 to-slate-800',    badge: 'bg-blue-900 text-blue-300',      border: 'border-blue-700/40'    },
+  { id: 4,  name: 'Hỏa Long Thương',   icon: '⚔️', qty: 1,  rarity: 'Sử thi',     effect: 'Hỏa thuộc tính, thiêu đốt kẻ thù',  color: 'from-orange-700 to-red-800',     badge: 'bg-purple-900 text-purple-300',  border: 'border-purple-700/40'  },
+  { id: 5,  name: 'Huyền Giáp',         icon: '🛡️', qty: 1,  rarity: 'Hiếm',       effect: 'Phòng thủ linh lực +1200',        color: 'from-slate-700 to-blue-900',     badge: 'bg-blue-900 text-blue-300',      border: 'border-blue-700/40'    },
+  { id: 6,  name: 'Ngọc Linh Nhẫn',    icon: '💍', qty: 3,  rarity: 'Phổ thông', effect: '+10% linh thạch từ nhiệm vụ',    color: 'from-green-700 to-teal-800',     badge: 'bg-slate-700 text-slate-300',    border: 'border-slate-700/40'   },
+  { id: 7,  name: 'Hóa Thần Đan',      icon: '💜', qty: 1,  rarity: 'Sử thi',     effect: '+100% linh lực, đột phá Hóa Thần', color: 'from-purple-700 to-violet-800',  badge: 'bg-purple-900 text-purple-300',  border: 'border-purple-700/40'  },
+  { id: 8,  name: 'Linh Thạch',          icon: '💎', qty: 1250, rarity: 'Tiền tệ',    effect: 'Dùng để mua vật phẩm tại Cửa hàng', color: 'from-amber-600 to-yellow-700',   badge: 'bg-amber-900 text-amber-300',    border: 'border-amber-700/40'   },
 ];
 
 /* ─────────── Component ─────────── */
@@ -337,6 +350,79 @@ export default function ProfilePage() {
                 </p>
               </div>
             </div>
+            {/* ── Inventory (Hành trang) ── */}
+            <div className="overflow-hidden rounded-2xl border border-slate-800/50"
+              style={{ background: 'linear-gradient(180deg, rgba(12,8,35,0.96) 0%, rgba(4,6,18,0.98) 100%)' }}
+            >
+              <div className="flex items-center justify-between border-b border-slate-800/50 px-5 py-4">
+                <div className="flex items-center gap-2">
+                  <Package className="h-4 w-4 text-amber-400" />
+                  <h2 className="font-bold text-slate-200">Hành Trang</h2>
+                  <span className="rounded-full bg-slate-800 px-2 py-0.5 text-xs font-bold text-slate-500">
+                    {inventory.length} vật phẩm
+                  </span>
+                </div>
+                <Link href="/shop" className="flex items-center gap-1.5 text-xs text-purple-400 transition-colors hover:text-purple-300">
+                  <ShoppingBag className="h-3.5 w-3.5" />
+                  Cửa hàng
+                </Link>
+              </div>
+
+              {/* Linh thạch banner */}
+              <div className="flex items-center justify-between border-b border-amber-900/20 bg-amber-900/10 px-5 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">💎</span>
+                  <div>
+                    <span className="text-lg font-black text-amber-300">1,250</span>
+                    <span className="ml-1 text-xs text-slate-500">linh thạch</span>
+                  </div>
+                </div>
+                <Link href="/diem-danh"
+                  className="flex items-center gap-1 rounded-xl border border-amber-700/40 bg-amber-900/20 px-3 py-1.5 text-xs font-semibold text-amber-300 hover:border-amber-600/60">
+                  + Điểm danh
+                </Link>
+              </div>
+
+              {/* Item grid */}
+              <div className="grid grid-cols-4 gap-2 p-4">
+                {inventory.filter(i => i.rarity !== 'Tiền tệ').map((item) => (
+                  <div key={item.id}
+                    className={`group relative flex flex-col items-center gap-1.5 overflow-hidden rounded-xl border ${item.border} bg-slate-900/50 p-3 text-center transition-all hover:-translate-y-0.5 hover:shadow-lg`}
+                  >
+                    {/* Quantity badge */}
+                    {item.qty > 1 && (
+                      <span className="absolute top-1.5 right-1.5 rounded-full bg-slate-950/80 px-1.5 text-[10px] font-black text-amber-300">
+                        x{item.qty}
+                      </span>
+                    )}
+                    {/* Icon */}
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${item.color} text-2xl shadow-md`}>
+                      {item.icon}
+                    </div>
+                    {/* Name */}
+                    <p className="text-[11px] font-semibold leading-tight text-slate-300">{item.name}</p>
+                    {/* Rarity */}
+                    <span className={`rounded-full px-1.5 py-0.5 text-[9px] font-bold ${item.badge}`}>
+                      {item.rarity}
+                    </span>
+                    {/* Hover tooltip */}
+                    <div className="invisible absolute inset-x-0 bottom-0 z-10 rounded-b-xl bg-slate-950/95 px-2 py-2 opacity-0 transition-all group-hover:visible group-hover:opacity-100">
+                      <p className="text-[10px] leading-tight text-slate-400">{item.effect}</p>
+                      <button className="mt-1.5 w-full rounded-lg bg-purple-700/60 py-1 text-[10px] font-bold text-purple-200 hover:bg-purple-600/60">
+                        Sử dụng
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-t border-slate-800/40 px-5 py-3 text-center">
+                <Link href="/shop" className="text-xs text-slate-600 hover:text-slate-400 transition-colors">
+                  Xem cửa hàng để mua thêm vật phẩm →
+                </Link>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

@@ -13,6 +13,12 @@ import {
   X,
   Sparkles,
   LogIn,
+  Crown,
+  CalendarCheck,
+  ShoppingBag,
+  Trophy,
+  ChevronDown,
+  Swords,
 } from 'lucide-react';
 
 export default function Header() {
@@ -92,6 +98,40 @@ export default function Header() {
 
             {/* Desktop icons */}
             <div className="hidden items-center gap-1 md:flex">
+
+              {/* Dropdown: Khám phá */}
+              <div className="group relative">
+                <button className="flex items-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-400 transition-all hover:bg-slate-800 hover:text-white">
+                  <Swords className="h-4 w-4" />
+                  Khám phá
+                  <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180" />
+                </button>
+                {/* Dropdown panel */}
+                <div className="invisible absolute right-0 top-full z-50 mt-2 w-52 origin-top-right scale-95 rounded-2xl border border-slate-800 bg-slate-950/95 p-2 opacity-0 shadow-2xl shadow-black/50 backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
+                  <Link href="/leaderboard" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-amber-400">
+                    <Crown className="h-4 w-4 text-amber-400" />
+                    Bảng xếp hạng
+                  </Link>
+                  <Link href="/diem-danh" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-green-400">
+                    <CalendarCheck className="h-4 w-4 text-green-400" />
+                    Điểm danh
+                  </Link>
+                  <Link href="/nhiem-vu" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-blue-400">
+                    <Trophy className="h-4 w-4 text-blue-400" />
+                    Nhiệm vụ
+                  </Link>
+                  <Link href="/shop" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-purple-400">
+                    <ShoppingBag className="h-4 w-4 text-purple-400" />
+                    Cửa hàng
+                  </Link>
+                  <div className="my-1 border-t border-slate-800" />
+                  <Link href="/profile" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-cyan-400">
+                    <User className="h-4 w-4 text-cyan-400" />
+                    Trang cá nhân
+                  </Link>
+                </div>
+              </div>
+
               <button className="group relative rounded-xl p-2.5 text-slate-400 transition-all hover:bg-slate-800 hover:text-white">
                 <Bell className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
                 {/* Notification dot */}
@@ -157,21 +197,35 @@ export default function Header() {
 
             {/* Mobile nav links */}
             <div className="grid grid-cols-2 gap-2">
-              <Link
-                href="/library"
-                onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800"
-              >
+              <Link href="/library" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
                 <BookOpen className="h-5 w-5 text-cyan-400" />
                 <span className="text-sm font-medium text-slate-200">Thư viện</span>
               </Link>
-              <Link
-                href="/favorites"
-                onClick={() => setIsMenuOpen(false)}
-                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800"
-              >
+              <Link href="/favorites" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
                 <Heart className="h-5 w-5 text-pink-400" />
                 <span className="text-sm font-medium text-slate-200">Yêu thích</span>
+              </Link>
+              <Link href="/leaderboard" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
+                <Crown className="h-5 w-5 text-amber-400" />
+                <span className="text-sm font-medium text-slate-200">Xếp hạng</span>
+              </Link>
+              <Link href="/diem-danh" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
+                <CalendarCheck className="h-5 w-5 text-green-400" />
+                <span className="text-sm font-medium text-slate-200">Điểm danh</span>
+              </Link>
+              <Link href="/nhiem-vu" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
+                <Trophy className="h-5 w-5 text-blue-400" />
+                <span className="text-sm font-medium text-slate-200">Nhiệm vụ</span>
+              </Link>
+              <Link href="/shop" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
+                <ShoppingBag className="h-5 w-5 text-purple-400" />
+                <span className="text-sm font-medium text-slate-200">Cửa hàng</span>
               </Link>
             </div>
 
