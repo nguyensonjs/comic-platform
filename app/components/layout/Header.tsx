@@ -19,6 +19,7 @@ import {
   Trophy,
   ChevronDown,
   Swords,
+  Sword,
 } from 'lucide-react';
 
 export default function Header() {
@@ -107,7 +108,7 @@ export default function Header() {
                   <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180" />
                 </button>
                 {/* Dropdown panel */}
-                <div className="invisible absolute right-0 top-full z-50 mt-2 w-52 origin-top-right scale-95 rounded-2xl border border-slate-800 bg-slate-950/95 p-2 opacity-0 shadow-2xl shadow-black/50 backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
+                <div className="invisible absolute right-0 top-full z-50 mt-2 w-56 origin-top-right scale-95 rounded-2xl border border-slate-800 bg-slate-950/95 p-2 opacity-0 shadow-2xl shadow-black/50 backdrop-blur-xl transition-all duration-200 group-hover:visible group-hover:scale-100 group-hover:opacity-100">
                   <Link href="/leaderboard" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-amber-400">
                     <Crown className="h-4 w-4 text-amber-400" />
                     Bảng xếp hạng
@@ -123,6 +124,10 @@ export default function Header() {
                   <Link href="/shop" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-purple-400">
                     <ShoppingBag className="h-4 w-4 text-purple-400" />
                     Cửa hàng
+                  </Link>
+                  <Link href="/nhan-vat" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-pink-400">
+                    <Sword className="h-4 w-4 text-pink-400" />
+                    Nhân vật
                   </Link>
                   <div className="my-1 border-t border-slate-800" />
                   <Link href="/profile" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition-all hover:bg-slate-800 hover:text-cyan-400">
@@ -226,6 +231,11 @@ export default function Header() {
                 className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
                 <ShoppingBag className="h-5 w-5 text-purple-400" />
                 <span className="text-sm font-medium text-slate-200">Cửa hàng</span>
+              </Link>
+              <Link href="/nhan-vat" onClick={() => setIsMenuOpen(false)}
+                className="flex items-center gap-3 rounded-2xl bg-slate-800/50 p-4 transition-all hover:bg-slate-800">
+                <Sword className="h-5 w-5 text-pink-400" />
+                <span className="text-sm font-medium text-slate-200">Nhân vật</span>
               </Link>
             </div>
 
