@@ -3,8 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { ChevronRight, Zap, ChevronLeft } from 'lucide-react';
 import type { GenreDetailApiResponse } from '@/types/otruyen';
-import { statusLabel } from '@/types/otruyen';
-
+import { ComicCard } from '@/app/components/ComicCard';
 interface Props {
   params: Promise<{ slug: string }>;
   searchParams: Promise<{ page?: string }>;
@@ -64,48 +63,14 @@ export default async function TheLoaiSlugPage({ params, searchParams }: Props) {
 
         {/* Comic Grid */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-          {items.map(comic => {
-            const imgUrl = `${cdnBase}/uploads/comics/${comic.thumb_url}`;
-            const latestChapter = comic.chaptersLatest?.[0];
-            return (
-              <Link
-                key={comic._id}
-                href={`/truyen/${comic.slug}`}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-800/60 bg-slate-900/50 transition-all duration-300 hover:-translate-y-1 hover:border-slate-700/60 hover:shadow-2xl hover:shadow-black/40"
-              >
-                <div className="relative aspect-[3/4] w-full overflow-hidden">
-                  <Image
-                    src={imgUrl}
-                    alt={comic.name}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 20vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
-                  {latestChapter && (
-                    <div className="absolute bottom-2 left-2 right-2">
-                      <span className="flex items-center gap-1 rounded-xl bg-slate-950/80 px-2 py-1 text-[11px] font-semibold text-cyan-300 backdrop-blur-sm">
-                        <Zap className="h-3 w-3" />
-                        Chap {latestChapter.chapter_name}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col gap-1 p-3">
-                  <h3 className="line-clamp-2 text-sm font-bold leading-tight text-slate-200 group-hover:text-white">
-                    {comic.name}
-                  </h3>
-                  <span className={`mt-0.5 w-fit rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                    comic.status === 'ongoing'     ? 'bg-green-900/30 text-green-400' :
-                    comic.status === 'completed'   ? 'bg-blue-900/30 text-blue-400' :
-                                                     'bg-amber-900/30 text-amber-400'
-                  }`}>
-                    {statusLabel(comic.status)}
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+          {items.map(comic => (
+            <ComicCard
+              key={comic._id}
+              comic={comic}
+              cdnBase={cdnBase}
+              showCategory={false}
+            />
+          ))}
         </div>
 
         {/* Pagination */}

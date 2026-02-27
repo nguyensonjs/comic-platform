@@ -15,7 +15,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import type { HomeApiResponse, ComicItem } from '@/types/otruyen';
-import { thumbUrl, statusLabel } from '@/types/otruyen';
+import { ComicCard } from '@/app/components/ComicCard';
 
 /* ─────────── Static data ─────────── */
 
@@ -46,86 +46,6 @@ async function getHomeData(): Promise<HomeApiResponse | null> {
   } catch {
     return null;
   }
-}
-
-/* ─────────── Sub-components ─────────── */
-
-function StatusBadge({ status }: { status: ComicItem['status'] }) {
-  const map = {
-    ongoing:     'border-green-700/50 bg-green-900/30 text-green-400',
-    completed:   'border-blue-700/50 bg-blue-900/30 text-blue-400',
-    coming_soon: 'border-amber-700/50 bg-amber-900/30 text-amber-400',
-  } as const;
-  return (
-    <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${map[status] ?? map.ongoing}`}>
-      {statusLabel(status)}
-    </span>
-  );
-}
-
-function ComicCard({ comic, cdnBase }: { comic: ComicItem; cdnBase: string }) {
-  const imgUrl = `${cdnBase}/uploads/comics/${comic.thumb_url}`;
-  const latestChapter = (comic.chaptersLatest || [])[0];
-
-  return (
-    <Link
-      href={`/truyen/${comic.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-800/60 bg-slate-900/50 transition-all duration-300 hover:-translate-y-1 hover:border-slate-700/60 hover:shadow-2xl hover:shadow-black/40"
-    >
-      {/* Thumbnail */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden">
-        <Image
-          src={imgUrl}
-          alt={comic.name}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
-
-        {/* Status badge */}
-        <div className="absolute top-2 left-2">
-          <StatusBadge status={comic.status} />
-        </div>
-
-        {/* Latest chapter overlay */}
-        {latestChapter && (
-          <div className="absolute bottom-2 left-2 right-2">
-            <span className="flex items-center gap-1 rounded-xl bg-slate-950/80 px-2 py-1 text-[11px] font-semibold text-cyan-300 backdrop-blur-sm">
-              <Zap className="h-3 w-3" />
-              Chap {latestChapter.chapter_name}
-            </span>
-          </div>
-        )}
-      </div>
-
-      {/* Info */}
-      <div className="flex flex-1 flex-col gap-1.5 p-3">
-        <h3 className="line-clamp-2 text-sm font-bold leading-tight text-slate-200 transition-colors group-hover:text-white">
-          {comic.name}
-        </h3>
-
-        {/* Categories */}
-        <div className="flex flex-wrap gap-1">
-          {comic.category.slice(0, 2).map(cat => (
-            <span
-              key={cat.id}
-              className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] text-slate-500"
-            >
-              {cat.name}
-            </span>
-          ))}
-        </div>
-
-        {/* Updated time */}
-        <div className="mt-auto flex items-center gap-1 text-[11px] text-slate-600">
-          <Clock className="h-3 w-3" />
-          {new Date(comic.updatedAt).toLocaleDateString('vi-VN')}
-        </div>
-      </div>
-    </Link>
-  );
 }
 
 /* ─────────── Page ─────────── */
@@ -166,7 +86,7 @@ export default async function Home() {
           {comics.length > 0 ? (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
               {comics.map(comic => (
-                <ComicCard key={comic._id} comic={comic} cdnBase={cdnBase} />
+                <ComicCard key={comic._id} comic={comic} cdnBase={cdnBase} showUpdatedAt />
               ))}
             </div>
           ) : (
