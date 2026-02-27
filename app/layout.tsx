@@ -34,7 +34,7 @@ export default function RootLayout({
         className={`${spaceGrotesk.variable} font-display bg-background-light dark:bg-background-dark selection:bg-primary/30 selection:text-primary min-h-screen text-slate-900 antialiased dark:text-slate-100`}
       >
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen bg-slate-950">{children}</main>
         <Footer />
       </body>
     </html>
