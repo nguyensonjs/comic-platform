@@ -65,6 +65,11 @@ body::selection {
   box-shadow: 0 0 40px -10px rgba(19, 146, 236, 0.3);
 }
 
+/* Neon glow for logo */
+.neon-glow {
+  filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 10px rgba(0, 255, 255, 0.4)) drop-shadow(0 0 15px rgba(128, 0, 255, 0.5));
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;

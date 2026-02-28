@@ -73,11 +73,11 @@ export default function Header() {
           <Link href="/" className="group flex shrink-0 items-center gap-3">
             <div className="relative flex h-10 w-10 items-center justify-center transition-all duration-300 group-hover:scale-110">
               <Image
-                src="/logo-v2.png"
+                src="/logo-neon.svg"
                 alt="NetComic Logo"
                 width={40}
                 height={40}
-                className="h-full w-full drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                className="h-full w-full neon-glow"
               />
             </div>
             <div className="flex flex-col leading-none">

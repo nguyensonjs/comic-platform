@@ -62,11 +62,11 @@ export default function Footer() {
             <Link href="/" className="group mb-6 inline-flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center transition-all duration-300 group-hover:scale-110">
                 <Image
-                  src="/logo-v2.png"
+                  src="/logo-neon.svg"
                   alt="NetComic Logo"
                   width={44}
                   height={44}
-                  className="h-full w-full drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]"
+                  className="h-full w-full neon-glow"
                 />
               </div>
               <div className="flex flex-col leading-none">
