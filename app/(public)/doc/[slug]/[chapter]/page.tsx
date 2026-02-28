@@ -74,9 +74,9 @@ export default async function ReaderPage({
   const nextChapter = currentIndex < allChapters.length - 1 ? allChapters[currentIndex + 1] : null;
 
   return (
-    <div className="min-h-screen bg-[#111] pb-20">
+    <div className="min-h-screen bg-background pb-20 transition-colors duration-300">
       {/* Reader toolbar */}
-      <div className="sticky top-0 z-40 flex items-center justify-between border-b border-white/10 bg-slate-950/95 px-4 py-3 backdrop-blur-xl">
+      <div className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 px-4 py-3 backdrop-blur-xl">
         <div className="flex items-center gap-3">
           <Link
             href={`/truyen/${slug}`}
@@ -86,7 +86,7 @@ export default async function ReaderPage({
             <span className="hidden sm:inline">Quay lại</span>
           </Link>
           <div className="hidden sm:block max-w-[200px] md:max-w-md">
-            <p className="text-sm font-bold text-white truncate">{item.comic_name}</p>
+            <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{item.comic_name}</p>
             <p className="text-xs text-slate-400 truncate">
               Chương {item.chapter_name} {item.chapter_title && `· ${item.chapter_title}`}
             </p>
@@ -106,7 +106,7 @@ export default async function ReaderPage({
             <div className="p-2 opacity-20"><ChevronLeft className="h-4 w-4 text-white" /></div>
           )}
 
-          <div className="rounded-xl border border-slate-700 bg-slate-800 px-3 py-2 text-sm font-semibold text-white min-w-[100px] text-center">
+          <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white min-w-[100px] text-center transition-colors">
             Chương {item.chapter_name}
           </div>
 
@@ -153,7 +153,7 @@ export default async function ReaderPage({
 
         {/* End of chapter */}
         <div className="mt-10 mx-4 rounded-2xl border border-slate-800 bg-slate-900 p-8 text-center">
-          <h3 className="mb-2 text-xl font-black text-white">Hết Chương {item.chapter_name}!</h3>
+          <h3 className="mb-2 text-xl font-black text-slate-900 dark:text-white">Hết Chương {item.chapter_name}!</h3>
           <p className="mb-6 text-slate-400">Bạn đã đọc hết nội dung chương này.</p>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-center">
             {prevChapter && (
@@ -185,7 +185,7 @@ export default async function ReaderPage({
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-white/10 bg-slate-950/95 px-4 py-3 backdrop-blur-xl">
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 px-4 py-3 backdrop-blur-xl transition-colors">
         <div className="mx-auto max-w-2xl">
           <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
             <span>{images.length} Trang</span>

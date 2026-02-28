@@ -2,16 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #f6f7f8;
-  --foreground: #171717;
-  --primary: #1392ec;
-  --background-light: #f6f7f8;
-  --background-dark: #050b18;
-  --star-blue: #0a192f;
-  --qi-teal: #2dd4bf;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -25,17 +15,31 @@
   --font-display: 'Space Grotesk', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #050b18;
-    --foreground: #ededed;
-  }
+/* Base variables (Light Theme) */
+:root {
+  --background: #f6f7f8;
+  --foreground: #020617;
+  --primary: #1392ec;
+  --background-light: #f6f7f8;
+  --background-dark: #050b18;
+  --star-blue: #0a192f;
+  --qi-teal: #2dd4bf;
 }
 
+/* Dark Theme Variables */
+.dark {
+  --background: #050b18;
+  --foreground: #f8fafc;
+}
+
+/* Explicitly tell Tailwind 4 to use the .dark class for the dark: variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: 'Space Grotesk', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 body::selection {
@@ -53,7 +57,7 @@ body::selection {
 /* Cosmic gradient background */
 .cosmic-gradient {
   background: radial-gradient(circle at top right, #1392ec22, transparent),
-              radial-gradient(circle at bottom left, #2dd4bf11, transparent);
+    radial-gradient(circle at bottom left, #2dd4bf11, transparent);
 }
 
 /* Hero glow effect */

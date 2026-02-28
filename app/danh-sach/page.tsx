@@ -6,10 +6,10 @@ import { ComicCard } from '@/app/components/ComicCard';
 type ListType = 'truyen-moi' | 'sap-ra-mat' | 'dang-phat-hanh' | 'hoan-thanh';
 
 const LIST_LABELS: Record<ListType, string> = {
-  'truyen-moi':       'Truyện Mới',
-  'sap-ra-mat':       'Sắp Ra Mắt',
-  'dang-phat-hanh':   'Đang Phát Hành',
-  'hoan-thanh':       'Hoàn Thành',
+  'truyen-moi': 'Truyện Mới',
+  'sap-ra-mat': 'Sắp Ra Mắt',
+  'dang-phat-hanh': 'Đang Phát Hành',
+  'hoan-thanh': 'Hoàn Thành',
 };
 
 interface Props {
@@ -34,14 +34,14 @@ export default async function DanhSachPage({ searchParams }: Props) {
   const page = Math.max(1, parseInt(pageStr ?? '1', 10));
 
   const data = await getList(listType, page);
-  const items     = data?.data?.items ?? [];
-  const cdnBase   = data?.data?.APP_DOMAIN_CDN_IMAGE ?? 'https://img.otruyenapi.com';
+  const items = data?.data?.items ?? [];
+  const cdnBase = data?.data?.APP_DOMAIN_CDN_IMAGE ?? 'https://img.otruyenapi.com';
   const pagination = data?.data?.params?.pagination;
   const totalItems = pagination?.totalItems ?? 0;
   const totalPerPage = pagination?.totalItemsPerPage ?? 24;
-  const currentPage  = pagination?.currentPage ?? page;
-  const pageRanges   = pagination?.pageRanges ?? 5;
-  const totalPages   = Math.ceil(totalItems / totalPerPage);
+  const currentPage = pagination?.currentPage ?? page;
+  const pageRanges = pagination?.pageRanges ?? 5;
+  const totalPages = Math.ceil(totalItems / totalPerPage);
 
   const half = Math.floor(pageRanges / 2);
   const startPage = Math.max(1, currentPage - half);
@@ -51,7 +51,7 @@ export default async function DanhSachPage({ searchParams }: Props) {
   const listTypes: ListType[] = ['truyen-moi', 'sap-ra-mat', 'dang-phat-hanh', 'hoan-thanh'];
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16 transition-colors duration-300">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
@@ -64,11 +64,10 @@ export default async function DanhSachPage({ searchParams }: Props) {
         <div className="mb-8 flex flex-wrap gap-2">
           {listTypes.map(t => (
             <Link key={t} href={`/danh-sach?type=${t}&page=1`}
-              className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all ${
-                t === listType
+              className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all ${t === listType
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
                   : 'border border-slate-700/60 bg-slate-900/50 text-slate-400 hover:bg-slate-800 hover:text-white'
-              }`}>
+                }`}>
               {LIST_LABELS[t]}
             </Link>
           ))}
@@ -76,7 +75,7 @@ export default async function DanhSachPage({ searchParams }: Props) {
 
         <div className="mb-6 flex items-end justify-between">
           <div>
-            <h1 className="text-2xl font-black text-white md:text-3xl">{LIST_LABELS[listType]}</h1>
+            <h1 className="text-2xl font-black text-slate-900 dark:text-white md:text-3xl">{LIST_LABELS[listType]}</h1>
             <p className="mt-1 text-sm text-slate-500">
               {totalItems.toLocaleString()} truyện • Trang {currentPage}/{totalPages}
             </p>
@@ -94,21 +93,20 @@ export default async function DanhSachPage({ searchParams }: Props) {
           <div className="mt-12 flex flex-wrap items-center justify-center gap-2">
             {currentPage > 1 && (
               <Link href={`/danh-sach?type=${listType}&page=${currentPage - 1}`}
-                className="flex items-center gap-1 rounded-xl border border-slate-700/60 bg-slate-900/50 px-3 py-2 text-sm text-slate-400 hover:bg-slate-800 hover:text-white">
+                className="flex items-center gap-1 rounded-xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-white">
                 <ChevronLeft className="h-4 w-4" /> Trước
               </Link>
             )}
             {pages.map(p => (
               <Link key={p} href={`/danh-sach?type=${listType}&page=${p}`}
-                className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-semibold transition-all ${
-                  p === currentPage
+                className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-semibold transition-all ${p === currentPage
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
-                    : 'border border-slate-700/60 bg-slate-900/50 text-slate-400 hover:bg-slate-800 hover:text-white'
-                }`}>{p}</Link>
+                    : 'border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900/50 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-white'
+                  }`}>{p}</Link>
             ))}
             {currentPage < totalPages && (
               <Link href={`/danh-sach?type=${listType}&page=${currentPage + 1}`}
-                className="flex items-center gap-1 rounded-xl border border-slate-700/60 bg-slate-900/50 px-3 py-2 text-sm text-slate-400 hover:bg-slate-800 hover:text-white">
+                className="flex items-center gap-1 rounded-xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-white">
                 Sau <ChevronRight className="h-4 w-4" />
               </Link>
             )}

@@ -5,20 +5,22 @@ import { Footer, Header } from './components/layout';
 import type { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
 
+import { ThemeProvider } from './components/providers/ThemeProvider';
+
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
   subsets: ['latin'],
 });
 
 export const metadata: Metadata = {
-  title: 'Cosmic Cultivation | Kho Truyện Tranh',
+  title: 'NetComic | Kho Truyện Tranh Online',
   description:
-    'Khám phá thế giới truyện tranh và tiểu thuyết phong phú với hàng ngàn tác phẩm hấp dẫn.',
-  keywords: 'truyện tranh, manga, manhwa, webtoon, tiểu thuyết, đọc truyện online',
-  authors: [{ name: 'Cosmic Cultivation Team' }],
+    'Khám phá thế giới truyện tranh, manga, manhwa và webtoon phong phú nhất với NetComic. Đọc truyện online chất lượng cao.',
+  keywords: 'NetComic, truyện tranh, manga, manhwa, webtoon, tiểu thuyết, đọc truyện online',
+  authors: [{ name: 'NetComic Team' }],
   openGraph: {
-    title: 'Cosmic Cultivation | Kho Truyện Tranh',
-    description: 'Khám phá thế giới truyện tranh và tiểu thuyết phong phú',
+    title: 'NetComic | Kho Truyện Tranh Online',
+    description: 'Khám phá thế giới truyện tranh và tiểu thuyết phong phú cùng NetComic',
     type: 'website',
   },
 };
@@ -29,13 +31,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className="dark">
+    <html lang="vi" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} font-display bg-background-light dark:bg-background-dark selection:bg-primary/30 selection:text-primary min-h-screen text-slate-900 antialiased dark:text-slate-100`}
+        className={`${spaceGrotesk.variable} font-display selection:bg-primary/30 selection:text-primary min-h-screen antialiased`}
       >
-        <Header />
-        <main className="min-h-screen bg-slate-950">{children}</main>
-        <Footer />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <main className="min-h-screen transition-colors duration-300">
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

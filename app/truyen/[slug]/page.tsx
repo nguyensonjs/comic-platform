@@ -43,7 +43,7 @@ export default async function TruyenDetailPage({ params }: Props) {
   }[item.status] ?? 'bg-slate-800 text-slate-400 border-slate-700';
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-16">
+    <div className="min-h-screen bg-background pt-24 pb-16 transition-colors duration-300">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
@@ -57,7 +57,7 @@ export default async function TruyenDetailPage({ params }: Props) {
               <ChevronRight className="h-4 w-4" />
             </>
           )}
-          <span className="line-clamp-1 text-slate-300">{item.name}</span>
+          <span className="line-clamp-1 text-slate-700 dark:text-slate-300">{item.name}</span>
         </nav>
 
         {/* Main info */}
@@ -93,7 +93,7 @@ export default async function TruyenDetailPage({ params }: Props) {
 
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h1 className="mb-2 text-2xl font-black text-white md:text-3xl lg:text-4xl leading-tight">{item.name}</h1>
+            <h1 className="mb-2 text-2xl font-black text-slate-900 dark:text-white md:text-3xl lg:text-4xl leading-tight">{item.name}</h1>
 
             {item.origin_name?.filter(Boolean).length > 0 && (
               <p className="mb-4 text-sm text-slate-500 italic">{item.origin_name.filter(Boolean).join(' · ')}</p>
@@ -118,7 +118,7 @@ export default async function TruyenDetailPage({ params }: Props) {
                   <dt className="flex shrink-0 items-center gap-1.5 text-sm text-slate-500 w-24">
                     <User className="h-3.5 w-3.5" /> Tác giả
                   </dt>
-                  <dd className="text-sm text-slate-300">{item.author.filter(Boolean).join(', ')}</dd>
+                  <dd className="text-sm text-slate-700 dark:text-slate-300">{item.author.filter(Boolean).join(', ')}</dd>
                 </div>
               )}
               <div className="flex items-start gap-3">
@@ -158,7 +158,7 @@ export default async function TruyenDetailPage({ params }: Props) {
         {allChapters.length > 0 && (
           <div>
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-black text-white">
+              <h2 className="text-lg font-black text-slate-900 dark:text-white">
                 Danh sách chương
                 <span className="ml-2 text-sm font-normal text-slate-500">({allChapters.length} chương)</span>
               </h2>
@@ -168,7 +168,7 @@ export default async function TruyenDetailPage({ params }: Props) {
                 <Link
                   key={ch.chapter_api_data}
                   href={`/doc/${slug}/${ch.chapter_api_data.split('/').pop()}`}
-                  className="group flex items-center gap-3 rounded-xl border border-slate-800/40 bg-slate-900/30 px-4 py-2.5 text-sm transition-all hover:border-slate-700/60 hover:bg-slate-900/60 hover:text-white"
+                  className="group flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800/40 bg-white dark:bg-slate-900/30 px-4 py-2.5 text-sm transition-all hover:border-blue-500/40 hover:bg-slate-50 dark:hover:bg-slate-900/60"
                 >
                   <BookOpen className="h-4 w-4 shrink-0 text-slate-600 group-hover:text-blue-400" />
                   <span className="flex-1 truncate text-slate-400 group-hover:text-slate-200">

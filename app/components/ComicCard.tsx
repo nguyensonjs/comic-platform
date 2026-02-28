@@ -9,8 +9,8 @@ import { statusLabel } from '@/types/otruyen';
 
 function StatusBadge({ status }: { status: ComicItem['status'] }) {
   const map = {
-    ongoing:     'border-green-700/50 bg-green-900/30 text-green-400',
-    completed:   'border-blue-700/50 bg-blue-900/30 text-blue-400',
+    ongoing: 'border-green-700/50 bg-green-900/30 text-green-400',
+    completed: 'border-blue-700/50 bg-blue-900/30 text-blue-400',
     coming_soon: 'border-amber-700/50 bg-amber-900/30 text-amber-400',
   } as const;
   return (
@@ -45,7 +45,7 @@ export function ComicCard({
       <motion.div
         whileHover={{ y: -6 }}
         transition={{ type: "spring", stiffness: 350, damping: 25 }}
-        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-800/60 bg-slate-900/50 transition-colors duration-300 hover:border-slate-600/80 hover:bg-slate-800/50 hover:shadow-xl hover:shadow-cyan-900/20"
+        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800/60 bg-white dark:bg-slate-900/50 transition-colors duration-300 hover:border-blue-300 dark:hover:border-slate-600/80 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:shadow-xl hover:shadow-blue-900/10 dark:hover:shadow-cyan-900/20"
         style={{
           willChange: 'transform',
           WebkitFontSmoothing: 'antialiased',
@@ -56,7 +56,7 @@ export function ComicCard({
         {/* Thumbnail area */}
         <div className="relative aspect-[3/4] w-full overflow-hidden">
           {/* Framer motion wrapper for the image to prevent conflict with container transforms */}
-          <motion.div 
+          <motion.div
             className="h-full w-full"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
@@ -70,7 +70,7 @@ export function ComicCard({
             />
           </motion.div>
           {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80" />
 
           {/* Status badge */}
           {showStatus && (
@@ -92,8 +92,8 @@ export function ComicCard({
 
         {/* Info Area */}
         <div className="flex flex-1 flex-col gap-1.5 p-3">
-          <h3 
-            className="text-sm font-bold leading-tight text-slate-200 transition-colors group-hover:text-white"
+          <h3
+            className="text-sm font-bold leading-tight text-slate-800 dark:text-slate-200 transition-colors group-hover:text-blue-600 dark:group-hover:text-white"
             style={{
               display: '-webkit-box',
               WebkitLineClamp: 2,
@@ -115,7 +115,7 @@ export function ComicCard({
               {comic.category.slice(0, 2).map((cat: any) => (
                 <span
                   key={cat.id}
-                  className="rounded-full bg-slate-800 px-2 py-0.5 text-[10px] text-slate-400 transition-colors group-hover:bg-slate-700/80 group-hover:text-slate-300"
+                  className="rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] text-slate-500 dark:text-slate-400 transition-colors group-hover:bg-slate-200 dark:group-hover:bg-slate-700/80 group-hover:text-blue-600 dark:group-hover:text-slate-300"
                 >
                   {cat.name}
                 </span>
@@ -124,11 +124,10 @@ export function ComicCard({
           )}
 
           {showStatus && !comic.category && (
-            <span className={`mt-0.5 w-fit rounded-full px-2 py-0.5 text-[10px] font-bold ${
-              comic.status === 'ongoing'     ? 'bg-green-900/30 text-green-400' :
-              comic.status === 'completed'   ? 'bg-blue-900/30 text-blue-400' :
-                                               'bg-amber-900/30 text-amber-400'
-            }`}>
+            <span className={`mt-0.5 w-fit rounded-full px-2 py-0.5 text-[10px] font-bold ${comic.status === 'ongoing' ? 'bg-green-900/30 text-green-400' :
+                comic.status === 'completed' ? 'bg-blue-900/30 text-blue-400' :
+                  'bg-amber-900/30 text-amber-400'
+              }`}>
               {statusLabel(comic.status)}
             </span>
           )}
