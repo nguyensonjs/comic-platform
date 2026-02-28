@@ -53,8 +53,8 @@ export default function QuestsPage() {
 
   return (
     <div
-      className="relative min-h-screen pb-24 pt-24"
-      style={{ background: 'radial-gradient(ellipse at top, #0d1b3e 0%, #050b18 60%, #030710 100%)' }}
+      className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+      style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
@@ -67,16 +67,16 @@ export default function QuestsPage() {
         ))}
       </div>
 
-      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-4xl px-3 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-700/40 bg-blue-900/20 px-3 py-1.5 text-xs font-semibold text-blue-300">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-blue-700/40 bg-blue-900/20 px-2.5 py-1 text-[10px] font-semibold text-blue-300 sm:mb-3 sm:px-3 sm:py-1.5 sm:text-xs">
               <Trophy className="h-3.5 w-3.5" />
               Nhiệm vụ tu luyện
             </div>
-            <h1 className="text-4xl font-black text-white">
+            <h1 className="text-2xl font-black text-white sm:text-4xl">
               Tông Môn{' '}
               <span className="bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent">
                 Nhiệm Vụ

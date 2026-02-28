@@ -48,20 +48,20 @@ export default function TimKiemPage() {
   const total   = data?.data?.params?.pagination?.totalItems ?? 0;
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-16">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <h1 className="mb-8 text-2xl font-black text-white md:text-3xl">Tìm kiếm truyện</h1>
+    <div className="min-h-screen bg-background pt-20 pb-12 transition-colors duration-300 sm:pt-24 sm:pb-16">
+      <div className="mx-auto max-w-5xl px-3 sm:px-6 lg:px-8">
+        <h1 className="mb-5 text-xl font-black text-foreground sm:mb-8 sm:text-2xl md:text-3xl">Tìm kiếm truyện</h1>
 
         {/* Search input */}
-        <div className="relative mb-8">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-500" />
+        <div className="relative mb-6 sm:mb-8">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500 sm:left-4 sm:h-5 sm:w-5" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Nhập tên truyện, tác giả..."
-            className="h-14 w-full rounded-2xl border border-slate-700/60 bg-slate-900/80 pl-12 pr-12 text-base text-slate-200 placeholder-slate-600 outline-none ring-0 backdrop-blur-sm transition-all focus:border-blue-500/60 focus:ring-2 focus:ring-blue-500/20"
+            className="h-12 w-full rounded-xl border border-slate-700/60 bg-slate-900/80 pl-10 pr-10 text-sm text-slate-200 placeholder-slate-600 outline-none ring-0 backdrop-blur-sm transition-all focus:border-blue-500/60 focus:ring-2 focus:ring-blue-500/20 sm:h-14 sm:rounded-2xl sm:pl-12 sm:pr-12 sm:text-base"
           />
           {query && (
             <button onClick={() => setQuery('')}
@@ -91,7 +91,7 @@ export default function TimKiemPage() {
 
         {/* Results */}
         {items.length > 0 && (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
             {items.map(comic => (
               <ComicCard
                 key={comic.slug}

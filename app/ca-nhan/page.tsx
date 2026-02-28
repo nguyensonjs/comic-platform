@@ -22,6 +22,7 @@ import {
   Castle,
   Flag,
 } from 'lucide-react';
+import { RequireAuth } from '@/app/components/RequireAuth';
 
 /* ─────────── Data ─────────── */
 
@@ -84,10 +85,11 @@ const inventory = [
 
 export default function ProfilePage() {
   return (
-    <div
-      className="relative min-h-screen pb-24 pt-24"
-      style={{ background: 'radial-gradient(ellipse at top, #0d1b3e 0%, #050b18 60%, #030710 100%)' }}
-    >
+    <RequireAuth>
+      <div
+        className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+        style={{ background: 'var(--page-bg-gradient)' }}
+      >
       {/* Ambient glow orbs */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute -top-32 left-1/4 h-[600px] w-[600px] rounded-full bg-purple-900/20 blur-[120px]" />
@@ -100,18 +102,18 @@ export default function ProfilePage() {
         ))}
       </div>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-6xl px-3 sm:px-6 lg:px-8">
 
         {/* ══ Profile Hero ══ */}
-        <div className="relative mb-8 overflow-hidden rounded-3xl border border-purple-900/40 shadow-2xl shadow-purple-950/50"
+        <div className="relative mb-6 overflow-hidden rounded-2xl border border-purple-900/40 shadow-2xl shadow-purple-950/50 sm:mb-8 sm:rounded-3xl"
           style={{ background: 'linear-gradient(135deg, rgba(15,5,40,0.95) 0%, rgba(10,20,50,0.95) 100%)' }}
         >
-          <div className="relative h-40 overflow-hidden">
+          <div className="relative h-28 overflow-hidden sm:h-40">
             <div className="absolute inset-0 bg-gradient-to-br from-purple-900/60 via-indigo-900/40 to-amber-900/30" />
             <div className="absolute inset-0 opacity-60"
               style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a855f7' fill-opacity='0.04'%3E%3Cpath d='M36 34v6h6v-6h-6zm6 6v6h6v-6h-6zm-6 0v6h6v-6h-6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }}
             />
-            <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
+            <div className="absolute top-2 right-2 flex flex-col items-end gap-1.5 sm:top-4 sm:right-4 sm:gap-2">
               <div className="flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-900/50 px-3 py-1.5 backdrop-blur-sm">
                 <Zap className="h-3.5 w-3.5 text-blue-400" />
                 <span className="text-[10px] font-bold text-blue-300 tracking-wider">TU VI #14</span>
@@ -123,16 +125,16 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="px-6 pb-6">
-            <div className="flex items-end justify-between -mt-14">
+          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+            <div className="flex items-end justify-between -mt-10 sm:-mt-14">
               <div className="relative">
                 <div className="absolute -inset-1 animate-pulse rounded-full bg-gradient-to-br from-amber-400/50 via-purple-500/50 to-cyan-400/50 blur-sm" />
-                <div className="relative flex h-24 w-24 items-center justify-center rounded-full border-2 border-amber-400/40 bg-gradient-to-br from-blue-600 to-indigo-700 shadow-xl">
+                <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-amber-400/40 bg-gradient-to-br from-blue-600 to-indigo-700 shadow-xl sm:h-24 sm:w-24">
                   <span className="text-4xl">⚡</span>
                 </div>
                 <div className="absolute bottom-1 right-1 h-4 w-4 rounded-full border-2 border-slate-900 bg-green-400 shadow-lg shadow-green-400/50" />
               </div>
-              <div className="flex gap-2 pt-16">
+              <div className="flex gap-2 pt-12 sm:pt-16">
                 <Link href="/ca-nhan/edit"
                   className="flex items-center gap-2 rounded-xl border border-purple-700/50 bg-purple-900/30 px-4 py-2 text-sm font-medium text-purple-300 backdrop-blur-sm transition-all hover:border-purple-600/70 hover:text-purple-200"
                 >
@@ -141,9 +143,9 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="mt-4">
-              <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-black text-white">Nguyễn Văn A</h1>
+            <div className="mt-3 sm:mt-4">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <h1 className="text-xl font-black text-white sm:text-2xl">Nguyễn Văn A</h1>
                 <span className={`rounded-full border border-purple-500/30 bg-purple-900/30 px-2.5 py-0.5 text-xs font-bold ${userRealm.color}`}>
                   {userRealm.name} · Đỉnh phong
                 </span>
@@ -178,15 +180,15 @@ export default function ProfilePage() {
             </div>
 
             {/* Stats */}
-            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5 sm:gap-3 sm:grid-cols-4">
               {stats.map(({ label, value, Icon, color, bg, border }) => (
-                <div key={label} className={`flex items-center gap-3 rounded-2xl border ${border} ${bg} px-4 py-3`}>
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/5">
+                <div key={label} className={`flex items-center gap-2 rounded-xl border ${border} ${bg} px-3 py-2.5 sm:gap-3 sm:rounded-2xl sm:px-4 sm:py-3`}>
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/5 sm:h-9 sm:w-9 sm:rounded-xl">
                     <Icon className={`h-4 w-4 ${color}`} />
                   </div>
                   <div>
-                    <div className={`text-xl font-black ${color}`}>{value}</div>
-                    <div className="text-xs text-slate-600">{label}</div>
+                    <div className={`text-lg font-black sm:text-xl ${color}`}>{value}</div>
+                    <div className="text-[10px] text-slate-600 sm:text-xs">{label}</div>
                   </div>
                 </div>
               ))}
@@ -195,7 +197,7 @@ export default function ProfilePage() {
         </div>
 
         {/* ══ Main Grid ══ */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 lg:grid-cols-3">
 
           {/* Left */}
           <div className="space-y-5">
@@ -394,7 +396,7 @@ export default function ProfilePage() {
               </div>
 
               {/* Item grid */}
-              <div className="grid grid-cols-4 gap-2 p-4">
+              <div className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-4 sm:p-4">
                 {inventory.filter(i => i.rarity !== 'Tiền tệ').map((item) => (
                   <div key={item.id}
                     className={`group relative flex flex-col items-center gap-1.5 overflow-hidden rounded-xl border ${item.border} bg-slate-900/50 p-3 text-center transition-all hover:-translate-y-0.5 hover:shadow-lg`}
@@ -437,5 +439,6 @@ export default function ProfilePage() {
         </div>
       </div>
     </div>
+    </RequireAuth>
   );
 }

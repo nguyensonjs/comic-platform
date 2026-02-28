@@ -19,7 +19,7 @@ interface PageHeaderProps {
   badge: string;
   /** Optional icon to show inside the badge (Lucide element) */
   badgeIcon?: ReactNode;
-  /** Badge border + bg color classes (default: amber) */
+  /** Badge border + bg + text classes for light and dark (default: amber, theme-aware) */
   badgeColor?: string;
   /** Main heading — can include styled <span> for gradient effect */
   title: ReactNode;
@@ -29,29 +29,32 @@ interface PageHeaderProps {
   className?: string;
 }
 
+const defaultBadgeColor =
+  'border-amber-500/50 bg-amber-100/90 text-amber-800 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300';
+
 export function PageHeader({
   badge,
   badgeIcon,
-  badgeColor = 'border-amber-700/40 bg-amber-900/20 text-amber-300',
+  badgeColor = defaultBadgeColor,
   title,
   subtitle,
   className = '',
 }: PageHeaderProps) {
   return (
-    <div className={`mb-10 text-center ${className}`}>
+    <div className={`mb-6 text-center sm:mb-8 md:mb-10 px-2 sm:px-0 ${className}`}>
       {/* Badge pill */}
       <div
-        className={`mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm font-semibold backdrop-blur-sm ${badgeColor}`}
+        className={`mb-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold backdrop-blur-sm sm:mb-4 sm:px-4 sm:py-1.5 sm:text-sm ${badgeColor}`}
       >
         {badgeIcon}
         {badge}
       </div>
 
       {/* Title */}
-      <h1 className="text-4xl font-black text-white md:text-5xl">{title}</h1>
+      <h1 className="text-2xl font-black text-foreground sm:text-3xl md:text-4xl lg:text-5xl">{title}</h1>
 
       {/* Subtitle */}
-      {subtitle && <p className="mt-3 text-slate-500">{subtitle}</p>}
+      {subtitle && <p className="mt-2 text-sm text-slate-600 dark:text-slate-500 sm:mt-3">{subtitle}</p>}
     </div>
   );
 }

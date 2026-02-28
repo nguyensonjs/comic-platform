@@ -41,10 +41,10 @@ export default async function TheLoaiSlugPage({ params, searchParams }: Props) {
   const pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
   return (
-    <div className="min-h-screen bg-slate-950 pt-24 pb-16">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background pt-20 pb-12 transition-colors duration-300 sm:pt-24 sm:pb-16">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-slate-500">
+        <nav className="mb-5 flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:mb-8 sm:gap-2 sm:text-sm">
           <Link href="/" className="hover:text-slate-300 transition-colors">Trang chủ</Link>
           <ChevronRight className="h-4 w-4" />
           <Link href="/the-loai" className="hover:text-slate-300 transition-colors">Thể loại</Link>
@@ -52,9 +52,9 @@ export default async function TheLoaiSlugPage({ params, searchParams }: Props) {
           <span className="text-slate-300">{genreName}</span>
         </nav>
 
-        <div className="mb-8 flex items-end justify-between">
+        <div className="mb-6 flex flex-col gap-2 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-3xl font-black text-white md:text-4xl">{genreName}</h1>
+            <h1 className="text-xl font-black text-foreground sm:text-3xl md:text-4xl">{genreName}</h1>
             <p className="mt-1 text-sm text-slate-500">
               {totalItems.toLocaleString()} truyện • Trang {currentPage}/{totalPages}
             </p>
@@ -62,7 +62,7 @@ export default async function TheLoaiSlugPage({ params, searchParams }: Props) {
         </div>
 
         {/* Comic Grid */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {items.map(comic => (
             <ComicCard
               key={comic._id}

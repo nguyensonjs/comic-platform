@@ -34,14 +34,14 @@ const gradients = [
 
 export default function LibraryPage() {
   return (
-    <div className="min-h-screen bg-slate-950 pb-20 pt-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background pb-16 pt-20 transition-colors duration-300 sm:pb-20 sm:pt-24">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <div>
-            <h1 className="text-3xl font-black text-white md:text-4xl">Thư viện của tôi</h1>
-            <p className="mt-1 text-slate-400">
-              <span className="font-semibold text-slate-200">{mockComics.length}</span> bộ truyện đang theo dõi
+            <h1 className="text-xl font-black text-foreground sm:text-3xl md:text-4xl">Thư viện của tôi</h1>
+            <p className="mt-1 text-slate-500 dark:text-slate-400">
+              <span className="font-semibold text-slate-700 dark:text-slate-200">{mockComics.length}</span> bộ truyện đang theo dõi
             </p>
           </div>
           <div className="flex items-center gap-3">

@@ -53,9 +53,9 @@ export default function Footer() {
       {/* Top glowing line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-3 py-10 sm:px-6 sm:py-16 lg:px-8">
         {/* Main grid */}
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 xl:gap-16">
+        <div className="grid grid-cols-1 gap-8 sm:gap-12 md:grid-cols-2 lg:grid-cols-4 xl:gap-16">
 
           {/* ── Brand column ── */}
           <div className="md:col-span-2 lg:col-span-1">
@@ -79,7 +79,7 @@ export default function Footer() {
               </div>
             </Link>
 
-            <p className="mb-8 max-w-xs text-sm leading-relaxed text-slate-400">
+            <p className="mb-8 max-w-xs text-sm leading-relaxed text-slate-500 dark:text-slate-400">
               Khám phá kho tàng truyện tranh và tiểu thuyết phong phú nhất. Hành trình vô tận đang chờ bạn.
             </p>
 
@@ -108,7 +108,7 @@ export default function Footer() {
                 <li key={label}>
                   <Link
                     href={href}
-                    className={`group flex items-center gap-2 text-sm text-slate-400 transition-all duration-200 ${color}`}
+                    className={`group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 transition-all duration-200 ${color}`}
                   >
                     <ArrowRight className="h-3 w-3 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100" />
                     <span className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -130,9 +130,9 @@ export default function Footer() {
                 <li key={label}>
                   <Link
                     href={href}
-                    className="group flex items-center gap-2.5 text-sm text-slate-400 transition-colors duration-200 hover:text-slate-200"
+                    className="group flex items-center gap-2.5 text-sm text-slate-500 dark:text-slate-400 transition-colors duration-200 hover:text-slate-700 dark:hover:text-slate-200"
                   >
-                    <Icon className="h-4 w-4 text-slate-600 transition-colors duration-200 group-hover:text-blue-400" />
+                    <Icon className="h-4 w-4 text-slate-500 dark:text-slate-600 transition-colors duration-200 group-hover:text-blue-400" />
                     {label}
                   </Link>
                 </li>
@@ -145,7 +145,7 @@ export default function Footer() {
             <h6 className="mb-6 text-xs font-bold tracking-widest text-slate-900 dark:text-slate-200 uppercase">
               Bản tin
             </h6>
-            <p className="mb-5 text-sm leading-relaxed text-slate-400">
+            <p className="mb-5 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
               Nhận thông báo về truyện mới và sự kiện hấp dẫn hàng tuần.
             </p>
             <form className="relative mb-8">
@@ -179,11 +179,11 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom bar ── */}
-        <div className="mt-16 flex flex-col items-center justify-between gap-6 border-t border-slate-800/80 pt-8 md:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200 dark:border-slate-800/80 pt-6 sm:mt-16 sm:gap-6 sm:pt-8 md:flex-row">
           <div className="flex flex-col items-center gap-1 text-xs text-slate-500 md:items-start">
             <p>
               © 2024{' '}
-              <span className="font-semibold text-slate-400">NetComic</span>. All rights reserved.
+              <span className="font-semibold text-slate-500 dark:text-slate-400">NetComic</span>. All rights reserved.
             </p>
             <p className="flex items-center gap-1">
               Thiết kế với <Heart className="inline h-3 w-3 text-red-500" fill="currentColor" /> tại Việt Nam
@@ -199,7 +199,7 @@ export default function Footer() {
               <Link
                 key={label}
                 href={href}
-                className="group flex items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-slate-300"
+                className="group flex items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-slate-700 dark:hover:text-slate-300"
               >
                 <Icon className="h-3.5 w-3.5 transition-colors group-hover:text-blue-400" />
                 {label}

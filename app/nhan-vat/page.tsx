@@ -144,8 +144,8 @@ export default function CharacterPage() {
 
   return (
     <div
-      className="relative min-h-screen pb-24 pt-24"
-      style={{ background: 'radial-gradient(ellipse at top, #0d1b3e 0%, #050b18 60%, #030710 100%)' }}
+      className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+      style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Ambient */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">

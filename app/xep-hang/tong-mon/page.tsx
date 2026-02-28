@@ -105,8 +105,8 @@ export default function TopTongMonPage() {
 
     return (
         <div
-            className="relative min-h-screen pb-24 pt-24"
-            style={{ background: 'radial-gradient(ellipse at top, #061616 0%, #030a0a 60%, #010505 100%)' }}
+            className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+            style={{ background: 'var(--page-bg-gradient)' }}
         >
             {/* Ambient glows - Teal theme */}
             <div className="pointer-events-none fixed inset-0 overflow-hidden">

@@ -28,35 +28,39 @@ interface StatCardProps {
   className?: string;
 }
 
+const defaultColor = 'text-slate-800 dark:text-slate-200';
+const defaultBorder = 'border-slate-200 dark:border-slate-800/50';
+const defaultBg = 'bg-slate-100/80 dark:bg-slate-900/30';
+
 export function StatCard({
   icon,
   value,
   label,
-  color = 'text-slate-200',
-  border = 'border-slate-800/50',
-  bg = 'bg-slate-900/30',
+  color = defaultColor,
+  border = defaultBorder,
+  bg = defaultBg,
   className = '',
 }: StatCardProps) {
   return (
     <div
-      className={`rounded-2xl border px-5 py-5 text-center ${border} ${bg} ${className}`}
+      className={`rounded-xl border px-3 py-3 text-center sm:rounded-2xl sm:px-5 sm:py-5 ${border} ${bg} ${className}`}
     >
       {icon ? (
         /* Layout with icon box */
-        <div className="flex items-center gap-3">
-          <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 ${color}`}>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-black/5 dark:bg-white/5 sm:h-10 sm:w-10 sm:rounded-xl ${color}`}>
             {icon}
           </div>
-          <div className="text-left">
-            <div className={`text-2xl font-black ${color}`}>{value}</div>
-            <div className="text-xs text-slate-600">{label}</div>
+          <div className="min-w-0 text-left">
+            <div className={`text-lg font-black sm:text-2xl ${color}`}>{value}</div>
+            <div className="text-[10px] text-slate-500 dark:text-slate-600 sm:text-xs">{label}</div>
           </div>
         </div>
       ) : (
         /* Centered layout without icon */
         <>
-          <div className={`text-3xl font-black ${color}`}>{value}</div>
-          <div className="mt-1 text-xs text-slate-500">{label}</div>
+          <div className={`text-2xl font-black sm:text-3xl ${color}`}>{value}</div>
+          <div className="mt-0.5 text-[10px] text-slate-600 dark:text-slate-500 sm:mt-1 sm:text-xs">{label}</div>
         </>
       )}
     </div>

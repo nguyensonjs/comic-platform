@@ -51,20 +51,20 @@ export default async function DanhSachPage({ searchParams }: Props) {
   const listTypes: ListType[] = ['truyen-moi', 'sap-ra-mat', 'dang-phat-hanh', 'hoan-thanh'];
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16 transition-colors duration-300">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background pt-20 pb-12 sm:pt-24 sm:pb-16 transition-colors duration-300">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="mb-6 flex items-center gap-2 text-sm text-slate-500">
+        <nav className="mb-4 flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:mb-6 sm:gap-2 sm:text-sm">
           <Link href="/" className="hover:text-slate-300 transition-colors">Trang chủ</Link>
           <ChevronRight className="h-4 w-4" />
           <span className="text-slate-300">Danh sách</span>
         </nav>
 
         {/* Type tabs */}
-        <div className="mb-8 flex flex-wrap gap-2">
+        <div className="mb-6 flex gap-2 overflow-x-auto pb-1 sm:mb-8 sm:flex-wrap sm:overflow-visible">
           {listTypes.map(t => (
             <Link key={t} href={`/danh-sach?type=${t}&page=1`}
-              className={`rounded-xl px-4 py-2 text-sm font-semibold transition-all ${t === listType
+              className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all sm:rounded-xl sm:px-4 sm:py-2 sm:text-sm ${t === listType
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
                   : 'border border-slate-700/60 bg-slate-900/50 text-slate-400 hover:bg-slate-800 hover:text-white'
                 }`}>
@@ -73,16 +73,16 @@ export default async function DanhSachPage({ searchParams }: Props) {
           ))}
         </div>
 
-        <div className="mb-6 flex items-end justify-between">
+        <div className="mb-4 flex flex-col gap-2 sm:mb-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-black text-slate-900 dark:text-white md:text-3xl">{LIST_LABELS[listType]}</h1>
+            <h1 className="text-xl font-black text-slate-900 dark:text-white sm:text-2xl md:text-3xl">{LIST_LABELS[listType]}</h1>
             <p className="mt-1 text-sm text-slate-500">
               {totalItems.toLocaleString()} truyện • Trang {currentPage}/{totalPages}
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {items.map(comic => (
             <ComicCard key={comic._id} comic={comic} cdnBase={cdnBase} />
           ))}
@@ -90,24 +90,24 @@ export default async function DanhSachPage({ searchParams }: Props) {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-2">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-1.5 sm:mt-12 sm:gap-2">
             {currentPage > 1 && (
               <Link href={`/danh-sach?type=${listType}&page=${currentPage - 1}`}
-                className="flex items-center gap-1 rounded-xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-white">
-                <ChevronLeft className="h-4 w-4" /> Trước
+                className="flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900/50 px-2 py-1.5 text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-sm">
+                <ChevronLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Trước
               </Link>
             )}
             {pages.map(p => (
               <Link key={p} href={`/danh-sach?type=${listType}&page=${p}`}
-                className={`flex h-9 w-9 items-center justify-center rounded-xl text-sm font-semibold transition-all ${p === currentPage
+                className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-semibold transition-all sm:h-9 sm:w-9 sm:rounded-xl sm:text-sm ${p === currentPage
                     ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
                     : 'border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900/50 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-white'
                   }`}>{p}</Link>
             ))}
             {currentPage < totalPages && (
               <Link href={`/danh-sach?type=${listType}&page=${currentPage + 1}`}
-                className="flex items-center gap-1 rounded-xl border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900/50 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-white">
-                Sau <ChevronRight className="h-4 w-4" />
+                className="flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900/50 px-2 py-1.5 text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-white sm:rounded-xl sm:px-3 sm:py-2 sm:text-sm">
+                Sau <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </Link>
             )}
           </div>

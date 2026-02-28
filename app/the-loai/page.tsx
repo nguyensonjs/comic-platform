@@ -39,30 +39,30 @@ export default async function TheLoaiPage() {
   const genres = await getGenres();
 
   return (
-    <div className="min-h-screen bg-background pt-24 pb-16 transition-colors duration-300">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background pt-20 pb-12 sm:pt-24 sm:pb-16 transition-colors duration-300">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-slate-500">
+        <nav className="mb-5 flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:mb-8 sm:gap-2 sm:text-sm">
           <Link href="/" className="hover:text-slate-300 transition-colors">Trang chủ</Link>
           <ChevronRight className="h-4 w-4" />
           <span className="text-slate-300">Thể loại</span>
         </nav>
 
-        <div className="mb-10">
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white md:text-4xl">Tất cả thể loại</h1>
-          <p className="mt-2 text-sm text-slate-500">{genres.length} thể loại • Chọn thể loại bạn yêu thích</p>
+        <div className="mb-6 sm:mb-10">
+          <h1 className="text-xl font-black text-slate-900 dark:text-white sm:text-3xl md:text-4xl">Tất cả thể loại</h1>
+          <p className="mt-1 text-xs text-slate-500 sm:mt-2 sm:text-sm">{genres.length} thể loại • Chọn thể loại bạn yêu thích</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {genres.map((genre, i) => {
             const color = colorPalette[i % colorPalette.length];
             return (
               <Link
                 key={genre._id}
                 href={`/the-loai/${genre.slug}`}
-                className={`group flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800/60 bg-white dark:bg-slate-900/40 px-4 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-white hover:shadow-lg ${color.border}`}
+                className={`group flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800/60 bg-white dark:bg-slate-900/40 px-3 py-2.5 text-xs font-semibold text-slate-600 dark:text-slate-300 transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-blue-600 dark:hover:text-white hover:shadow-lg sm:gap-3 sm:rounded-xl sm:px-4 sm:py-3 sm:text-sm ${color.border}`}
               >
-                <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${color.bg}`}>
+                <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg sm:h-8 sm:w-8 ${color.bg}`}>
                   <BookOpen className={`h-4 w-4 ${color.text}`} />
                 </div>
                 <span className="line-clamp-2 leading-tight">{genre.name}</span>

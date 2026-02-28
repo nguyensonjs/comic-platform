@@ -19,7 +19,7 @@ const perks = [
 
 export default function RegisterPage() {
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4 py-10">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4 py-10 transition-colors duration-300">
       {/* Background glows */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-0 right-0 h-[500px] w-[500px] translate-x-1/3 -translate-y-1/3 rounded-full bg-cyan-500/8 blur-[100px]" />
@@ -43,13 +43,13 @@ export default function RegisterPage() {
             </div>
           </Link>
 
-          <h2 className="mb-3 text-3xl font-black text-white">
+          <h2 className="mb-3 text-3xl font-black text-foreground">
             Tham gia cùng<br />
             <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
               89,000+ độc giả
             </span>
           </h2>
-          <p className="mb-8 text-slate-400">
+          <p className="mb-8 text-slate-500 dark:text-slate-400">
             Đăng ký miễn phí và bắt đầu hành trình khám phá thế giới truyện tranh vô tận.
           </p>
 
@@ -57,15 +57,15 @@ export default function RegisterPage() {
             {perks.map((perk) => (
               <div key={perk} className="flex items-center gap-3">
                 <CheckCircle2 className="h-5 w-5 shrink-0 text-blue-400" />
-                <span className="text-slate-300">{perk}</span>
+                <span className="text-slate-600 dark:text-slate-300">{perk}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Right: form */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/60 p-8 backdrop-blur-xl">
-          <h1 className="mb-2 text-xl font-black text-white">Tạo tài khoản miễn phí</h1>
+        <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/60 p-8 backdrop-blur-xl">
+          <h1 className="mb-2 text-xl font-black text-foreground">Tạo tài khoản miễn phí</h1>
           <p className="mb-6 text-sm text-slate-400">Chỉ mất 30 giây</p>
 
           {/* Social */}

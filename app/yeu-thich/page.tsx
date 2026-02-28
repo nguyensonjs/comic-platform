@@ -19,17 +19,17 @@ const favorites = [
 
 export default function FavoritesPage() {
   return (
-    <div className="min-h-screen bg-slate-950 pb-20 pt-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background pb-16 pt-20 transition-colors duration-300 sm:pb-20 sm:pt-24">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="flex items-center gap-3 text-3xl font-black text-white md:text-4xl">
+            <h1 className="flex flex-wrap items-center gap-2 text-xl font-black text-foreground sm:gap-3 sm:text-3xl md:text-4xl">
               Yêu thích
               <Heart className="h-7 w-7 fill-pink-500 text-pink-500" />
             </h1>
-            <p className="mt-1 text-slate-400">
-              <span className="font-semibold text-slate-200">{favorites.length}</span> tác phẩm yêu thích
+            <p className="mt-1 text-slate-500 dark:text-slate-400">
+              <span className="font-semibold text-slate-700 dark:text-slate-200">{favorites.length}</span> tác phẩm yêu thích
             </p>
           </div>
           <button className="flex w-fit items-center gap-2 rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-sm font-medium text-slate-300 transition-all hover:border-slate-600 hover:text-white">

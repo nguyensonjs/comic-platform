@@ -6,6 +6,7 @@ import type { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
 
 import { ThemeProvider } from './components/providers/ThemeProvider';
+import { AuthProvider } from './components/providers/AuthProvider';
 
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
@@ -41,11 +42,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <main className="min-h-screen transition-colors duration-300">
-            {children}
-          </main>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <main className="min-h-screen transition-colors duration-300">
+              {children}
+            </main>
+            <Footer />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,7 +1,7 @@
 /**
  * PageBackground
- * Shared dark cosmic background with radial gradient + ambient glow orbs + floating sparks.
- * Used on every xianxia-themed page to keep the look consistent.
+ * Shared cosmic background with radial gradient + ambient glow orbs + floating sparks.
+ * Supports light/dark theme: light = soft gradient, dark = cosmic gradient.
  *
  * Usage:
  *   <PageBackground>
@@ -13,28 +13,29 @@ interface PageBackgroundProps {
   children: React.ReactNode;
   /** Override the number of floating spark particles (default 8) */
   sparks?: number;
-  /** Accent glow color class for the top-left orb (default: 'bg-purple-900/20') */
+  /** Accent glow color class for the top-left orb (default: dark purple, light purple/20) */
   topGlow?: string;
-  /** Accent glow color class for the top-right orb (default: 'bg-amber-800/10') */
+  /** Accent glow color class for the top-right orb */
   rightGlow?: string;
-  /** Accent glow color class for the bottom-left orb (default: 'bg-blue-900/20') */
+  /** Accent glow color class for the bottom-left orb */
   bottomGlow?: string;
 }
+
+const defaultTopGlow = 'bg-purple-400/15 dark:bg-purple-900/20';
+const defaultRightGlow = 'bg-amber-500/10 dark:bg-amber-800/10';
+const defaultBottomGlow = 'bg-blue-400/15 dark:bg-blue-900/20';
 
 export function PageBackground({
   children,
   sparks = 8,
-  topGlow = 'bg-purple-900/20',
-  rightGlow = 'bg-amber-800/10',
-  bottomGlow = 'bg-blue-900/20',
+  topGlow = defaultTopGlow,
+  rightGlow = defaultRightGlow,
+  bottomGlow = defaultBottomGlow,
 }: PageBackgroundProps) {
   return (
     <div
-      className="relative min-h-screen pb-24 pt-24"
-      style={{
-        background:
-          'radial-gradient(ellipse at top, #0d1b3e 0%, #050b18 60%, #030710 100%)',
-      }}
+      className="relative min-h-screen pb-20 pt-20 transition-[background] duration-300 sm:pb-24 sm:pt-24"
+      style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Ambient glow orbs */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
@@ -46,7 +47,7 @@ export function PageBackground({
         {Array.from({ length: sparks }).map((_, i) => (
           <div
             key={i}
-            className="absolute h-1 w-1 animate-pulse rounded-full bg-amber-300/30"
+            className="absolute h-1 w-1 animate-pulse rounded-full bg-amber-500/25 dark:bg-amber-300/30"
             style={{
               top: `${10 + i * 11}%`,
               left: `${5 + i * 12}%`,

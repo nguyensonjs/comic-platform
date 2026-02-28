@@ -24,12 +24,20 @@
   --background-dark: #050b18;
   --star-blue: #0a192f;
   --qi-teal: #2dd4bf;
+  --scrollbar-track: #e2e8f0;
+  --scrollbar-thumb: #1392ec66;
+  --scrollbar-thumb-hover: #1392ec;
+  --page-bg-gradient: radial-gradient(ellipse at top, #e0e7ff 0%, #f6f7f8 60%, #e2e8f0 100%);
 }
 
 /* Dark Theme Variables */
 .dark {
   --background: #050b18;
   --foreground: #f8fafc;
+  --scrollbar-track: #050b18;
+  --scrollbar-thumb: #1392ec44;
+  --scrollbar-thumb-hover: #1392ec;
+  --page-bg-gradient: radial-gradient(ellipse at top, #0d1b3e 0%, #050b18 60%, #030710 100%);
 }
 
 /* Explicitly tell Tailwind 4 to use the .dark class for the dark: variant */
@@ -49,9 +57,13 @@ body::selection {
 
 /* Glass navigation effect */
 .glass-nav {
-  background: rgba(5, 11, 24, 0.8);
+  background: rgba(246, 247, 248, 0.85);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(19, 146, 236, 0.2);
+  border-bottom: 1px solid rgba(19, 146, 236, 0.15);
+}
+.dark .glass-nav {
+  background: rgba(5, 11, 24, 0.8);
+  border-bottom-color: rgba(19, 146, 236, 0.2);
 }
 
 /* Cosmic gradient background */
@@ -70,22 +82,22 @@ body::selection {
   filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.6)) drop-shadow(0 0 10px rgba(0, 255, 255, 0.4)) drop-shadow(0 0 15px rgba(128, 0, 255, 0.5));
 }
 
-/* Scrollbar styling */
+/* Scrollbar styling (theme-aware) */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #050b18;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1392ec44;
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #1392ec;
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* No scrollbar for horizontal scroll */
