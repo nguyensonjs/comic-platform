@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { useAuth } from '@/app/components/providers/AuthProvider';
 import {
+  ArrowLeft,
   Search,
   Bell,
   BookOpen,
@@ -31,20 +32,21 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const { isLoggedIn } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const isCompactHeaderRoute =
+    (pathname?.startsWith('/truyen/') ?? false) || (pathname?.startsWith('/doc') ?? false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const isDark = resolvedTheme === 'dark';
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,7 +64,7 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
+        scrolled || isCompactHeaderRoute
           ? 'border-b border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-slate-950/95 shadow-sm dark:shadow-slate-950/50 backdrop-blur-xl'
           : 'border-b border-transparent bg-transparent'
       }`}
@@ -84,49 +86,65 @@ export default function Header() {
           }`}
         >
           {/* Logo */}
-          <Link
-            href="/"
-            className="group flex shrink-0 items-center gap-3 rounded-xl px-1 py-1.5 transition-colors hover:bg-slate-100/80 dark:hover:bg-slate-800/30 -ml-1"
-          >
-            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800/50 ring-1 ring-slate-200/50 dark:ring-slate-700/50 transition-all duration-300 group-hover:ring-blue-400/30 group-hover:scale-105">
-              <Image
-                src="/logo-neon.svg"
-                alt="NetComic"
-                width={36}
-                height={36}
-                className="h-full w-full object-contain"
-              />
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="font-extrabold tracking-tight text-slate-800 dark:text-white text-lg">
-                NET
-              </span>
-              <span className="text-[10px] font-semibold tracking-[0.25em] text-blue-500 dark:text-cyan-400 uppercase opacity-90">
-                comic
-              </span>
-            </div>
-          </Link>
+          <div className="flex items-center gap-2">
+            {isCompactHeaderRoute && (
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className={iconBtnClass}
+                aria-label="Quay lại"
+              >
+                <ArrowLeft className="h-5 w-5" />
+              </button>
+            )}
+            <Link
+              href="/"
+              className="group flex shrink-0 items-center gap-3 rounded-xl px-1 py-1.5 transition-colors hover:bg-slate-100/80 dark:hover:bg-slate-800/30 -ml-1"
+            >
+              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800/50 ring-1 ring-slate-200/50 dark:ring-slate-700/50 transition-all duration-300 group-hover:ring-blue-400/30 group-hover:scale-105">
+                <Image
+                  src="/logo-neon.svg"
+                  alt="NetComic"
+                  width={36}
+                  height={36}
+                  className="h-full w-full object-contain"
+                />
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="font-extrabold tracking-tight text-slate-800 dark:text-white text-lg">
+                  NET
+                </span>
+                <span className="text-[10px] font-semibold tracking-[0.25em] text-blue-500 dark:text-cyan-400 uppercase opacity-90">
+                  comic
+                </span>
+              </div>
+            </Link>
+          </div>
 
           {/* Search (desktop) */}
-          <form
-            onSubmit={handleSearch}
-            className="group relative hidden max-w-xs flex-1 md:flex md:justify-center lg:max-w-sm"
-          >
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-              <Search className="h-4 w-4 text-slate-400 dark:text-slate-500 transition-colors duration-200 group-focus-within:text-blue-500 dark:group-focus-within:text-cyan-400" />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm truyện, tác giả..."
-              className="w-full rounded-xl border border-slate-200 dark:border-slate-700/60 bg-slate-50 dark:bg-slate-800/50 py-2.5 pr-4 pl-11 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-all duration-200 focus:border-blue-400/60 dark:focus:border-cyan-500/50 focus:bg-white dark:focus:bg-slate-800/80 focus:ring-2 focus:ring-blue-400/10 dark:focus:ring-cyan-500/10 focus:outline-none"
-            />
-          </form>
+          {!isCompactHeaderRoute && (
+            <form
+              onSubmit={handleSearch}
+              className="group relative hidden max-w-xs flex-1 md:flex md:justify-center lg:max-w-sm"
+            >
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                <Search className="h-4 w-4 text-slate-400 dark:text-slate-500 transition-colors duration-200 group-focus-within:text-blue-500 dark:group-focus-within:text-cyan-400" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm truyện, tác giả..."
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700/60 bg-slate-50 dark:bg-slate-800/50 py-2.5 pr-4 pl-11 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-all duration-200 focus:border-blue-400/60 dark:focus:border-cyan-500/50 focus:bg-white dark:focus:bg-slate-800/80 focus:ring-2 focus:ring-blue-400/10 dark:focus:ring-cyan-500/10 focus:outline-none"
+              />
+            </form>
+          )}
 
           {/* Right: desktop nav + actions */}
           <div className="flex shrink-0 items-center gap-0.5">
-            <div className="hidden items-center gap-0.5 md:flex">
+            <div
+              className={`hidden items-center gap-0.5 md:flex ${isCompactHeaderRoute ? 'invisible pointer-events-none' : ''}`}
+            >
               <Link href="/the-loai" className={navLinkClass}>
                 <BookOpen className="h-4 w-4" />
                 <span className="hidden lg:inline">Thể loại</span>
@@ -258,98 +276,104 @@ export default function Header() {
 
               <button
                 type="button"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                onClick={() => setTheme(isDark ? 'light' : 'dark')}
                 className={`ml-1 flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200 hover:scale-105 ${iconBtnClass}`}
                 aria-label="Đổi giao diện sáng/tối"
               >
-                {mounted && (theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />)}
+                {/* Render via CSS to avoid hydration/mount state */}
+                <Sun className="h-4 w-4 hidden dark:block" />
+                <Moon className="h-4 w-4 block dark:hidden" />
               </button>
             </div>
 
             {/* Mobile menu trigger */}
-            <button
-              type="button"
-              className={`flex h-10 w-10 items-center justify-center rounded-xl md:hidden ${iconBtnClass}`}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? 'Đóng menu' : 'Mở menu'}
-            >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+            {!isCompactHeaderRoute && (
+              <button
+                type="button"
+                className={`flex h-10 w-10 items-center justify-center rounded-xl md:hidden ${iconBtnClass}`}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                aria-label={isMenuOpen ? 'Đóng menu' : 'Mở menu'}
+              >
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            )}
           </div>
         </div>
 
         {/* Mobile drawer */}
-        <div
-          className={`grid transition-all duration-300 ease-out md:hidden ${
-            isMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
-          }`}
-        >
-          <div className="overflow-hidden">
-            <div className="border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50 pb-6 pt-4">
-              <form onSubmit={handleSearch} className="mb-4 px-1">
-                <div className="relative">
-                  <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Tìm truyện, tác giả..."
-                    className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 py-3 pr-4 pl-11 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
-                  />
+        {!isCompactHeaderRoute && (
+          <div
+            className={`grid transition-all duration-300 ease-out md:hidden ${
+              isMenuOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50 pb-6 pt-4">
+                <form onSubmit={handleSearch} className="mb-4 px-1">
+                  <div className="relative">
+                    <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Tìm truyện, tác giả..."
+                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 py-3 pr-4 pl-11 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                    />
+                  </div>
+                </form>
+
+                <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                  Khám phá
+                </p>
+                <div className="mb-4 grid grid-cols-2 gap-2 px-1">
+                  {[
+                    { href: '/the-loai', icon: BookOpen, label: 'Thể loại', color: 'text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-violet-900/40' },
+                    { href: '/danh-sach', icon: Menu, label: 'Danh sách', color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900/40' },
+                    { href: '/thu-vien', icon: BookOpen, label: 'Thư viện', color: 'text-cyan-600 dark:text-cyan-400 bg-cyan-100 dark:bg-cyan-900/40' },
+                    { href: '/yeu-thich', icon: Heart, label: 'Yêu thích', color: 'text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-900/40' },
+                    { href: '/xep-hang', icon: Crown, label: 'Xếp hạng', color: 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/40' },
+                    { href: '/diem-danh', icon: CalendarCheck, label: 'Điểm danh', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/40' },
+                    { href: '/nhiem-vu', icon: Trophy, label: 'Nhiệm vụ', color: 'text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40' },
+                    { href: '/cua-hang', icon: ShoppingBag, label: 'Cửa hàng', color: 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/40' },
+                    { href: '/nhan-vat', icon: Sword, label: 'Nhân vật', color: 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/40' },
+                  ].map(({ href, icon: Icon, label, color }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex items-center gap-3 rounded-xl border border-slate-200/80 dark:border-slate-700/60 bg-white dark:bg-slate-800/60 p-3 transition-all active:scale-[0.98] hover:border-blue-300/50 dark:hover:border-cyan-500/30 hover:shadow-sm"
+                    >
+                      <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${color}`}>
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <span className="text-sm font-medium text-slate-700 dark:text-slate-200">{label}</span>
+                    </Link>
+                  ))}
                 </div>
-              </form>
 
-              <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                Khám phá
-              </p>
-              <div className="mb-4 grid grid-cols-2 gap-2 px-1">
-                {[
-                  { href: '/the-loai', icon: BookOpen, label: 'Thể loại', color: 'text-violet-600 dark:text-violet-400 bg-violet-100 dark:bg-violet-900/40' },
-                  { href: '/danh-sach', icon: Menu, label: 'Danh sách', color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-100 dark:bg-indigo-900/40' },
-                  { href: '/thu-vien', icon: BookOpen, label: 'Thư viện', color: 'text-cyan-600 dark:text-cyan-400 bg-cyan-100 dark:bg-cyan-900/40' },
-                  { href: '/yeu-thich', icon: Heart, label: 'Yêu thích', color: 'text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-900/40' },
-                  { href: '/xep-hang', icon: Crown, label: 'Xếp hạng', color: 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/40' },
-                  { href: '/diem-danh', icon: CalendarCheck, label: 'Điểm danh', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/40' },
-                  { href: '/nhiem-vu', icon: Trophy, label: 'Nhiệm vụ', color: 'text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40' },
-                  { href: '/cua-hang', icon: ShoppingBag, label: 'Cửa hàng', color: 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/40' },
-                  { href: '/nhan-vat', icon: Sword, label: 'Nhân vật', color: 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/40' },
-                ].map(({ href, icon: Icon, label, color }) => (
+                {isLoggedIn ? (
                   <Link
-                    key={href}
-                    href={href}
+                    href="/ca-nhan"
                     onClick={() => setIsMenuOpen(false)}
-                    className="flex items-center gap-3 rounded-xl border border-slate-200/80 dark:border-slate-700/60 bg-white dark:bg-slate-800/60 p-3 transition-all active:scale-[0.98] hover:border-blue-300/50 dark:hover:border-cyan-500/30 hover:shadow-sm"
+                    className="mx-1 flex items-center justify-center gap-2 rounded-xl bg-cyan-600 dark:bg-cyan-500 py-3.5 text-sm font-semibold text-white shadow-lg shadow-cyan-600/20 transition active:scale-[0.99]"
                   >
-                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${color}`}>
-                      <Icon className="h-4 w-4" />
-                    </div>
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-200">{label}</span>
+                    <User className="h-5 w-5" />
+                    Trang cá nhân
                   </Link>
-                ))}
+                ) : (
+                  <Link
+                    href="/login"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="mx-1 flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-white py-3.5 text-sm font-semibold text-white dark:text-slate-900 shadow-lg shadow-slate-900/20 dark:shadow-white/20 transition active:scale-[0.99]"
+                  >
+                    <User className="h-5 w-5" />
+                    Đăng nhập / Đăng ký
+                  </Link>
+                )}
               </div>
-
-              {isLoggedIn ? (
-                <Link
-                  href="/ca-nhan"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="mx-1 flex items-center justify-center gap-2 rounded-xl bg-cyan-600 dark:bg-cyan-500 py-3.5 text-sm font-semibold text-white shadow-lg shadow-cyan-600/20 transition active:scale-[0.99]"
-                >
-                  <User className="h-5 w-5" />
-                  Trang cá nhân
-                </Link>
-              ) : (
-                <Link
-                  href="/login"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="mx-1 flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-white py-3.5 text-sm font-semibold text-white dark:text-slate-900 shadow-lg shadow-slate-900/20 dark:shadow-white/20 transition active:scale-[0.99]"
-                >
-                  <User className="h-5 w-5" />
-                  Đăng nhập / Đăng ký
-                </Link>
-              )}
             </div>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );

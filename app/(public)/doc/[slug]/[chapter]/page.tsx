@@ -6,11 +6,10 @@ import {
   ChevronRight,
   Home,
   List,
-  ZoomIn,
-  ZoomOut,
   ArrowLeft,
 } from 'lucide-react';
 import type { ChapterDetailApiResponse, ComicDetailApiResponse } from '@/types/otruyen';
+import ReaderProgressTracker from './ReaderProgressTracker';
 
 async function getChapterByUrl(url: string): Promise<ChapterDetailApiResponse | null> {
   try {
@@ -75,6 +74,12 @@ export default async function ReaderPage({
 
   return (
     <div className="min-h-screen bg-background pb-20 transition-colors duration-300">
+      <ReaderProgressTracker
+        slug={slug}
+        chapter={chapter}
+        comicTitle={item.comic_name}
+        chapterName={`Chương ${item.chapter_name}`}
+      />
       {/* Reader toolbar */}
       <div className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 px-4 py-3 backdrop-blur-xl">
         <div className="flex items-center gap-3">

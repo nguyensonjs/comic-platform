@@ -1,28 +1,7 @@
 import Link from 'next/link';
-import {
-  BookOpen,
-  Heart,
-  Star,
-  Clock,
-  Edit3,
-  Settings,
-  Bell,
-  Shield,
-  LogOut,
-  Trophy,
-  ChevronRight,
-  Crown,
-  Flame,
-  Zap,
-  Sparkles,
-  TrendingUp,
-  Package,
-  ShoppingBag,
-  Coins,
-  Castle,
-  Flag,
-} from 'lucide-react';
+import { BookOpen, Heart, Star, Edit3, Settings, Bell, Shield, LogOut, Trophy, ChevronRight, Crown, Flame, Zap, TrendingUp, Package, ShoppingBag, Coins, Flag } from 'lucide-react';
 import { RequireAuth } from '@/app/components/RequireAuth';
+import RecentReadsPanel from './RecentReadsPanel';
 
 /* ─────────── Data ─────────── */
 
@@ -51,12 +30,6 @@ const stats = [
   { label: 'Yêu thích', value: '47', Icon: Heart, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20' },
   { label: 'Hoàn thành', value: '23', Icon: Trophy, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
   { label: 'Đánh giá', value: '89', Icon: Star, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
-];
-
-const recentReads = [
-  { title: 'Đấu La Đại Lục', chapter: 'Chapter 398', time: '2 giờ trước', gradient: 'from-blue-600 to-indigo-700' },
-  { title: 'Solo Leveling', chapter: 'Chapter 179', time: '1 ngày trước', gradient: 'from-purple-600 to-pink-600' },
-  { title: 'Tiên Nghịch', chapter: 'Chapter 1800', time: '2 ngày trước', gradient: 'from-amber-600 to-orange-600' },
 ];
 
 const weeklyReads = [40, 70, 30, 85, 55, 90, 65];
@@ -227,28 +200,7 @@ export default function ProfilePage() {
             </div>
 
             {/* Recent reads */}
-            <div className="overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/80 backdrop-blur-sm">
-              <div className="flex items-center justify-between border-b border-slate-800/50 px-5 py-4">
-                <h2 className="font-bold text-slate-200">Đọc gần đây</h2>
-                <Link href="/thu-vien" className="text-xs text-purple-400 hover:text-purple-300">Xem tất cả</Link>
-              </div>
-              <div className="divide-y divide-slate-800/40">
-                {recentReads.map((item, i) => (
-                  <div key={i} className="group flex items-center gap-3 px-5 py-3.5 transition-all hover:bg-purple-900/10">
-                    <div className={`flex h-10 w-7 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${item.gradient}`}>
-                      <BookOpen className="h-3.5 w-3.5 text-white/60" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="truncate text-sm font-semibold text-slate-300 group-hover:text-white">{item.title}</p>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-600">
-                        <Clock className="h-3 w-3" />
-                        {item.time}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <RecentReadsPanel />
           </div>
 
           {/* Right — 2 cols */}

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { ChevronRight, BookOpen, User, Tag, Clock, ExternalLink } from 'lucide-react';
 import type { ComicDetailApiResponse } from '@/types/otruyen';
 import { statusLabel } from '@/types/otruyen';
+import ReadingActions from './ReadingActions';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -35,6 +36,11 @@ export default async function TruyenDetailPage({ params }: Props) {
     .flatMap(s => s.server_data)
     .filter((ch, idx, arr) => arr.findIndex(x => x.chapter_name === ch.chapter_name) === idx)
     .sort((a, b) => parseFloat(b.chapter_name) - parseFloat(a.chapter_name));
+
+  const firstChapterId =
+    allChapters.length > 0 ? allChapters[allChapters.length - 1].chapter_api_data.split('/').pop() ?? null : null;
+  const latestChapterId =
+    allChapters.length > 0 ? allChapters[0].chapter_api_data.split('/').pop() ?? null : null;
 
   const statusColor = {
     ongoing: 'bg-green-900/40 text-green-400 border-green-700/50',
@@ -75,20 +81,7 @@ export default async function TruyenDetailPage({ params }: Props) {
               />
             </div>
             {/* Action buttons */}
-            <div className="mt-3 space-y-2 sm:mt-4">
-              {allChapters.length > 0 && (
-                <>
-                  <Link href={`/doc/${slug}/${allChapters[allChapters.length - 1].chapter_api_data.split('/').pop()}`}
-                    className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2.5 text-xs font-bold text-white shadow-lg shadow-blue-600/30 transition-all hover:bg-blue-500 sm:rounded-xl sm:gap-2 sm:px-4 sm:py-3 sm:text-sm">
-                    <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> Đọc từ đầu
-                  </Link>
-                  <Link href={`/doc/${slug}/${allChapters[0].chapter_api_data.split('/').pop()}`}
-                    className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2.5 text-xs font-semibold text-slate-300 transition-all hover:bg-slate-800 hover:text-white sm:rounded-xl sm:gap-2 sm:px-4 sm:py-3 sm:text-sm">
-                    Đọc chap mới nhất
-                  </Link>
-                </>
-              )}
-            </div>
+            <ReadingActions slug={slug} firstChapterId={firstChapterId} latestChapterId={latestChapterId} />
           </div>
 
           {/* Info */}
