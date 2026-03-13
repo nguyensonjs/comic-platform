@@ -1,34 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { ShoppingBag, Zap, Filter, Star, Shield, Swords, FlaskConical, Gem, ChevronRight, Package } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
+import { shopCategories, shopItems, type ShopCategory } from './shopItems';
 
-type Category = 'all' | 'dan' | 'vu-khi' | 'trang-bi';
+const categories = shopCategories;
+const items = shopItems;
 
-const categories: { id: Category; label: string; icon: string }[] = [
-  { id: 'all',     label: 'Tất cả',   icon: '🏪' },
-  { id: 'dan',     label: 'Đan dược', icon: '⚗️' },
-  { id: 'vu-khi',  label: 'Vũ khí',   icon: '⚔️' },
-  { id: 'trang-bi',label: 'Trang bị', icon: '🛡️' },
-];
-
-const items = [
-  // Đan dược
-  { id: 1, name: 'Tụ Linh Đan',     category: 'dan',     price: 200,  rarity: 'Phổ thông',  icon: '⚗️', color: 'from-green-700 to-emerald-800',  effect: 'Tăng linh lực +500 ngay lập tức',        stock: 99 },
-  { id: 2, name: 'Hoàn Nguyt Đan',  category: 'dan',     price: 500,  rarity: 'Hiếm',       icon: '🌙', color: 'from-blue-700 to-indigo-800',     effect: 'Bứt phá cảnh giới, tăng linh lực +30%', stock: 20 },
-  { id: 3, name: 'Hóa Thần Đan',    category: 'dan',     price: 1200, rarity: 'Sử thi',     icon: '💜', color: 'from-purple-700 to-violet-800',   effect: 'Đột phá Hóa Thần cảnh, +100% linh lực',  stock: 5  },
-  { id: 4, name: 'Cửu Chuyển Kim Đan', category: 'dan',  price: 3000, rarity: 'Thần thoại', icon: '👑', color: 'from-amber-600 to-orange-700',    effect: 'Tiên dược thiên cổ, có thể vượt kiếp',   stock: 1  },
-  // Vũ khí
-  { id: 5, name: 'Huyền Thiết Kiếm', category: 'vu-khi', price: 400,  rarity: 'Hiếm',       icon: '🗡️', color: 'from-slate-600 to-slate-800',     effect: 'Linh lực công kích +800',                stock: 15 },
-  { id: 6, name: 'Hỏa Long Thương',  category: 'vu-khi', price: 900,  rarity: 'Sử thi',     icon: '⚔️', color: 'from-orange-700 to-red-800',      effect: 'Hỏa thuộc tính, thiêu đốt kẻ thù',       stock: 8  },
-  { id: 7, name: 'Vô Danh Kiếm',     category: 'vu-khi', price: 2500, rarity: 'Thần thoại', icon: '✨', color: 'from-violet-700 to-purple-900',   effect: 'Kiếm ý vô hình, vô địch thiên hạ',       stock: 2  },
-  { id: 8, name: 'Thiên Lôi Cung',   category: 'vu-khi', price: 1800, rarity: 'Sử thi',     icon: '⚡', color: 'from-yellow-600 to-amber-800',    effect: 'Lôi thuộc tính cực mạnh, tầm xa',         stock: 3  },
-  // Trang bị
-  { id: 9,  name: 'Huyền Giáp',      category: 'trang-bi', price: 600,  rarity: 'Hiếm',     icon: '🛡️', color: 'from-slate-700 to-blue-900',      effect: 'Phòng thủ linh lực +1200',               stock: 10 },
-  { id: 10, name: 'Tiên Phụng Bào',  category: 'trang-bi', price: 1500, rarity: 'Sử thi',   icon: '🦅', color: 'from-pink-700 to-rose-900',       effect: 'Tốc độ +50%, tàng hình 5 giây',           stock: 4  },
-  { id: 11, name: 'Long Vũ Hộ Giáp', category: 'trang-bi', price: 4000, rarity: 'Thần thoại', icon: '🐉', color: 'from-teal-700 to-cyan-900',    effect: 'Bất tử trong 10 giây khi HP = 0',         stock: 1  },
-  { id: 12, name: 'Ngọc Linh Nhẫn',  category: 'trang-bi', price: 350,  rarity: 'Phổ thông', icon: '💍', color: 'from-green-700 to-teal-800',     effect: 'Thu thêm 10% linh thạch từ nhiệm vụ',     stock: 50 },
-];
+const categoryLabel: Record<string, string> = {
+  dan: 'Đan dược',
+  'vu-khi': 'Vũ khí',
+  'trang-bi': 'Trang bị',
+};
 
 const rarityStyle: Record<string, { badge: string; border: string; glow: string }> = {
   'Phổ thông': { badge: 'bg-slate-700 text-slate-300',    border: 'border-slate-700/50', glow: '' },
@@ -38,7 +21,7 @@ const rarityStyle: Record<string, { badge: string; border: string; glow: string 
 };
 
 export default function ShopPage() {
-  const [cat, setCat] = useState<Category>('all');
+  const [cat, setCat] = useState<ShopCategory>('all');
   const [cart, setCart] = useState<number[]>([]);
   const stones = 1_250;
 
@@ -107,8 +90,11 @@ export default function ShopPage() {
               <div key={item.id}
                 className={`group flex flex-col overflow-hidden rounded-2xl border ${rs.border} bg-slate-950/80 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${rs.glow} backdrop-blur-sm`}
               >
-                {/* Item visual */}
-                <div className={`relative flex items-center justify-center bg-gradient-to-br ${item.color} py-8`}>
+                {/* Item visual: icon khớp với danh mục (đan / vũ khí / trang bị) */}
+                <div className={`relative flex flex-col items-center justify-center bg-gradient-to-br ${item.color} py-6`}>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-white/70 mb-1">
+                    {categoryLabel[item.category]}
+                  </span>
                   <span className="text-5xl drop-shadow-lg">{item.icon}</span>
                   {item.stock <= 3 && (
                     <span className="absolute top-2 right-2 rounded-full bg-red-800/80 px-2 py-0.5 text-[10px] font-bold text-red-300">
