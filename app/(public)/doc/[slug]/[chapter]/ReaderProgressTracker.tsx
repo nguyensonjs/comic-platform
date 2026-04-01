@@ -13,7 +13,12 @@ type Props = {
 export default function ReaderProgressTracker({ slug, chapter, comicTitle, chapterName }: Props) {
   const restoreDoneRef = useRef(false);
   const lastSavedRef = useRef<{ scrollY: number; t: number } | null>(null);
+  const metadataRef = useRef({ comicTitle, chapterName });
   const progressAtMount = useMemo(() => safeReadProgress(slug), [slug]);
+
+  useEffect(() => {
+    metadataRef.current = { comicTitle, chapterName };
+  }, [comicTitle, chapterName]);
 
   // Restore scroll position once, if the saved progress matches this chapter.
   useEffect(() => {
@@ -48,7 +53,14 @@ export default function ReaderProgressTracker({ slug, chapter, comicTitle, chapt
         if (last && Math.abs(scrollY - last.scrollY) < 40 && now - last.t < 2000) return;
 
         lastSavedRef.current = { scrollY, t: now };
-        safeWriteProgress({ slug, chapter, scrollY, updatedAt: now, comicTitle, chapterName });
+        safeWriteProgress({
+          slug,
+          chapter,
+          scrollY,
+          updatedAt: now,
+          comicTitle: metadataRef.current.comicTitle,
+          chapterName: metadataRef.current.chapterName,
+        });
       });
     };
 
@@ -60,7 +72,7 @@ export default function ReaderProgressTracker({ slug, chapter, comicTitle, chapt
       window.removeEventListener('scroll', onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [slug, chapter, comicTitle, chapterName]);
+  }, [slug, chapter]);
 
   return null;
 }
