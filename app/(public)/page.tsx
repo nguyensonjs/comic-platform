@@ -9,7 +9,7 @@ export default function HomePage() {
             </p>
             <div className="flex gap-4">
                 <Link
-                    href="/truyen"
+                    href="/danh-sach"
                     className="px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/80 transition-colors"
                 >
                     Khám phá ngay

@@ -17,12 +17,12 @@ import {
 
 const footerLinks = {
   explore: [
-    { label: 'Hành động', href: '/truyen/action', color: 'hover:text-orange-400' },
-    { label: 'Lãng mạn', href: '/truyen/romance', color: 'hover:text-pink-400' },
-    { label: 'Huyền huyễn', href: '/truyen/fantasy', color: 'hover:text-purple-400' },
-    { label: 'Kinh dị', href: '/truyen/horror', color: 'hover:text-red-400' },
-    { label: 'Hài hước', href: '/truyen/comedy', color: 'hover:text-yellow-400' },
-    { label: 'Võ thuật', href: '/truyen/martial', color: 'hover:text-cyan-400' },
+    { label: 'Hành động', href: '/the-loai/action', color: 'hover:text-orange-400' },
+    { label: 'Lãng mạn', href: '/the-loai/romance', color: 'hover:text-pink-400' },
+    { label: 'Huyền huyễn', href: '/the-loai/fantasy', color: 'hover:text-purple-400' },
+    { label: 'Kinh dị', href: '/the-loai/horror', color: 'hover:text-red-400' },
+    { label: 'Hài hước', href: '/the-loai/comedy', color: 'hover:text-yellow-400' },
+    { label: 'Võ thuật', href: '/the-loai/martial-arts', color: 'hover:text-cyan-400' },
   ],
   support: [
     { label: 'Trung tâm trợ giúp', href: '/help', Icon: HelpCircle },

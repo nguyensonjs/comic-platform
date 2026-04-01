@@ -237,10 +237,14 @@ export default function Header() {
 
               <div className="mx-1 h-6 w-px bg-zinc-200 dark:bg-zinc-700/60" />
 
-              <button type="button" className={iconBtnClass} aria-label="Thông báo">
+              <Link
+                href={isLoggedIn ? '/settings/notifications' : '/login'}
+                className={iconBtnClass}
+                aria-label="Thông báo"
+              >
                 <Bell className="h-5 w-5" />
                 <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-950" />
-              </button>
+              </Link>
               <Link href="/thu-vien" className={iconBtnClass} aria-label="Thư viện">
                 <BookOpen className="h-5 w-5" />
               </Link>
@@ -321,6 +325,7 @@ export default function Header() {
                     { href: '/diem-danh', icon: CalendarCheck, label: 'Điểm danh', color: 'text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/40' },
                     { href: '/nhiem-vu', icon: Trophy, label: 'Nhiệm vụ', color: 'text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40' },
                     { href: '/cua-hang', icon: ShoppingBag, label: 'Cửa hàng', color: 'text-purple-600 dark:text-purple-400 bg-purple-100 dark:bg-purple-900/40' },
+                    { href: '/vong-quay', icon: Sparkles, label: 'Vòng quay', color: 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/40' },
                     { href: '/nhan-vat', icon: Sword, label: 'Nhân vật', color: 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/40' },
                   ].map(({ href, icon: Icon, label, color }) => (
                     <Link

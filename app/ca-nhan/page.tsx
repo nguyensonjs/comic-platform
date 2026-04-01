@@ -253,7 +253,7 @@ export default function ProfilePage() {
                 </div>
                 <div className="flex gap-2 pt-12 sm:pt-16">
                   <Link
-                    href="/ca-nhan/edit"
+                    href="/profile/edit"
                     className="flex items-center gap-2 rounded-xl border border-purple-200 bg-white/80 px-4 py-2 text-sm font-medium text-purple-700 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-purple-300 hover:bg-white dark:border-purple-700/50 dark:bg-purple-900/30 dark:text-purple-300 dark:hover:border-purple-600/70 dark:hover:text-purple-200"
                   >
                     <Edit3 className="h-3.5 w-3.5" /> Chỉnh sửa
