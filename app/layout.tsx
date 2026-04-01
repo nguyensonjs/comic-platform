@@ -34,17 +34,12 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body
-        className={`${spaceGrotesk.variable} font-display selection:bg-primary/30 selection:text-primary min-h-screen antialiased`}
+        className={`${spaceGrotesk.variable} font-display min-h-screen bg-white text-black antialiased transition-colors duration-500 selection:bg-primary/30 selection:text-primary dark:bg-zinc-950 dark:text-white`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider>
           <AuthProvider>
             <Header />
-            <main className="min-h-screen transition-colors duration-300">
+            <main className="min-h-screen transition-colors duration-500">
               {children}
             </main>
             <Footer />

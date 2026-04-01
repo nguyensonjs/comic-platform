@@ -34,7 +34,7 @@ export function PageBackground({
 }: PageBackgroundProps) {
   return (
     <div
-      className="relative min-h-screen pb-20 pt-20 transition-[background] duration-300 sm:pb-24 sm:pt-24"
+      className="relative min-h-screen pb-20 pt-20 transition-[background] duration-500 sm:pb-24 sm:pt-24"
       style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Ambient glow orbs */}
@@ -47,7 +47,7 @@ export function PageBackground({
         {Array.from({ length: sparks }).map((_, i) => (
           <div
             key={i}
-            className="absolute h-1 w-1 animate-pulse rounded-full bg-amber-500/25 dark:bg-amber-300/30"
+            className="absolute h-1 w-1 animate-pulse rounded-full bg-sky-500/20 dark:bg-sky-300/30"
             style={{
               top: `${10 + i * 11}%`,
               left: `${5 + i * 12}%`,

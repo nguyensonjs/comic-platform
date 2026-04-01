@@ -10,6 +10,11 @@
   --color-background-dark: var(--background-dark);
   --color-star-blue: var(--star-blue);
   --color-qi-teal: var(--qi-teal);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: 'Space Grotesk', sans-serif;
@@ -24,35 +29,99 @@
   --background-dark: #050b18;
   --star-blue: #0a192f;
   --qi-teal: #2dd4bf;
+  --card: rgba(255, 255, 255, 0.88);
+  --card-foreground: #09090b;
+  --border: rgba(228, 228, 231, 0.92);
+  --muted: #f4f4f5;
+  --muted-foreground: #52525b;
   --scrollbar-track: #e2e8f0;
   --scrollbar-thumb: #1392ec66;
   --scrollbar-thumb-hover: #1392ec;
-  --page-bg-gradient: radial-gradient(ellipse at top, #e0e7ff 0%, #f6f7f8 60%, #e2e8f0 100%);
+  --page-bg-gradient: radial-gradient(circle at top, rgba(59, 130, 246, 0.14), transparent 38%),
+    radial-gradient(circle at 80% 10%, rgba(148, 163, 184, 0.12), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, #f5f7fb 45%, #eef2f7 100%);
 }
 
 /* Dark Theme Variables */
 .dark {
-  --background: #050b18;
+  --background: #050816;
   --foreground: #f8fafc;
-  --scrollbar-track: #050b18;
+  --card: rgba(9, 14, 29, 0.72);
+  --card-foreground: #f8fafc;
+  --border: rgba(63, 63, 70, 0.78);
+  --muted: #0f172a;
+  --muted-foreground: #a1a1aa;
+  --scrollbar-track: #050816;
   --scrollbar-thumb: #1392ec44;
   --scrollbar-thumb-hover: #1392ec;
-  --page-bg-gradient: radial-gradient(ellipse at top, #0d1b3e 0%, #050b18 60%, #030710 100%);
+  --page-bg-gradient: radial-gradient(circle at top, rgba(56, 189, 248, 0.14), transparent 34%),
+    radial-gradient(circle at 80% 0%, rgba(59, 130, 246, 0.14), transparent 28%),
+    linear-gradient(180deg, #040816 0%, #060b1d 52%, #02040b 100%);
+  color-scheme: dark;
 }
 
 /* Explicitly tell Tailwind 4 to use the .dark class for the dark: variant */
 @custom-variant dark (&:where(.dark, .dark *));
 
+html {
+  color-scheme: light;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: 'Space Grotesk', sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-image: var(--page-bg-gradient);
+  background-attachment: fixed;
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease,
+    border-color 0.45s ease;
 }
 
 body::selection {
   background: rgba(19, 146, 236, 0.3);
   color: #1392ec;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.55), transparent 18%),
+    radial-gradient(circle at 85% 12%, rgba(125, 211, 252, 0.08), transparent 20%);
+  opacity: 0.9;
+  transition: opacity 0.45s ease;
+}
+
+.dark body::before {
+  background:
+    radial-gradient(circle at 20% 18%, rgba(14, 165, 233, 0.08), transparent 16%),
+    radial-gradient(circle at 82% 10%, rgba(59, 130, 246, 0.1), transparent 22%);
+  opacity: 1;
+}
+
+a,
+button,
+input,
+textarea,
+select,
+header,
+footer,
+main,
+section,
+article,
+div {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
 }
 
 /* Glass navigation effect */

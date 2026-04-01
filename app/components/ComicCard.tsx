@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Zap, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
-import type { ComicItem } from '@/types/otruyen';
+import type { Category, ComicItem } from '@/types/otruyen';
 import { statusLabel } from '@/types/otruyen';
 
 function StatusBadge({ status }: { status: ComicItem['status'] }) {
@@ -44,13 +44,13 @@ export function ComicCard({
     <Link href={`/truyen/${comic.slug}`}>
       <motion.div
         whileHover={{ y: -6 }}
-        transition={{ type: "spring", stiffness: 350, damping: 25 }}
-        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800/60 bg-white dark:bg-slate-900/50 transition-colors duration-300 hover:border-blue-300 dark:hover:border-slate-600/80 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:shadow-xl hover:shadow-blue-900/10 dark:hover:shadow-cyan-900/20"
+        transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+        className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white/95 transition-colors duration-300 hover:border-blue-300 hover:bg-zinc-50 hover:shadow-xl hover:shadow-blue-900/10 dark:border-zinc-700 dark:bg-zinc-900/65 dark:hover:border-sky-500/40 dark:hover:bg-zinc-800/70 dark:hover:shadow-sky-950/30"
         style={{
           willChange: 'transform',
           WebkitFontSmoothing: 'antialiased',
           backfaceVisibility: 'hidden',
-          transform: 'translateZ(0)'
+          transform: 'translateZ(0)',
         }}
       >
         {/* Thumbnail area */}
@@ -59,7 +59,7 @@ export function ComicCard({
           <motion.div
             className="h-full w-full"
             whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             <Image
               src={imgUrl}
@@ -93,29 +93,29 @@ export function ComicCard({
         {/* Info Area */}
         <div className="flex flex-1 flex-col gap-1 sm:gap-1.5 p-2 sm:p-3">
           <h3
-            className="text-xs font-bold leading-tight text-slate-900 dark:text-slate-200 transition-colors group-hover:text-blue-600 dark:group-hover:text-white sm:text-sm"
+            className="text-xs font-bold leading-tight text-zinc-900 transition-colors group-hover:text-blue-600 dark:text-zinc-100 dark:group-hover:text-white sm:text-sm"
             style={{
               display: '-webkit-box',
               WebkitLineClamp: 2,
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
-              textOverflow: 'ellipsis'
+              textOverflow: 'ellipsis',
             }}
           >
             {comic.name}
           </h3>
 
           {showAuthor && comic.author && comic.author.length > 0 && comic.author[0] && (
-            <p className="text-[10px] text-slate-500 truncate sm:text-[11px]">{comic.author[0]}</p>
+            <p className="truncate text-[10px] text-zinc-500 dark:text-zinc-400 sm:text-[11px]">{comic.author[0]}</p>
           )}
 
           {/* Categories */}
           {showCategory && comic.category && comic.category.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-1">
-              {comic.category.slice(0, 2).map((cat: any) => (
+            <div className="mt-1 flex flex-wrap gap-1">
+              {comic.category.slice(0, 2).map((cat: Category) => (
                 <span
                   key={cat.id}
-                  className="rounded-full bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[10px] text-slate-600 dark:text-slate-400 transition-colors group-hover:bg-slate-200 dark:group-hover:bg-slate-700/80 group-hover:text-blue-600 dark:group-hover:text-slate-300"
+                  className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] text-zinc-600 transition-colors group-hover:bg-zinc-200 group-hover:text-blue-600 dark:bg-zinc-800 dark:text-zinc-400 dark:group-hover:bg-zinc-700/80 dark:group-hover:text-zinc-300"
                 >
                   {cat.name}
                 </span>
@@ -134,7 +134,7 @@ export function ComicCard({
 
           {/* Updated time */}
           {showUpdatedAt && comic.updatedAt && (
-            <div className="mt-auto pt-1.5 flex items-center gap-1 text-[10px] text-slate-500 dark:text-slate-400 transition-colors group-hover:text-slate-600 dark:group-hover:text-slate-400 sm:pt-2 sm:text-[11px]">
+            <div className="mt-auto flex items-center gap-1 pt-1.5 text-[10px] text-zinc-500 transition-colors group-hover:text-zinc-700 dark:text-zinc-400 dark:group-hover:text-zinc-300 sm:pt-2 sm:text-[11px]">
               <Clock className="h-3 w-3" />
               {new Date(comic.updatedAt).toLocaleDateString('vi-VN')}
             </div>

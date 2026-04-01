@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  Sparkles,
   Globe,
   Mail,
   MessageCircle,
@@ -14,7 +13,6 @@ import {
   HeadphonesIcon,
   Send,
   Heart,
-  Zap,
 } from 'lucide-react';
 
 const footerLinks = {
@@ -43,11 +41,12 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 transition-colors duration-300">
+    <footer className="relative border-t border-zinc-200 bg-white/90 transition-colors duration-500 dark:border-zinc-800 dark:bg-zinc-950/90">
       {/* Background radial glow */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 left-1/4 h-96 w-96 rounded-full bg-blue-600/5 blur-3xl" />
-        <div className="absolute -top-20 right-1/4 h-64 w-64 rounded-full bg-cyan-500/5 blur-3xl" />
+        <div className="absolute -top-40 left-1/4 h-96 w-96 rounded-full bg-blue-600/5 blur-3xl dark:bg-blue-500/8" />
+        <div className="absolute -top-20 right-1/4 h-64 w-64 rounded-full bg-cyan-500/5 blur-3xl dark:bg-cyan-500/8" />
+        <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-slate-400/10 blur-3xl dark:bg-indigo-500/8" />
       </div>
 
       {/* Top glowing line */}
@@ -79,7 +78,7 @@ export default function Footer() {
               </div>
             </Link>
 
-            <p className="mb-8 max-w-xs text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+            <p className="mb-8 max-w-xs text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               Khám phá kho tàng truyện tranh và tiểu thuyết phong phú nhất. Hành trình vô tận đang chờ bạn.
             </p>
 
@@ -90,7 +89,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className={`group flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 text-slate-500 transition-all duration-300 hover:-translate-y-0.5 ${hoverColor}`}
+                  className={`group flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-100 text-zinc-500 transition-all duration-300 hover:-translate-y-0.5 dark:border-zinc-800 dark:bg-zinc-900 ${hoverColor}`}
                 >
                   <Icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
                 </a>
@@ -100,7 +99,7 @@ export default function Footer() {
 
           {/* ── Explore column ── */}
           <div>
-            <h6 className="mb-6 text-xs font-bold tracking-widest text-slate-900 dark:text-slate-200 uppercase">
+            <h6 className="mb-6 text-xs font-bold tracking-widest text-zinc-900 uppercase dark:text-zinc-200">
               Khám phá
             </h6>
             <ul className="space-y-3.5">
@@ -108,7 +107,7 @@ export default function Footer() {
                 <li key={label}>
                   <Link
                     href={href}
-                    className={`group flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 transition-all duration-200 ${color}`}
+                    className={`group flex items-center gap-2 text-sm text-zinc-600 transition-all duration-200 dark:text-zinc-400 ${color}`}
                   >
                     <ArrowRight className="h-3 w-3 opacity-0 transition-all duration-200 group-hover:translate-x-1 group-hover:opacity-100" />
                     <span className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -122,7 +121,7 @@ export default function Footer() {
 
           {/* ── Support column ── */}
           <div>
-            <h6 className="mb-6 text-xs font-bold tracking-widest text-slate-900 dark:text-slate-200 uppercase">
+            <h6 className="mb-6 text-xs font-bold tracking-widest text-zinc-900 uppercase dark:text-zinc-200">
               Hỗ trợ
             </h6>
             <ul className="space-y-3.5">
@@ -130,9 +129,9 @@ export default function Footer() {
                 <li key={label}>
                   <Link
                     href={href}
-                    className="group flex items-center gap-2.5 text-sm text-slate-500 dark:text-slate-400 transition-colors duration-200 hover:text-slate-700 dark:hover:text-slate-200"
+                    className="group flex items-center gap-2.5 text-sm text-zinc-600 transition-colors duration-200 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                   >
-                    <Icon className="h-4 w-4 text-slate-500 dark:text-slate-600 transition-colors duration-200 group-hover:text-blue-400" />
+                    <Icon className="h-4 w-4 text-zinc-500 transition-colors duration-200 group-hover:text-blue-400 dark:text-zinc-600" />
                     {label}
                   </Link>
                 </li>
@@ -142,17 +141,17 @@ export default function Footer() {
 
           {/* ── Newsletter column ── */}
           <div>
-            <h6 className="mb-6 text-xs font-bold tracking-widest text-slate-900 dark:text-slate-200 uppercase">
+            <h6 className="mb-6 text-xs font-bold tracking-widest text-zinc-900 uppercase dark:text-zinc-200">
               Bản tin
             </h6>
-            <p className="mb-5 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+            <p className="mb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
               Nhận thông báo về truyện mới và sự kiện hấp dẫn hàng tuần.
             </p>
             <form className="relative mb-8">
               <input
                 type="email"
                 placeholder="Email của bạn..."
-                className="w-full rounded-xl border border-slate-200/50 dark:border-slate-700/40 bg-slate-100/50 dark:bg-slate-900/40 py-3 pr-12 pl-4 text-sm text-slate-900 dark:text-white placeholder-slate-500 backdrop-blur-sm transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                className="w-full rounded-xl border border-zinc-200/70 bg-white/70 py-3 pr-12 pl-4 text-sm text-zinc-950 placeholder-zinc-500 shadow-sm shadow-zinc-950/5 backdrop-blur-sm transition-all focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-zinc-700/40 dark:bg-zinc-900/50 dark:text-white dark:placeholder-zinc-500"
               />
               <button
                 type="submit"
@@ -163,15 +162,15 @@ export default function Footer() {
             </form>
 
             {/* Stats mini-section */}
-            <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/50 p-4">
+            <div className="rounded-xl border border-zinc-200 bg-zinc-100/80 p-4 dark:border-zinc-800 dark:bg-zinc-900/50">
               <div className="grid grid-cols-2 gap-4 text-center">
                 <div>
-                  <div className="text-xl font-black text-slate-900 dark:text-white">12K+</div>
-                  <div className="text-xs text-slate-500">Bộ truyện</div>
+                  <div className="text-xl font-black text-zinc-900 dark:text-white">12K+</div>
+                  <div className="text-xs text-zinc-500 dark:text-zinc-500">Bộ truyện</div>
                 </div>
                 <div>
-                  <div className="text-xl font-black text-slate-900 dark:text-white">89K+</div>
-                  <div className="text-xs text-slate-500">Độc giả</div>
+                  <div className="text-xl font-black text-zinc-900 dark:text-white">89K+</div>
+                  <div className="text-xs text-zinc-500 dark:text-zinc-500">Độc giả</div>
                 </div>
               </div>
             </div>
@@ -179,11 +178,11 @@ export default function Footer() {
         </div>
 
         {/* ── Bottom bar ── */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200 dark:border-slate-800/80 pt-6 sm:mt-16 sm:gap-6 sm:pt-8 md:flex-row">
-          <div className="flex flex-col items-center gap-1 text-xs text-slate-500 md:items-start">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-zinc-200 pt-6 sm:mt-16 sm:gap-6 sm:pt-8 md:flex-row dark:border-zinc-800/80">
+          <div className="flex flex-col items-center gap-1 text-xs text-zinc-500 dark:text-zinc-500 md:items-start">
             <p>
               © 2024{' '}
-              <span className="font-semibold text-slate-500 dark:text-slate-400">NetComic</span>. All rights reserved.
+              <span className="font-semibold text-zinc-600 dark:text-zinc-400">NetComic</span>. All rights reserved.
             </p>
             <p className="flex items-center gap-1">
               Thiết kế với <Heart className="inline h-3 w-3 text-red-500" fill="currentColor" /> tại Việt Nam
@@ -199,7 +198,7 @@ export default function Footer() {
               <Link
                 key={label}
                 href={href}
-                className="group flex items-center gap-1.5 text-xs text-slate-500 transition-colors hover:text-slate-700 dark:hover:text-slate-300"
+                className="group flex items-center gap-1.5 text-xs text-zinc-500 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
               >
                 <Icon className="h-3.5 w-3.5 transition-colors group-hover:text-blue-400" />
                 {label}

@@ -11,6 +11,13 @@ export default {
     extend: {
       colors: {
         primary: '#1392ec',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        border: 'var(--border)',
+        muted: 'var(--muted)',
+        'muted-foreground': 'var(--muted-foreground)',
         'background-light': '#f6f7f8',
         'background-dark': '#050b18',
         'star-blue': '#0a192f',

@@ -4,8 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { useTheme } from 'next-themes';
 import { useAuth } from '@/app/components/providers/AuthProvider';
+import ThemeToggle from './ThemeToggle';
 import {
   ArrowLeft,
   Search,
@@ -23,8 +23,6 @@ import {
   ChevronDown,
   Swords,
   Sword,
-  Moon,
-  Sun,
   Sparkles,
 } from 'lucide-react';
 
@@ -32,7 +30,6 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { resolvedTheme, setTheme } = useTheme();
   const { isLoggedIn } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -46,8 +43,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isDark = resolvedTheme === 'dark';
-
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -56,16 +51,16 @@ export default function Header() {
   };
 
   const navLinkClass =
-    'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-blue-600 dark:hover:text-slate-100';
+    'flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-zinc-700 transition-all duration-200 hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-300 dark:hover:bg-zinc-800/70 dark:hover:text-white';
 
   const iconBtnClass =
-    'relative flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 dark:text-slate-400 transition-all duration-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-blue-500 dark:hover:text-cyan-400';
+    'relative flex h-10 w-10 items-center justify-center rounded-xl text-zinc-500 transition-all duration-200 hover:bg-zinc-100 hover:text-blue-600 dark:text-zinc-400 dark:hover:bg-zinc-800/70 dark:hover:text-cyan-300';
 
   return (
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         scrolled || isCompactHeaderRoute
-          ? 'border-b border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-slate-950/95 shadow-sm dark:shadow-slate-950/50 backdrop-blur-xl'
+          ? 'border-b border-zinc-200/80 bg-white/85 shadow-sm shadow-zinc-950/5 backdrop-blur-xl dark:border-zinc-800/80 dark:bg-zinc-950/80 dark:shadow-black/30'
           : 'border-b border-transparent bg-transparent'
       }`}
     >
@@ -99,9 +94,9 @@ export default function Header() {
             )}
             <Link
               href="/"
-              className="group flex shrink-0 items-center gap-3 rounded-xl px-1 py-1.5 transition-colors hover:bg-slate-100/80 dark:hover:bg-slate-800/30 -ml-1"
+              className="-ml-1 group flex shrink-0 items-center gap-3 rounded-xl px-1 py-1.5 transition-colors hover:bg-zinc-100/80 dark:hover:bg-zinc-800/30"
             >
-              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800/50 ring-1 ring-slate-200/50 dark:ring-slate-700/50 transition-all duration-300 group-hover:ring-blue-400/30 group-hover:scale-105">
+              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-zinc-100 ring-1 ring-zinc-200/70 transition-all duration-300 group-hover:scale-105 group-hover:ring-blue-400/30 dark:bg-zinc-800/50 dark:ring-zinc-700/50">
                 <Image
                   src="/logo-neon.svg"
                   alt="NetComic"
@@ -111,7 +106,7 @@ export default function Header() {
                 />
               </div>
               <div className="flex flex-col leading-none">
-                <span className="font-extrabold tracking-tight text-slate-800 dark:text-white text-lg">
+                <span className="text-lg font-extrabold tracking-tight text-zinc-900 dark:text-white">
                   NET
                 </span>
                 <span className="text-[10px] font-semibold tracking-[0.25em] text-blue-500 dark:text-cyan-400 uppercase opacity-90">
@@ -128,14 +123,14 @@ export default function Header() {
               className="group relative hidden max-w-xs flex-1 md:flex md:justify-center lg:max-w-sm"
             >
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                <Search className="h-4 w-4 text-slate-400 dark:text-slate-500 transition-colors duration-200 group-focus-within:text-blue-500 dark:group-focus-within:text-cyan-400" />
+                <Search className="h-4 w-4 text-zinc-400 transition-colors duration-200 group-focus-within:text-blue-500 dark:text-zinc-500 dark:group-focus-within:text-cyan-300" />
               </div>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Tìm truyện, tác giả..."
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700/60 bg-slate-50 dark:bg-slate-800/50 py-2.5 pr-4 pl-11 text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 transition-all duration-200 focus:border-blue-400/60 dark:focus:border-cyan-500/50 focus:bg-white dark:focus:bg-slate-800/80 focus:ring-2 focus:ring-blue-400/10 dark:focus:ring-cyan-500/10 focus:outline-none"
+                className="w-full rounded-xl border border-zinc-200 bg-white/90 py-2.5 pr-4 pl-11 text-sm text-zinc-950 placeholder-zinc-400 shadow-sm shadow-zinc-950/5 transition-all duration-200 focus:border-blue-400/60 focus:bg-white focus:ring-2 focus:ring-blue-400/10 focus:outline-none dark:border-zinc-700/60 dark:bg-zinc-900/70 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-cyan-500/50 dark:focus:bg-zinc-900 dark:focus:ring-cyan-500/10"
               />
             </form>
           )}
@@ -166,7 +161,7 @@ export default function Header() {
                   <span className="hidden lg:inline">Khám phá</span>
                   <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover/drop:rotate-180" />
                 </button>
-                <div className="invisible absolute right-0 top-full z-50 mt-1.5 w-56 origin-top-right scale-95 rounded-2xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900/95 p-2 opacity-0 shadow-xl shadow-slate-900/10 dark:shadow-black/40 backdrop-blur-xl transition-all duration-200 group-hover/drop:visible group-hover/drop:scale-100 group-hover/drop:opacity-100">
+                <div className="invisible absolute right-0 top-full z-50 mt-1.5 w-56 origin-top-right scale-95 rounded-2xl border border-zinc-200/80 bg-white/95 p-2 opacity-0 shadow-xl shadow-zinc-950/10 backdrop-blur-xl transition-all duration-200 group-hover/drop:visible group-hover/drop:scale-100 group-hover/drop:opacity-100 dark:border-zinc-700/80 dark:bg-zinc-900/95 dark:shadow-black/40">
                   <div className="space-y-0.5">
                     <Link
                       href="/xep-hang"
@@ -225,7 +220,7 @@ export default function Header() {
                   </div>
                   {isLoggedIn && (
                     <>
-                      <div className="my-1.5 border-t border-slate-100 dark:border-slate-800" />
+                      <div className="my-1.5 border-t border-zinc-100 dark:border-zinc-800" />
                       <Link
                         href="/ca-nhan"
                         className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 transition-colors hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-700 dark:hover:text-cyan-400"
@@ -240,7 +235,7 @@ export default function Header() {
                 </div>
               </div>
 
-              <div className="mx-1 h-6 w-px bg-slate-200 dark:bg-slate-700/60" />
+              <div className="mx-1 h-6 w-px bg-zinc-200 dark:bg-zinc-700/60" />
 
               <button type="button" className={iconBtnClass} aria-label="Thông báo">
                 <Bell className="h-5 w-5" />
@@ -272,18 +267,9 @@ export default function Header() {
                 </Link>
               )}
 
-              <div className="mx-2 h-6 w-px bg-slate-200 dark:bg-slate-700/60" />
+              <div className="mx-2 h-6 w-px bg-zinc-200 dark:bg-zinc-700/60" />
 
-              <button
-                type="button"
-                onClick={() => setTheme(isDark ? 'light' : 'dark')}
-                className={`ml-1 flex h-9 w-9 items-center justify-center rounded-xl transition-all duration-200 hover:scale-105 ${iconBtnClass}`}
-                aria-label="Đổi giao diện sáng/tối"
-              >
-                {/* Render via CSS to avoid hydration/mount state */}
-                <Sun className="h-4 w-4 hidden dark:block" />
-                <Moon className="h-4 w-4 block dark:hidden" />
-              </button>
+              <ThemeToggle />
             </div>
 
             {/* Mobile menu trigger */}
@@ -308,21 +294,21 @@ export default function Header() {
             }`}
           >
             <div className="overflow-hidden">
-              <div className="border-t border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/50 pb-6 pt-4">
+              <div className="border-t border-zinc-200/80 bg-white/80 pb-6 pt-4 backdrop-blur-xl dark:border-zinc-800 dark:bg-zinc-900/80">
                 <form onSubmit={handleSearch} className="mb-4 px-1">
                   <div className="relative">
-                    <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
+                    <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400 dark:text-zinc-500" />
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Tìm truyện, tác giả..."
-                      className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 py-3 pr-4 pl-11 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none"
+                      className="w-full rounded-xl border border-zinc-200 bg-white py-3 pr-4 pl-11 text-sm text-zinc-950 placeholder-zinc-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900/80 dark:text-white dark:placeholder-zinc-500"
                     />
                   </div>
                 </form>
 
-                <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                   Khám phá
                 </p>
                 <div className="mb-4 grid grid-cols-2 gap-2 px-1">
@@ -341,14 +327,18 @@ export default function Header() {
                       key={href}
                       href={href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 rounded-xl border border-slate-200/80 dark:border-slate-700/60 bg-white dark:bg-slate-800/60 p-3 transition-all active:scale-[0.98] hover:border-blue-300/50 dark:hover:border-cyan-500/30 hover:shadow-sm"
+                      className="flex items-center gap-3 rounded-xl border border-zinc-200/80 bg-white p-3 transition-all hover:border-blue-300/50 hover:shadow-sm active:scale-[0.98] dark:border-zinc-700/60 dark:bg-zinc-800/60 dark:hover:border-cyan-500/30"
                     >
                       <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${color}`}>
                         <Icon className="h-4 w-4" />
                       </div>
-                      <span className="text-sm font-medium text-slate-700 dark:text-slate-200">{label}</span>
+                      <span className="text-sm font-medium text-zinc-700 dark:text-zinc-200">{label}</span>
                     </Link>
                   ))}
+                </div>
+
+                <div className="mb-4 px-1">
+                  <ThemeToggle />
                 </div>
 
                 {isLoggedIn ? (
