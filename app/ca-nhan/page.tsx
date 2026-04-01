@@ -79,8 +79,21 @@ const stats = [
   },
 ];
 
-const weeklyReads = [40, 70, 30, 85, 55, 90, 65];
-const weekDays = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
+/** Chương đã đọc mỗi ngày (T2 → CN); tổng khớp phần tóm tắt */
+const weeklyReadingByDay = [
+  { day: 'T2', chapters: 28 },
+  { day: 'T3', chapters: 38 },
+  { day: 'T4', chapters: 22 },
+  { day: 'T5', chapters: 42 },
+  { day: 'T6', chapters: 33 },
+  { day: 'T7', chapters: 45 },
+  { day: 'CN', chapters: 37 },
+] as const;
+
+const weeklyChaptersTotal = weeklyReadingByDay.reduce((s, d) => s + d.chapters, 0);
+const weeklyChaptersMax = Math.max(...weeklyReadingByDay.map((d) => d.chapters));
+const weeklyChaptersAvg = Math.round(weeklyChaptersTotal / weeklyReadingByDay.length);
+const weeklyPeakDay = weeklyReadingByDay.reduce((a, b) => (b.chapters > a.chapters ? b : a));
 
 const inventory = [
   {
@@ -178,64 +191,31 @@ const inventory = [
 export default function ProfilePage() {
   return (
     <RequireAuth>
-      <div
-        className="text-foreground relative min-h-screen pt-20 pb-20 transition-[background,color] duration-500 sm:pt-24 sm:pb-24"
-        style={{ background: 'var(--page-bg-gradient)' }}
-      >
-        {/* Ambient glow orbs */}
-        <div className="pointer-events-none fixed inset-0 overflow-hidden">
-          <div className="absolute -top-32 left-1/4 h-[600px] w-[600px] rounded-full bg-purple-300/20 blur-[120px] dark:bg-purple-900/20" />
-          <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-amber-300/15 blur-[100px] dark:bg-amber-800/10" />
-          <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-blue-300/20 blur-[100px] dark:bg-blue-900/20" />
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute h-1 w-1 animate-pulse rounded-full bg-sky-500/25 dark:bg-amber-300/40"
-              style={{
-                top: `${10 + i * 11}%`,
-                left: `${5 + i * 12}%`,
-                animationDelay: `${i * 0.4}s`,
-                animationDuration: `${2 + i * 0.3}s`,
-              }}
-            />
-          ))}
-        </div>
+      <div className="relative min-h-screen bg-gradient-to-b from-zinc-50 via-white to-zinc-100 pt-20 pb-12 text-foreground transition-colors duration-500 dark:from-zinc-950 dark:via-[#060b16] dark:to-slate-950 sm:pt-24 sm:pb-16">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.14),_transparent_55%)] dark:bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_55%)]" />
 
         <div className="relative z-10 mx-auto max-w-6xl px-3 sm:px-6 lg:px-8">
           {/* ══ Profile Hero ══ */}
-          <div
-            className="relative mb-6 overflow-hidden rounded-2xl border border-zinc-200/80 shadow-xl shadow-zinc-950/5 sm:mb-8 sm:rounded-3xl dark:border-purple-900/40 dark:shadow-2xl dark:shadow-purple-950/50"
-            style={{
-              background:
-                'linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(241,245,249,0.94) 42%, rgba(224,231,255,0.92) 100%)',
-            }}
-          >
-            <div
-              className="absolute inset-0 z-0 hidden dark:block"
-              style={{
-                background:
-                  'linear-gradient(135deg, rgba(15,5,40,0.95) 0%, rgba(10,20,50,0.95) 100%)',
-              }}
-            />
+          <div className="relative mb-6 overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur sm:mb-8 dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
             <div className="relative z-10 h-28 overflow-hidden sm:h-40">
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-200/80 via-blue-100/70 to-amber-100/60 dark:from-purple-900/60 dark:via-indigo-900/40 dark:to-amber-900/30" />
+              <div className="absolute inset-0 bg-gradient-to-br from-sky-100/95 via-blue-50/90 to-zinc-100/80 dark:from-slate-900/90 dark:via-blue-950/50 dark:to-slate-950/70" />
               <div
-                className="absolute inset-0 opacity-60"
+                className="absolute inset-0 opacity-50 dark:opacity-40"
                 style={{
                   backgroundImage:
-                    "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a855f7' fill-opacity='0.04'%3E%3Cpath d='M36 34v6h6v-6h-6zm6 6v6h6v-6h-6zm-6 0v6h6v-6h-6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+                    "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231392ec' fill-opacity='0.06'%3E%3Cpath d='M36 34v6h6v-6h-6zm6 6v6h6v-6h-6zm-6 0v6h6v-6h-6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
                 }}
               />
               <div className="absolute top-2 right-2 flex flex-col items-end gap-1.5 sm:top-4 sm:right-4 sm:gap-2">
-                <div className="flex items-center gap-2 rounded-full border border-purple-300/60 bg-white/70 px-3 py-1.5 backdrop-blur-sm dark:border-purple-500/30 dark:bg-purple-900/50">
-                  <Zap className="h-3.5 w-3.5 text-blue-500 dark:text-blue-400" />
-                  <span className="text-[10px] font-bold tracking-wider text-blue-700 dark:text-blue-300">
+                <div className="flex items-center gap-2 rounded-full border border-blue-200/80 bg-white/85 px-3 py-1.5 backdrop-blur-sm dark:border-blue-500/25 dark:bg-slate-900/60">
+                  <Zap className="h-3.5 w-3.5 text-[#1392ec]" />
+                  <span className="text-[10px] font-bold tracking-wider text-blue-800 dark:text-sky-300">
                     TU VI #14
                   </span>
                 </div>
-                <div className="flex items-center gap-2 rounded-full border border-amber-300/60 bg-white/70 px-3 py-1.5 backdrop-blur-sm dark:border-amber-500/30 dark:bg-amber-900/50">
-                  <Coins className="h-3.5 w-3.5 text-amber-500 dark:text-amber-400" />
-                  <span className="text-[10px] font-bold tracking-wider text-amber-700 dark:text-amber-300">
+                <div className="flex items-center gap-2 rounded-full border border-amber-200/80 bg-white/85 px-3 py-1.5 backdrop-blur-sm dark:border-amber-500/25 dark:bg-amber-950/40">
+                  <Coins className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
+                  <span className="text-[10px] font-bold tracking-wider text-amber-800 dark:text-amber-200">
                     PHÚ HÀO #14
                   </span>
                 </div>
@@ -245,16 +225,16 @@ export default function ProfilePage() {
             <div className="relative z-10 px-4 pb-4 sm:px-6 sm:pb-6">
               <div className="-mt-10 flex items-end justify-between sm:-mt-14">
                 <div className="relative">
-                  <div className="absolute -inset-1 animate-pulse rounded-full bg-gradient-to-br from-amber-400/50 via-purple-500/50 to-cyan-400/50 blur-sm" />
-                  <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-amber-400/40 bg-gradient-to-br from-blue-600 to-indigo-700 shadow-xl sm:h-24 sm:w-24">
+                  <div className="absolute -inset-1 rounded-full bg-gradient-to-br from-[#1392ec]/35 via-sky-400/30 to-teal-400/35 blur-md" />
+                  <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-white/90 bg-gradient-to-br from-[#1392ec] to-sky-700 shadow-lg shadow-blue-500/25 ring-2 ring-blue-500/20 sm:h-24 sm:w-24 dark:border-slate-800 dark:ring-blue-400/15">
                     <span className="text-4xl">⚡</span>
                   </div>
-                  <div className="absolute right-1 bottom-1 h-4 w-4 rounded-full border-2 border-white bg-green-400 shadow-lg shadow-green-400/50 dark:border-slate-900" />
+                  <div className="absolute right-1 bottom-1 h-4 w-4 rounded-full border-2 border-white bg-emerald-400 shadow-md dark:border-slate-900" />
                 </div>
                 <div className="flex gap-2 pt-12 sm:pt-16">
                   <Link
                     href="/profile/edit"
-                    className="flex items-center gap-2 rounded-xl border border-purple-200 bg-white/80 px-4 py-2 text-sm font-medium text-purple-700 backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-purple-300 hover:bg-white dark:border-purple-700/50 dark:bg-purple-900/30 dark:text-purple-300 dark:hover:border-purple-600/70 dark:hover:text-purple-200"
+                    className="flex items-center gap-2 rounded-xl border border-zinc-200/90 bg-white/95 px-4 py-2 text-sm font-semibold text-zinc-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-400/60 hover:text-[#1392ec] dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-blue-500/50 dark:hover:text-sky-300"
                   >
                     <Edit3 className="h-3.5 w-3.5" /> Chỉnh sửa
                   </Link>
@@ -267,7 +247,7 @@ export default function ProfilePage() {
                     Nguyễn Văn A
                   </h1>
                   <span
-                    className={`rounded-full border border-purple-200 bg-purple-100/80 px-2.5 py-0.5 text-xs font-bold dark:border-purple-500/30 dark:bg-purple-900/30 ${userRealm.color}`}
+                    className={`rounded-full border border-violet-200/90 bg-violet-50/90 px-2.5 py-0.5 text-xs font-bold dark:border-violet-500/30 dark:bg-violet-950/40 ${userRealm.color}`}
                   >
                     {userRealm.name} · Đỉnh phong
                   </span>
@@ -281,16 +261,16 @@ export default function ProfilePage() {
               </div>
 
               {/* Spiritual power bar */}
-              <div className="mt-5 rounded-2xl border border-purple-200 bg-white/70 p-4 shadow-sm shadow-zinc-950/5 dark:border-purple-800/30 dark:bg-purple-950/30 dark:shadow-none">
+              <div className="mt-5 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-4 shadow-sm shadow-zinc-950/5 dark:border-slate-800/60 dark:bg-slate-900/40 dark:shadow-none">
                 <div className="mb-3 flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Flame className="h-4 w-4 text-orange-400" />
+                    <Flame className="h-4 w-4 text-orange-500 dark:text-orange-400" />
                     <span className="text-sm font-bold text-zinc-700 dark:text-slate-300">
                       Linh lực
                     </span>
                   </div>
                   <div>
-                    <span className="text-lg font-black text-amber-300">
+                    <span className="text-lg font-black text-amber-600 dark:text-amber-300">
                       {formatPower(userPower)}
                     </span>
                     <span className="ml-1 text-xs text-zinc-500 dark:text-slate-500">điểm</span>
@@ -300,7 +280,7 @@ export default function ProfilePage() {
                   <span className={`font-semibold ${userRealm.color}`}>{userRealm.name}</span>
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-slate-800">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-purple-500 to-amber-400 shadow-[0_0_8px_rgba(196,130,244,0.6)]"
+                      className="h-full rounded-full bg-gradient-to-r from-[#1392ec] to-sky-400 shadow-[0_0_10px_rgba(19,146,236,0.35)]"
                       style={{ width: `${progressToNext}%` }}
                     />
                   </div>
@@ -316,7 +296,7 @@ export default function ProfilePage() {
                 {stats.map(({ label, value, Icon, color, bg, border }) => (
                   <div
                     key={label}
-                    className={`flex items-center gap-2 rounded-xl border ${border} ${bg} px-3 py-2.5 shadow-sm shadow-zinc-950/5 transition-all duration-300 hover:-translate-y-0.5 sm:gap-3 sm:rounded-2xl sm:px-4 sm:py-3 dark:shadow-none`}
+                    className={`flex items-center gap-2 rounded-2xl border border-zinc-200/70 ${border} ${bg} px-3 py-2.5 shadow-sm shadow-zinc-950/5 transition-all duration-300 hover:-translate-y-0.5 hover:border-zinc-300/80 sm:gap-3 sm:px-4 sm:py-3 dark:border-slate-800/50 dark:shadow-none dark:hover:border-slate-700/60`}
                   >
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/70 sm:h-9 sm:w-9 sm:rounded-xl dark:bg-white/5">
                       <Icon className={`h-4 w-4 ${color}`} />
@@ -338,8 +318,8 @@ export default function ProfilePage() {
             {/* Left */}
             <div className="space-y-5">
               {/* Account menu */}
-              <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/80 shadow-sm shadow-zinc-950/5 backdrop-blur-sm dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none">
-                <div className="border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
+              <div className="overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+                <div className="border-b border-zinc-200/80 px-5 py-4 dark:border-slate-800/50">
                   <h2 className="font-bold text-zinc-900 dark:text-slate-200">Cài đặt</h2>
                 </div>
                 <div className="p-2">
@@ -347,19 +327,19 @@ export default function ProfilePage() {
                     <Link
                       key={label}
                       href={href}
-                      className="group flex items-center justify-between rounded-xl px-4 py-3 transition-all hover:bg-purple-100/70 dark:hover:bg-purple-900/20"
+                      className="group flex items-center justify-between rounded-xl px-4 py-3 transition-all hover:bg-blue-50/90 dark:hover:bg-blue-950/25"
                     >
                       <div className="flex items-center gap-3">
-                        <Icon className="h-4 w-4 text-zinc-400 transition-colors group-hover:text-purple-500 dark:text-slate-600 dark:group-hover:text-purple-400" />
+                        <Icon className="h-4 w-4 text-zinc-400 transition-colors group-hover:text-[#1392ec] dark:text-slate-600 dark:group-hover:text-sky-400" />
                         <span className="text-sm text-zinc-600 group-hover:text-zinc-900 dark:text-slate-400 dark:group-hover:text-slate-200">
                           {label}
                         </span>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-zinc-300 group-hover:text-zinc-500 dark:text-slate-500 dark:group-hover:text-slate-400" />
+                      <ChevronRight className="h-4 w-4 text-zinc-300 group-hover:text-[#1392ec] dark:text-slate-500 dark:group-hover:text-sky-400" />
                     </Link>
                   ))}
-                  <div className="mx-3 my-1 border-t border-zinc-200 dark:border-slate-800/50" />
-                  <button className="group flex w-full items-center gap-3 rounded-xl px-4 py-3 transition-all hover:bg-red-50 dark:hover:bg-red-900/20">
+                  <div className="mx-3 my-1 border-t border-zinc-200/80 dark:border-slate-800/50" />
+                  <button className="group flex w-full items-center gap-3 rounded-xl px-4 py-3 transition-all hover:bg-red-50 dark:hover:bg-red-950/30">
                     <LogOut className="h-4 w-4 text-zinc-400 group-hover:text-red-500 dark:text-slate-500 dark:group-hover:text-red-400" />
                     <span className="text-sm text-zinc-500 group-hover:text-red-500 dark:text-slate-500 dark:group-hover:text-red-400">
                       Đăng xuất
@@ -375,113 +355,153 @@ export default function ProfilePage() {
             {/* Right — 2 cols */}
             <div className="space-y-6 lg:col-span-2">
               {/* ── Rank snapshot card ── */}
-              <div
-                className="relative overflow-hidden rounded-2xl border border-amber-200 shadow-xl shadow-amber-100/50 dark:border-amber-900/30 dark:shadow-amber-950/20"
-                style={{
-                  background:
-                    'linear-gradient(135deg, rgba(255,250,235,0.96) 0%, rgba(255,255,255,0.98) 100%)',
-                }}
-              >
+              <div className="relative overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
                 <div
-                  className="absolute inset-0 z-0 hidden dark:block"
+                  className="pointer-events-none absolute inset-0 opacity-[0.35] dark:opacity-25"
                   style={{
-                    background:
-                      'linear-gradient(135deg, rgba(20,10,50,0.96) 0%, rgba(5,8,20,0.98) 100%)',
+                    backgroundImage:
+                      "url(\"data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%231392ec' fill-opacity='0.07'%3E%3Cpath d='M20 20h20v20H20zM0 0h20v20H0z'/%3E%3C/g%3E%3C/svg%3E\")",
                   }}
                 />
-                <div className="relative z-10 border-b border-amber-200 px-6 py-4 dark:border-amber-800/20">
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-100/80 to-transparent dark:from-amber-900/10" />
-                  <div className="relative flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-900/50">
-                        <Crown className="h-4 w-4 text-white" />
+                <div className="relative z-10 border-b border-zinc-200/80 dark:border-slate-800/50">
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-100/90 via-white/40 to-sky-100/70 dark:from-amber-950/35 dark:via-slate-950/20 dark:to-blue-950/25" />
+                  <div className="relative px-5 py-5 sm:px-6 sm:py-6">
+                    <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                        <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 shadow-lg shadow-amber-900/25 ring-4 ring-amber-400/20 dark:shadow-amber-950/40 dark:ring-amber-500/15">
+                          <Crown className="h-7 w-7 text-white drop-shadow-sm" />
+                        </div>
+                        <div className="min-w-0">
+                          <span className="inline-flex items-center rounded-full border border-amber-200/90 bg-amber-50/90 px-2.5 py-0.5 text-[10px] font-bold tracking-widest text-amber-800 uppercase dark:border-amber-800/50 dark:bg-amber-950/40 dark:text-amber-200">
+                            Bảng xếp hạng
+                          </span>
+                          <h2 className="mt-2 text-2xl font-black tracking-tight text-zinc-950 sm:text-3xl dark:text-white">
+                            Thứ hạng tu vi
+                          </h2>
+                          <p className="mt-1 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-slate-400">
+                            Vị trí của bạn trong thiên hạ — so tài tu vi, tài phú và uy danh tông môn.
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h2 className="font-black text-zinc-950 dark:text-white">Thứ hạng tu vi</h2>
-                        <p className="text-xs text-zinc-500 dark:text-slate-500">
-                          Vị trí của bạn trong thiên hạ
-                        </p>
-                      </div>
+                      <Link
+                        href="/xep-hang"
+                        className="inline-flex shrink-0 items-center justify-center gap-2 rounded-2xl border border-zinc-200/90 bg-white/95 px-5 py-3 text-sm font-bold text-zinc-800 shadow-md transition-all hover:-translate-y-0.5 hover:border-[#1392ec]/50 hover:text-[#1392ec] dark:border-slate-700/70 dark:bg-slate-900/85 dark:text-slate-200 dark:hover:border-sky-500/45 dark:hover:text-sky-300"
+                      >
+                        Xem bảng đầy đủ
+                        <ChevronRight className="h-4 w-4" />
+                      </Link>
                     </div>
-                    <Link
-                      href="/xep-hang"
-                      className="flex items-center gap-1.5 rounded-xl border border-amber-300 bg-white/80 px-4 py-2 text-sm font-semibold text-amber-700 transition-all hover:-translate-y-0.5 hover:border-amber-400 hover:bg-white dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300 dark:hover:border-amber-600/60 dark:hover:bg-amber-900/30"
-                    >
-                      Bảng xếp hạng đầy đủ
-                      <ChevronRight className="h-4 w-4" />
-                    </Link>
                   </div>
                 </div>
 
-                <div className="relative z-10 px-6 py-5">
-                  <div className="mb-5 flex items-center gap-6">
-                    <div className="text-center">
-                      <div className="text-5xl font-black text-amber-300">#{userRank}</div>
-                      <div className="mt-1 text-xs text-zinc-500 dark:text-slate-600">
+                <div className="relative z-10 px-5 py-5 sm:px-6 sm:py-6">
+                  <div className="mb-6 grid gap-4 lg:grid-cols-12 lg:gap-5">
+                    <div className="flex flex-col items-center justify-center rounded-2xl border border-amber-200/80 bg-gradient-to-b from-amber-50/95 to-white p-6 text-center shadow-sm dark:border-amber-900/35 dark:from-amber-950/30 dark:to-slate-900/40 lg:col-span-5">
+                      <p className="text-[11px] font-bold tracking-[0.2em] text-amber-800/90 uppercase dark:text-amber-200/90">
                         Xếp hạng toàn cầu
+                      </p>
+                      <div className="relative mt-3">
+                        <div className="absolute inset-0 mx-auto h-24 w-24 rounded-full bg-amber-400/20 blur-2xl dark:bg-amber-500/15" />
+                        <p className="relative bg-gradient-to-b from-amber-500 via-orange-500 to-amber-700 bg-clip-text text-7xl font-black leading-none text-transparent tabular-nums sm:text-8xl dark:from-amber-300 dark:via-amber-400 dark:to-orange-600">
+                          #{userRank}
+                        </p>
                       </div>
+                      <p className="mt-3 text-xs text-zinc-500 dark:text-slate-500">
+                        Top luyện đọc · cập nhật theo tuần
+                      </p>
                     </div>
-                    <div className="flex-1 rounded-2xl border border-zinc-200 bg-white/85 p-4 dark:border-slate-800/50 dark:bg-slate-900/50">
-                      <div className="grid grid-cols-3 gap-4 text-center">
-                        <Link href="/xep-hang" className="group">
-                          <div className="text-lg font-black text-purple-400 transition-transform group-hover:scale-110">
+
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 lg:col-span-7 lg:grid-cols-1 lg:gap-3">
+                      <Link
+                        href="/xep-hang"
+                        className="group flex items-center gap-3 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-4 transition-all hover:border-[#1392ec]/40 hover:bg-white hover:shadow-md dark:border-slate-800/60 dark:bg-slate-900/40 dark:hover:border-sky-500/35 dark:hover:bg-slate-900/70"
+                      >
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#1392ec]/12 dark:bg-sky-500/15">
+                          <Zap className="h-5 w-5 text-[#1392ec] dark:text-sky-400" />
+                        </div>
+                        <div className="min-w-0 flex-1 text-left">
+                          <p className="text-[10px] font-bold tracking-wider text-zinc-500 uppercase dark:text-slate-500">
+                            Tu vi
+                          </p>
+                          <p className="text-xl font-black tabular-nums text-zinc-950 group-hover:text-[#1392ec] dark:text-white dark:group-hover:text-sky-400">
                             #{userRank}
-                          </div>
-                          <div className="text-[10px] font-bold text-zinc-500 uppercase dark:text-slate-600">
-                            Tu Vi
-                          </div>
-                        </Link>
-                        <Link
-                          href="/xep-hang/tai-phu"
-                          className="group border-x border-zinc-200 dark:border-slate-800/50"
-                        >
-                          <div className="text-lg font-black text-amber-300 transition-transform group-hover:scale-110">
+                          </p>
+                        </div>
+                        <ChevronRight className="h-4 w-4 shrink-0 text-zinc-300 transition-transform group-hover:translate-x-0.5 group-hover:text-[#1392ec] dark:text-slate-600 dark:group-hover:text-sky-400" />
+                      </Link>
+                      <Link
+                        href="/xep-hang/tai-phu"
+                        className="group flex items-center gap-3 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-4 transition-all hover:border-amber-300/70 hover:bg-white hover:shadow-md dark:border-slate-800/60 dark:bg-slate-900/40 dark:hover:border-amber-700/40 dark:hover:bg-slate-900/70"
+                      >
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 dark:bg-amber-500/10">
+                          <Coins className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+                        </div>
+                        <div className="min-w-0 flex-1 text-left">
+                          <p className="text-[10px] font-bold tracking-wider text-zinc-500 uppercase dark:text-slate-500">
+                            Tài phú
+                          </p>
+                          <p className="text-xl font-black tabular-nums text-zinc-950 group-hover:text-amber-600 dark:text-white dark:group-hover:text-amber-300">
                             #14
-                          </div>
-                          <div className="text-[10px] font-bold text-zinc-500 uppercase dark:text-slate-600">
-                            Tài Phú
-                          </div>
-                        </Link>
-                        <Link href="/xep-hang/tong-mon" className="group">
-                          <div className="text-lg font-black text-teal-400 transition-transform group-hover:scale-110">
+                          </p>
+                        </div>
+                        <ChevronRight className="h-4 w-4 shrink-0 text-zinc-300 transition-transform group-hover:translate-x-0.5 group-hover:text-amber-600 dark:text-slate-600 dark:group-hover:text-amber-400" />
+                      </Link>
+                      <Link
+                        href="/xep-hang/tong-mon"
+                        className="group flex items-center gap-3 rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-4 transition-all hover:border-teal-300/70 hover:bg-white hover:shadow-md dark:border-slate-800/60 dark:bg-slate-900/40 dark:hover:border-teal-700/40 dark:hover:bg-slate-900/70"
+                      >
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-teal-500/15 dark:bg-teal-500/10">
+                          <Trophy className="h-5 w-5 text-teal-600 dark:text-teal-400" />
+                        </div>
+                        <div className="min-w-0 flex-1 text-left">
+                          <p className="text-[10px] font-bold tracking-wider text-zinc-500 uppercase dark:text-slate-500">
+                            Tông môn
+                          </p>
+                          <p className="text-xl font-black tabular-nums text-zinc-950 group-hover:text-teal-600 dark:text-white dark:group-hover:text-teal-300">
                             #{userSect.rank}
-                          </div>
-                          <div className="text-[10px] font-bold text-zinc-500 uppercase dark:text-slate-600">
-                            Tông Môn
-                          </div>
-                        </Link>
-                      </div>
+                          </p>
+                        </div>
+                        <ChevronRight className="h-4 w-4 shrink-0 text-zinc-300 transition-transform group-hover:translate-x-0.5 group-hover:text-teal-600 dark:text-slate-600 dark:group-hover:text-teal-400" />
+                      </Link>
                     </div>
                   </div>
 
-                  <p className="mb-3 text-xs font-semibold tracking-widest text-zinc-500 uppercase dark:text-slate-600">
+                  <p className="mb-3 text-[11px] font-bold tracking-widest text-zinc-500 uppercase dark:text-slate-500">
                     Thế lực tông môn
                   </p>
-                  <div className="flex items-center gap-4 rounded-xl border border-teal-200 bg-teal-50/80 p-4 dark:border-teal-900/20 dark:bg-teal-900/10">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-2xl shadow-lg ring-1 ring-teal-500/30">
-                      🏰
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-zinc-900 dark:text-slate-200">
-                          {userSect.name}
-                        </h3>
-                        <span className="text-xs font-black text-teal-400">
-                          Hạng #{userSect.rank}
-                        </span>
+                  <div className="flex flex-col gap-3 rounded-2xl border border-teal-200/80 bg-gradient-to-r from-teal-50/90 via-white to-emerald-50/50 p-4 shadow-sm sm:flex-row sm:items-center sm:gap-4 sm:p-5 dark:border-teal-900/30 dark:from-teal-950/25 dark:via-slate-900/30 dark:to-emerald-950/20">
+                    <div className="flex min-w-0 flex-1 items-start gap-3 sm:items-center sm:gap-4">
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 text-2xl leading-none shadow-lg ring-2 ring-teal-500/25 sm:h-14 sm:w-14">
+                        🏰
                       </div>
-                      <div className="mt-1 flex items-center gap-4">
-                        <div className="flex items-center gap-1 text-[10px] text-zinc-500 dark:text-slate-500">
-                          <Flag className="h-3 w-3" /> Uy danh: {formatPower(userSect.prestige)}
+                      <div className="min-w-0 flex-1 space-y-2">
+                        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                          <h3 className="text-base font-bold text-zinc-900 sm:text-lg dark:text-slate-100">
+                            {userSect.name}
+                          </h3>
+                          <span className="inline-flex shrink-0 items-center rounded-full bg-teal-500/15 px-2.5 py-0.5 text-xs font-black text-teal-700 dark:bg-teal-500/20 dark:text-teal-300">
+                            Hạng #{userSect.rank}
+                          </span>
                         </div>
-                        <div className="flex items-center gap-1 text-[10px] text-zinc-500 dark:text-slate-500">
-                          <Shield className="h-3 w-3" /> Cấp: Sơ cấp
+                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-zinc-600 sm:text-xs dark:text-slate-400">
+                          <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                            <Flag className="h-3.5 w-3.5 shrink-0 text-teal-600 dark:text-teal-400" />
+                            Uy danh {formatPower(userSect.prestige)}
+                          </span>
+                          <span
+                            className="hidden h-3 w-px shrink-0 bg-zinc-200 sm:block dark:bg-slate-600"
+                            aria-hidden
+                          />
+                          <span className="inline-flex items-center gap-1.5 whitespace-nowrap">
+                            <Shield className="h-3.5 w-3.5 shrink-0 text-teal-600 dark:text-teal-400" />
+                            Cấp Sơ cấp
+                          </span>
                         </div>
                       </div>
                     </div>
                     <Link
                       href="/xep-hang/tong-mon"
-                      className="rounded-lg bg-teal-100 px-3 py-1.5 text-xs font-bold text-teal-700 hover:bg-teal-200 dark:bg-teal-900/30 dark:text-teal-300 dark:hover:bg-teal-900/50"
+                      className="inline-flex h-10 w-full shrink-0 items-center justify-center rounded-xl bg-teal-600 px-4 text-xs font-bold text-white shadow-md transition-colors hover:bg-teal-700 sm:ml-0 sm:w-auto sm:self-center dark:bg-teal-600 dark:hover:bg-teal-500"
                     >
                       Vào sảnh
                     </Link>
@@ -490,81 +510,152 @@ export default function ProfilePage() {
               </div>
 
               {/* ── Weekly reading chart ── */}
-              <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/80 shadow-sm shadow-zinc-950/5 backdrop-blur-sm dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none">
-                <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
-                  <h2 className="font-bold text-zinc-900 dark:text-slate-200">Tiến độ đọc</h2>
-                  <div className="flex items-center gap-1.5 text-sm text-green-400">
-                    <TrendingUp className="h-4 w-4" />
-                    <span className="font-semibold">+3</span>
-                    <span className="text-zinc-500 dark:text-slate-600">tuần này</span>
+              <div className="overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+                <div className="flex flex-col gap-3 border-b border-zinc-200/80 px-5 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800/50">
+                  <div className="flex items-start gap-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#1392ec] to-sky-700 shadow-md shadow-blue-500/20">
+                      <BookOpen className="h-5 w-5 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="font-bold text-zinc-900 dark:text-slate-200">Tiến độ đọc</h2>
+                      <p className="mt-0.5 text-xs text-zinc-500 dark:text-slate-500">
+                        7 ngày gần nhất · theo số chương đã đọc
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200/90 bg-emerald-50/90 px-3 py-1 text-xs font-semibold text-emerald-800 dark:border-emerald-800/50 dark:bg-emerald-950/35 dark:text-emerald-300">
+                      <TrendingUp className="h-3.5 w-3.5" />
+                      +3 so với tuần trước
+                    </span>
+                    <Link
+                      href="/thu-vien"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#1392ec] transition-colors hover:text-blue-700 dark:text-sky-400 dark:hover:text-sky-300"
+                    >
+                      Thư viện
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </Link>
                   </div>
                 </div>
-                <div className="p-5">
-                  <div
-                    className="mb-2 flex items-end justify-between gap-2"
-                    style={{ height: '80px' }}
-                  >
-                    {weeklyReads.map((h, i) => (
-                      <div key={i} className="group flex flex-1 flex-col items-center gap-1">
-                        <div
-                          className="w-full rounded-t-lg bg-purple-200/70 transition-all group-hover:bg-purple-300/70 dark:bg-purple-500/10 dark:group-hover:bg-purple-500/20"
-                          style={{ height: `${h}%` }}
-                        >
+
+                <div className="space-y-4 p-5">
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                    <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/90 px-3 py-2.5 dark:border-slate-800/60 dark:bg-slate-900/40">
+                      <p className="text-[10px] font-semibold tracking-wide text-zinc-500 uppercase dark:text-slate-500">
+                        Tổng tuần
+                      </p>
+                      <p className="mt-0.5 text-lg font-black tabular-nums text-zinc-950 dark:text-white">
+                        {weeklyChaptersTotal}
+                        <span className="ml-1 text-xs font-semibold text-zinc-500 dark:text-slate-500">
+                          chương
+                        </span>
+                      </p>
+                    </div>
+                    <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/90 px-3 py-2.5 dark:border-slate-800/60 dark:bg-slate-900/40">
+                      <p className="text-[10px] font-semibold tracking-wide text-zinc-500 uppercase dark:text-slate-500">
+                        Trung bình
+                      </p>
+                      <p className="mt-0.5 text-lg font-black tabular-nums text-zinc-950 dark:text-white">
+                        {weeklyChaptersAvg}
+                        <span className="ml-1 text-xs font-semibold text-zinc-500 dark:text-slate-500">
+                          / ngày
+                        </span>
+                      </p>
+                    </div>
+                    <div className="rounded-2xl border border-blue-200/80 bg-blue-50/80 px-3 py-2.5 dark:border-blue-900/40 dark:bg-blue-950/30">
+                      <p className="text-[10px] font-semibold tracking-wide text-blue-600 dark:text-sky-500">
+                        Cao nhất
+                      </p>
+                      <p className="mt-0.5 truncate text-lg font-black tabular-nums text-zinc-950 dark:text-white">
+                        {weeklyPeakDay.chapters}
+                        <span className="ml-1 text-xs font-semibold text-zinc-500 dark:text-slate-500">
+                          ({weeklyPeakDay.day})
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-zinc-200/70 bg-gradient-to-b from-zinc-50/95 to-white px-3 pt-4 pb-3 dark:border-slate-800/60 dark:from-slate-900/50 dark:to-slate-950/40">
+                    <div className="flex min-h-[10.5rem] items-end justify-between gap-1.5 sm:gap-2 sm:px-1">
+                      {weeklyReadingByDay.map((row, i) => {
+                        const pct =
+                          weeklyChaptersMax > 0
+                            ? Math.max(8, (row.chapters / weeklyChaptersMax) * 100)
+                            : 8;
+                        const isPeak = row.chapters === weeklyChaptersMax;
+                        const isToday = i === weeklyReadingByDay.length - 1;
+                        return (
                           <div
-                            className="w-full rounded-t-lg bg-gradient-to-t from-purple-600 to-cyan-400"
-                            style={{ height: `${40 + ((i * 8) % 35)}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                            key={row.day}
+                            className="flex min-w-0 flex-1 flex-col items-center gap-2"
+                          >
+                            <span
+                              className={`text-[10px] font-bold tabular-nums sm:text-xs ${
+                                isPeak
+                                  ? 'text-[#1392ec] dark:text-sky-400'
+                                  : 'text-zinc-400 dark:text-slate-500'
+                              }`}
+                            >
+                              {row.chapters}
+                            </span>
+                            <div className="flex h-24 w-full max-w-[2.25rem] flex-col justify-end sm:max-w-11">
+                              <div
+                                title={`${row.chapters} chương`}
+                                className={`group/bar relative w-full origin-bottom rounded-t-lg transition-transform duration-200 hover:scale-[1.02] ${
+                                  isPeak
+                                    ? 'bg-gradient-to-t from-[#1392ec] via-sky-500 to-sky-300 shadow-[0_8px_20px_-4px_rgba(19,146,236,0.45)] dark:shadow-[0_8px_24px_-4px_rgba(56,189,248,0.25)]'
+                                    : 'bg-gradient-to-t from-sky-600/90 to-sky-300/85 dark:from-sky-600/70 dark:to-sky-400/50'
+                                } ${isToday ? 'ring-2 ring-[#1392ec]/35 ring-offset-2 ring-offset-zinc-50 dark:ring-sky-400/40 dark:ring-offset-slate-900' : ''}`}
+                                style={{ height: `${pct}%` }}
+                              />
+                            </div>
+                            <div className="flex flex-col items-center gap-0.5">
+                              <span
+                                className={`text-[10px] font-bold sm:text-xs ${
+                                  isToday
+                                    ? 'text-[#1392ec] dark:text-sky-400'
+                                    : 'text-zinc-500 dark:text-slate-500'
+                                }`}
+                              >
+                                {row.day}
+                              </span>
+                              {isToday && (
+                                <span className="hidden text-[9px] font-semibold text-zinc-400 sm:inline dark:text-slate-600">
+                                  hôm nay
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                  <div className="flex justify-between text-xs text-zinc-500 dark:text-slate-600">
-                    {weekDays.map((d) => (
-                      <span key={d} className="flex-1 text-center">
-                        {d}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="mt-3 text-center text-sm text-zinc-500 dark:text-slate-500">
-                    Tổng:{' '}
-                    <span className="font-bold text-zinc-900 dark:text-slate-300">245 chapter</span>{' '}
-                    trong 7 ngày qua
+
+                  <p className="text-center text-xs text-zinc-500 dark:text-slate-500">
+                    Gợi ý: giữ nhịp đều giúp duy trì streak và mở thêm phần thưởng tuần.
                   </p>
                 </div>
               </div>
               {/* ── Inventory (Hành trang) ── */}
-              <div
-                className="relative overflow-hidden rounded-2xl border border-zinc-200 bg-white/85 shadow-sm shadow-zinc-950/5 dark:border-slate-800/50 dark:shadow-none"
-                style={{
-                  background:
-                    'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(243,244,246,0.98) 100%)',
-                }}
-              >
-                <div
-                  className="absolute inset-0 z-0 hidden dark:block"
-                  style={{
-                    background:
-                      'linear-gradient(180deg, rgba(12,8,35,0.96) 0%, rgba(4,6,18,0.98) 100%)',
-                  }}
-                />
-                <div className="relative z-10 flex items-center justify-between border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
-                  <div className="flex items-center gap-2">
-                    <Package className="h-4 w-4 text-amber-400" />
+              <div className="relative overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+                <div className="relative z-10 flex flex-col gap-3 border-b border-zinc-200/80 px-5 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800/50">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Package className="h-4 w-4 text-amber-500 dark:text-amber-400" />
                     <h2 className="font-bold text-zinc-900 dark:text-slate-200">Hành Trang</h2>
-                    <span className="rounded-full bg-zinc-200 px-2 py-0.5 text-xs font-bold text-zinc-600 dark:bg-slate-800 dark:text-slate-500">
+                    <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-bold text-zinc-600 dark:bg-slate-800 dark:text-slate-400">
                       {inventory.length} vật phẩm
                     </span>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                     <Link
                       href="/nhan-vat"
-                      className="flex items-center gap-1.5 rounded-xl border border-pink-200 bg-pink-50 px-3 py-1.5 text-xs font-semibold text-pink-700 transition-all hover:border-pink-300 hover:bg-pink-100 dark:border-pink-800/40 dark:bg-pink-900/20 dark:text-pink-300 dark:hover:border-pink-700/60 dark:hover:bg-pink-900/30"
+                      className="flex items-center gap-1.5 rounded-xl border border-rose-200/90 bg-rose-50/90 px-3 py-1.5 text-xs font-semibold text-rose-700 transition-all hover:border-rose-300 hover:bg-rose-100/90 dark:border-rose-900/40 dark:bg-rose-950/35 dark:text-rose-300 dark:hover:border-rose-800/50 dark:hover:bg-rose-950/50"
                     >
                       ⚔️ Trang bị
                     </Link>
                     <Link
                       href="/cua-hang"
-                      className="flex items-center gap-1.5 text-xs text-purple-600 transition-colors hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
+                      className="flex items-center gap-1.5 text-xs font-semibold text-[#1392ec] transition-colors hover:text-blue-700 dark:text-sky-400 dark:hover:text-sky-300"
                     >
                       <ShoppingBag className="h-3.5 w-3.5" />
                       Cửa hàng
@@ -573,7 +664,7 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Linh thạch banner */}
-                <div className="relative z-10 flex items-center justify-between border-b border-amber-200 bg-amber-50/80 px-5 py-3 dark:border-amber-900/20 dark:bg-amber-900/10">
+                <div className="relative z-10 flex flex-col gap-2 border-b border-amber-200/80 bg-amber-50/70 px-5 py-3 sm:flex-row sm:items-center sm:justify-between dark:border-amber-900/30 dark:bg-amber-950/25">
                   <div className="flex items-center gap-2">
                     <span className="text-xl">💎</span>
                     <div>
@@ -587,7 +678,7 @@ export default function ProfilePage() {
                   </div>
                   <Link
                     href="/diem-danh"
-                    className="flex items-center gap-1 rounded-xl border border-amber-300 bg-white/80 px-3 py-1.5 text-xs font-semibold text-amber-700 hover:border-amber-400 dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300 dark:hover:border-amber-600/60"
+                    className="flex w-fit items-center gap-1 rounded-xl border border-amber-200/90 bg-white/95 px-3 py-1.5 text-xs font-semibold text-amber-800 shadow-sm hover:border-amber-300 dark:border-amber-800/50 dark:bg-slate-900/70 dark:text-amber-200 dark:hover:border-amber-700/60"
                   >
                     + Điểm danh
                   </Link>
@@ -600,7 +691,7 @@ export default function ProfilePage() {
                     .map((item) => (
                       <div
                         key={item.id}
-                        className={`group relative flex flex-col items-center gap-1.5 overflow-hidden rounded-xl border ${item.border} bg-white/80 p-3 text-center transition-all hover:-translate-y-0.5 hover:shadow-lg dark:bg-slate-900/50`}
+                        className={`group relative flex flex-col items-center gap-1.5 overflow-hidden rounded-2xl border border-zinc-200/70 ${item.border} bg-white/90 p-3 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-zinc-300/80 hover:shadow-md dark:border-slate-800/60 dark:bg-slate-900/50 dark:hover:border-slate-700/70`}
                       >
                         {/* Quantity badge */}
                         {item.qty > 1 && (
@@ -629,7 +720,7 @@ export default function ProfilePage() {
                           <p className="text-[10px] leading-tight text-zinc-600 dark:text-slate-400">
                             {item.effect}
                           </p>
-                          <button className="mt-1.5 w-full rounded-lg bg-purple-600/15 py-1 text-[10px] font-bold text-purple-700 hover:bg-purple-600/20 dark:bg-purple-700/60 dark:text-purple-200 dark:hover:bg-purple-600/60">
+                          <button className="mt-1.5 w-full rounded-lg bg-[#1392ec]/12 py-1 text-[10px] font-bold text-[#1392ec] hover:bg-[#1392ec]/18 dark:bg-sky-500/20 dark:text-sky-200 dark:hover:bg-sky-500/30">
                             Sử dụng
                           </button>
                         </div>
@@ -637,10 +728,10 @@ export default function ProfilePage() {
                     ))}
                 </div>
 
-                <div className="relative z-10 border-t border-zinc-200 px-5 py-3 text-center dark:border-slate-800/40">
+                <div className="relative z-10 border-t border-zinc-200/80 px-5 py-3 text-center dark:border-slate-800/50">
                   <Link
                     href="/cua-hang"
-                    className="text-xs text-zinc-500 transition-colors hover:text-zinc-700 dark:text-slate-400 dark:hover:text-slate-300"
+                    className="text-xs font-medium text-[#1392ec] transition-colors hover:text-blue-700 dark:text-sky-400 dark:hover:text-sky-300"
                   >
                     Xem cửa hàng để mua thêm vật phẩm →
                   </Link>

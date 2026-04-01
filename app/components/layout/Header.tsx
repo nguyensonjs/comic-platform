@@ -149,20 +149,21 @@ export default function Header() {
                 <span className="hidden lg:inline">Danh sách</span>
               </Link>
 
-              {/* Dropdown: Khám phá */}
+              {/* Dropdown: Khám phá — padding-top thay margin để có “cầu” hover, tránh mất group-hover giữa nút và menu */}
               <div className="relative group/drop">
                 <button
                   type="button"
-                  className={`${navLinkClass} gap-1`}
+                  className={`${navLinkClass} min-h-10 gap-1`}
                   aria-expanded="false"
                   aria-haspopup="true"
                 >
-                  <Swords className="h-4 w-4" />
+                  <Swords className="h-4 w-4 shrink-0" />
                   <span className="hidden lg:inline">Khám phá</span>
-                  <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover/drop:rotate-180" />
+                  <ChevronDown className="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-hover/drop:rotate-180 group-focus-within/drop:rotate-180" />
                 </button>
-                <div className="invisible absolute right-0 top-full z-50 mt-1.5 w-56 origin-top-right scale-95 rounded-2xl border border-zinc-200/80 bg-white/95 p-2 opacity-0 shadow-xl shadow-zinc-950/10 backdrop-blur-xl transition-all duration-200 group-hover/drop:visible group-hover/drop:scale-100 group-hover/drop:opacity-100 dark:border-zinc-700/80 dark:bg-zinc-900/95 dark:shadow-black/40">
-                  <div className="space-y-0.5">
+                <div className="pointer-events-none invisible absolute right-0 top-full z-50 w-56 origin-top-right pt-2 opacity-0 transition-all duration-200 scale-95 group-hover/drop:pointer-events-auto group-hover/drop:visible group-hover/drop:scale-100 group-hover/drop:opacity-100 group-focus-within/drop:pointer-events-auto group-focus-within/drop:visible group-focus-within/drop:scale-100 group-focus-within/drop:opacity-100">
+                  <div className="rounded-2xl border border-zinc-200/80 bg-white/95 p-2 shadow-xl shadow-zinc-950/10 backdrop-blur-xl dark:border-zinc-700/80 dark:bg-zinc-900/95 dark:shadow-black/40">
+                    <div className="space-y-0.5">
                     <Link
                       href="/xep-hang"
                       className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-600 dark:text-slate-400 transition-colors hover:bg-amber-50 dark:hover:bg-amber-950/30 hover:text-amber-700 dark:hover:text-amber-400"
@@ -217,21 +218,22 @@ export default function Header() {
                       </div>
                       Nhân vật
                     </Link>
+                    </div>
+                    {isLoggedIn && (
+                      <>
+                        <div className="my-1.5 border-t border-zinc-100 dark:border-zinc-800" />
+                        <Link
+                          href="/ca-nhan"
+                          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 transition-colors hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-700 dark:hover:text-cyan-400"
+                        >
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-100 dark:bg-cyan-900/40">
+                            <User className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
+                          </div>
+                          Trang cá nhân
+                        </Link>
+                      </>
+                    )}
                   </div>
-                  {isLoggedIn && (
-                    <>
-                      <div className="my-1.5 border-t border-zinc-100 dark:border-zinc-800" />
-                      <Link
-                        href="/ca-nhan"
-                        className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 transition-colors hover:bg-cyan-50 dark:hover:bg-cyan-950/30 hover:text-cyan-700 dark:hover:text-cyan-400"
-                      >
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-100 dark:bg-cyan-900/40">
-                          <User className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />
-                        </div>
-                        Trang cá nhân
-                      </Link>
-                    </>
-                  )}
                 </div>
               </div>
 

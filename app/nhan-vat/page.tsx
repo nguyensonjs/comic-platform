@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import Link from 'next/link';
 import { Package, Swords, Shield, Gem, Zap, Flame, ChevronRight, Star, Wind } from 'lucide-react';
 
@@ -81,7 +81,7 @@ const allItems: Item[] = [
   },
 ];
 
-const slots: { key: SlotKey; label: string; icon: React.ReactNode; desc: string }[] = [
+const slots: { key: SlotKey; label: string; icon: ReactNode; desc: string }[] = [
   { key: 'helmet', label: 'Mũ',    icon: <Star className="h-4 w-4" />,   desc: 'Đầu giáp' },
   { key: 'weapon', label: 'Vũ khí', icon: <Swords className="h-4 w-4" />, desc: 'Vũ trang' },
   { key: 'armor',  label: 'Giáp',   icon: <Shield className="h-4 w-4" />, desc: 'Thân giáp' },
@@ -100,8 +100,59 @@ function rarityGlow(rarity: string) {
   return 'shadow-slate-700/30';
 }
 
+function EquippedOrb({ item, label }: { item: Item; label: string }) {
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div
+        className={`flex h-11 w-11 items-center justify-center rounded-xl border border-white/25 bg-gradient-to-br ${item.color} text-xl shadow-lg sm:h-12 sm:w-12 sm:text-2xl dark:border-white/10 ${rarityGlow(item.rarity)}`}
+      >
+        {item.icon}
+      </div>
+      <span className="max-w-[4.25rem] truncate text-center text-[9px] font-semibold text-zinc-500 dark:text-slate-500">
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function EmptyEquipSlot() {
+  return (
+    <div
+      className="flex h-11 w-11 items-center justify-center rounded-xl border border-dashed border-zinc-200/90 bg-zinc-50/40 sm:h-12 sm:w-12 dark:border-slate-700/55 dark:bg-slate-900/30"
+      aria-hidden
+    />
+  );
+}
+
 function parseSlotLabel(key: SlotKey) {
   return slots.find(s => s.key === key)?.label ?? key;
+}
+
+const statLabelVi: Record<string, string> = {
+  atk: 'Công',
+  def: 'Thủ',
+  spd: 'Tốc',
+  hp: 'HP',
+};
+
+type ItemPopupState = {
+  item: Item;
+  left: number;
+  top: number;
+  placeAbove: boolean;
+};
+
+function positionItemPopup(item: Item, el: HTMLElement): ItemPopupState {
+  const r = el.getBoundingClientRect();
+  const gutter = 10;
+  const estimateH = 176;
+  const maxW = 320;
+  const half = maxW / 2 + gutter;
+  const placeAbove = r.top >= estimateH + gutter + 20;
+  let left = r.left + r.width / 2;
+  left = Math.max(half, Math.min(window.innerWidth - half, left));
+  const top = placeAbove ? r.top - gutter : r.bottom + gutter;
+  return { item, left, top, placeAbove };
 }
 
 /* ─────────── Page ─────────── */
@@ -111,7 +162,7 @@ export default function CharacterPage() {
     weapon: allItems[0],  // Huyền Thiết Kiếm
     armor:  allItems[2],  // Huyền Giáp
   });
-  const [hoveredItem, setHoveredItem] = useState<Item | null>(null);
+  const [itemPopup, setItemPopup] = useState<ItemPopupState | null>(null);
 
   /* Equip / unequip */
   const equip = (item: Item) => {
@@ -142,124 +193,138 @@ export default function CharacterPage() {
 
   const equippedIds = new Set(Object.values(equipped).map(i => i?.id));
 
-  return (
-    <div
-      className="relative min-h-screen pb-20 pt-20 text-foreground transition-[background,color] duration-500 sm:pb-24 sm:pt-24"
-      style={{ background: 'var(--page-bg-gradient)' }}
-    >
-      {/* Ambient */}
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-20 left-1/4 h-[500px] w-[600px] rounded-full bg-purple-300/15 blur-[120px] dark:bg-purple-900/15" />
-        <div className="absolute top-1/2 right-0 h-80 w-80 rounded-full bg-amber-300/10 blur-[100px] dark:bg-amber-800/8" />
-        {[...Array(8)].map((_, i) => (
-          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-sky-500/20 dark:bg-amber-300/25"
-            style={{ top: `${10 + i * 11}%`, left: `${5 + i * 12}%`, animationDelay: `${i * 0.4}s` }} />
-        ))}
-      </div>
+  useEffect(() => {
+    if (!itemPopup) return;
+    const hide = () => setItemPopup(null);
+    window.addEventListener('scroll', hide, true);
+    return () => window.removeEventListener('scroll', hide, true);
+  }, [itemPopup]);
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+  return (
+    <div className="relative min-h-screen bg-gradient-to-b from-zinc-50 via-white to-zinc-100 pb-12 pt-20 text-foreground transition-colors duration-500 dark:from-zinc-950 dark:via-[#060b16] dark:to-slate-950 sm:pb-16 sm:pt-24">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.14),_transparent_55%)] dark:bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_55%)]" />
+
+      <div className="relative z-10 mx-auto max-w-6xl px-3 sm:px-6 lg:px-8">
 
         {/* ── Header ── */}
-        <div className="mb-8 flex items-end justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-purple-300 bg-purple-50/80 px-3 py-1.5 text-xs font-semibold text-purple-700 dark:border-purple-700/40 dark:bg-purple-900/20 dark:text-purple-300">
-              <Package className="h-3.5 w-3.5" /> Trang bị nhân vật
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-blue-200/90 bg-blue-50/90 px-3 py-1.5 text-xs font-semibold text-blue-800 dark:border-blue-500/30 dark:bg-blue-950/40 dark:text-sky-300">
+              <Package className="h-3.5 w-3.5 text-[#1392ec]" /> Trang bị nhân vật
             </div>
-            <h1 className="text-4xl font-black text-zinc-950 dark:text-white">
-              Nhân Vật{' '}
-              <span className="bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">Tu Sĩ</span>
+            <h1 className="text-3xl font-black tracking-tight text-zinc-950 sm:text-4xl dark:text-white">
+              Nhân vật{' '}
+              <span className="bg-gradient-to-r from-[#1392ec] via-sky-500 to-teal-500 bg-clip-text text-transparent">
+                tu sĩ
+              </span>
             </h1>
-            <p className="mt-1 text-zinc-500 dark:text-slate-500">Chọn trang bị từ hành trang, kéo sức mạnh đến đỉnh phong</p>
+            <p className="mt-1 max-w-xl text-sm text-zinc-500 dark:text-slate-500">
+              Chọn trang bị từ hành trang — nhấp ô để đeo / tháo, xem chỉ số tổng hợp bên dưới.
+            </p>
           </div>
-          <Link href="/ca-nhan" className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white/85 px-4 py-2 text-sm text-zinc-600 shadow-sm shadow-zinc-950/5 hover:border-zinc-300 hover:text-zinc-900 dark:border-slate-700/50 dark:bg-slate-900/50 dark:text-slate-400 dark:shadow-none dark:hover:text-slate-200">
-            Hành trang <ChevronRight className="h-4 w-4" />
+          <Link
+            href="/ca-nhan"
+            className="inline-flex w-fit shrink-0 items-center gap-1.5 rounded-xl border border-zinc-200/90 bg-white/95 px-4 py-2.5 text-sm font-semibold text-zinc-700 shadow-sm transition-all hover:border-blue-400/60 hover:text-[#1392ec] dark:border-slate-700/70 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:border-blue-500/50 dark:hover:text-sky-300"
+          >
+            Về cá nhân
+            <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
 
         {/* ── Main layout ── */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-5">
 
           {/* ── Left: Character display ── */}
           <div className="lg:col-span-2">
-            <div className="relative overflow-hidden rounded-3xl border border-purple-200 shadow-2xl shadow-purple-100/40 dark:border-purple-800/40 dark:shadow-purple-950/40"
-              style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(244,244,245,0.98) 100%)' }}
-            >
-              <div className="absolute inset-0 z-0 hidden dark:block"
-                style={{ background: 'linear-gradient(180deg, rgba(20,8,50,0.97) 0%, rgba(5,6,18,0.99) 100%)' }}
-              />
+            <div className="relative overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+              <div className="absolute inset-0 bg-gradient-to-b from-sky-50/80 via-transparent to-zinc-50/40 dark:from-blue-950/25 dark:via-transparent dark:to-slate-950/40" />
               {/* Character area */}
-              <div className="relative z-10 flex flex-col items-center justify-center px-6 py-10">
-                {/* Outer aura rings */}
-                <div className="absolute h-64 w-64 animate-ping rounded-full border border-purple-500/5 opacity-40" style={{ animationDuration: '4s' }} />
-                <div className="absolute h-52 w-52 animate-ping rounded-full border border-blue-500/8 opacity-50"  style={{ animationDuration: '3s' }} />
-                <div className="absolute h-40 w-40 rounded-full bg-purple-600/10 blur-2xl" />
+              <div className="relative z-10 flex flex-col items-center justify-center px-6 py-8 sm:py-10">
+                <div className="pointer-events-none absolute h-48 w-48 rounded-full bg-[#1392ec]/10 blur-3xl dark:bg-sky-500/10" />
 
-                {/* Character figure */}
-                <div className="relative flex flex-col items-center">
-                  {/* Helmet slot indicator */}
-                  {equipped.helmet && (
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 -translate-y-full text-3xl drop-shadow-lg">
-                      {equipped.helmet.icon}
+                {/* Character figure — trang bị quanh avatar: trên / trái-phải / đáy */}
+                <div className="relative mx-auto flex w-full max-w-[19rem] flex-col items-center sm:max-w-[21rem]">
+                  {/* Mũ — phía trên */}
+                  <div className="flex min-h-[4.25rem] items-end justify-center pb-1">
+                    {equipped.helmet ? (
+                      <EquippedOrb item={equipped.helmet} label="Mũ" />
+                    ) : (
+                      <div className="flex flex-col items-center gap-1">
+                        <EmptyEquipSlot />
+                        <span className="text-[9px] font-medium text-zinc-400 dark:text-slate-600">Mũ</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Hàng giữa: vũ khí | avatar | giáp */}
+                  <div className="flex w-full items-center justify-between gap-1 px-0.5 sm:gap-2">
+                    <div className="flex w-[4.75rem] shrink-0 flex-col items-center justify-center sm:w-[5.25rem]">
+                      {equipped.weapon ? (
+                        <EquippedOrb item={equipped.weapon} label="Vũ khí" />
+                      ) : (
+                        <div className="flex flex-col items-center gap-1">
+                          <EmptyEquipSlot />
+                          <span className="text-[9px] font-medium text-zinc-400 dark:text-slate-600">Vũ khí</span>
+                        </div>
+                      )}
                     </div>
-                  )}
 
-                  {/* Main avatar */}
-                  <div className="relative flex h-36 w-36 items-center justify-center">
-                    <div className="absolute inset-0 animate-pulse rounded-full bg-gradient-to-br from-purple-600/30 to-blue-600/20 blur-lg" />
-                    <div className="relative flex h-32 w-32 items-center justify-center rounded-full border-2 border-purple-500/40 bg-gradient-to-br from-blue-600 to-indigo-700 shadow-2xl shadow-purple-900/60 ring-4 ring-purple-500/10">
-                      <span className="text-6xl">⚡</span>
-                      {/* Glow pulse */}
-                      <div className="absolute inset-0 animate-pulse rounded-full bg-purple-400/10" style={{ animationDuration: '2s' }} />
+                    <div className="relative flex h-[8.5rem] w-[8.5rem] shrink-0 items-center justify-center sm:h-36 sm:w-36">
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#1392ec]/25 to-sky-400/15 blur-xl" />
+                      <div className="relative flex h-32 w-32 items-center justify-center rounded-full border-2 border-white/90 bg-gradient-to-br from-[#1392ec] to-sky-800 shadow-lg shadow-blue-500/30 ring-4 ring-[#1392ec]/15 dark:border-slate-800 dark:ring-sky-500/20">
+                        <span className="text-6xl">⚡</span>
+                      </div>
+                    </div>
+
+                    <div className="flex w-[4.75rem] shrink-0 flex-col items-center justify-center sm:w-[5.25rem]">
+                      {equipped.armor ? (
+                        <EquippedOrb item={equipped.armor} label="Giáp" />
+                      ) : (
+                        <div className="flex flex-col items-center gap-1">
+                          <EmptyEquipSlot />
+                          <span className="text-[9px] font-medium text-zinc-400 dark:text-slate-600">Giáp</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Đáy: nhẫn + linh bội */}
+                  <div className="mt-2 flex min-h-[4.5rem] w-full justify-center gap-6 sm:gap-10">
+                    <div className="flex flex-col items-center">
+                      {equipped.ring ? (
+                        <EquippedOrb item={equipped.ring} label="Nhẫn" />
+                      ) : (
+                        <div className="flex flex-col items-center gap-1">
+                          <EmptyEquipSlot />
+                          <span className="text-[9px] font-medium text-zinc-400 dark:text-slate-600">Nhẫn</span>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col items-center">
+                      {equipped.amulet ? (
+                        <EquippedOrb item={equipped.amulet} label="Linh bội" />
+                      ) : (
+                        <div className="flex flex-col items-center gap-1">
+                          <EmptyEquipSlot />
+                          <span className="text-[9px] font-medium text-zinc-400 dark:text-slate-600">Linh bội</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   {/* Character info */}
-                  <div className="mt-4 text-center">
+                  <div className="mt-5 text-center">
                     <h2 className="text-xl font-black text-zinc-950 dark:text-white">Nguyễn Văn A</h2>
-                    <p className="text-sm text-purple-400">Hóa Thần · Đỉnh phong</p>
-                  </div>
-
-                  {/* Weapon & Armor indicators */}
-                  <div className="mt-3 flex gap-4">
-                    {equipped.weapon && (
-                      <div className="flex flex-col items-center gap-1">
-                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.weapon.color} text-xl shadow-lg ${rarityGlow(equipped.weapon.rarity)}`}>
-                          {equipped.weapon.icon}
-                        </div>
-                        <span className="text-[10px] text-zinc-500 dark:text-slate-500">Tả thủ</span>
-                      </div>
-                    )}
-                    {equipped.armor && (
-                      <div className="flex flex-col items-center gap-1">
-                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.armor.color} text-xl shadow-lg`}>
-                          {equipped.armor.icon}
-                        </div>
-                        <span className="text-[10px] text-zinc-500 dark:text-slate-500">Thân giáp</span>
-                      </div>
-                    )}
-                    {equipped.ring && (
-                      <div className="flex flex-col items-center gap-1">
-                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.ring.color} text-xl shadow-lg`}>
-                          {equipped.ring.icon}
-                        </div>
-                        <span className="text-[10px] text-zinc-500 dark:text-slate-500">Nhẫn</span>
-                      </div>
-                    )}
-                    {equipped.amulet && (
-                      <div className="flex flex-col items-center gap-1">
-                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.amulet.color} text-xl shadow-lg`}>
-                          {equipped.amulet.icon}
-                        </div>
-                        <span className="text-[10px] text-zinc-500 dark:text-slate-500">Linh bội</span>
-                      </div>
-                    )}
+                    <p className="text-sm font-medium text-violet-600 dark:text-violet-400">Hóa Thần · Đỉnh phong</p>
                   </div>
                 </div>
               </div>
 
               {/* Combat stats */}
-              <div className="relative z-10 border-t border-zinc-200 p-5 dark:border-slate-800/50">
-                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500 dark:text-slate-400">Chiến lực tổng hợp</p>
+              <div className="relative z-10 border-t border-zinc-200/80 bg-zinc-50/50 p-5 dark:border-slate-800/50 dark:bg-slate-900/25">
+                <p className="mb-3 text-xs font-bold tracking-widest text-zinc-500 uppercase dark:text-slate-400">
+                  Chiến lực tổng hợp
+                </p>
                 <div className="space-y-2.5">
                   {([
                     { label: 'Công kích', key: 'atk', color: 'bg-red-500',    icon: <Flame className="h-3 w-3 text-red-400" /> },
@@ -280,9 +345,11 @@ export default function CharacterPage() {
                             {bonus > 0 && <span className="ml-1 text-green-400 font-semibold">+{bonus.toLocaleString()}</span>}
                           </span>
                         </div>
-                        <div className="h-1.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-slate-800">
-                          <div className={`h-full rounded-full ${color} transition-all duration-500`}
-                            style={{ width: `${pct}%` }} />
+                        <div className="h-1.5 overflow-hidden rounded-full bg-zinc-200/90 dark:bg-slate-800">
+                          <div
+                            className={`h-full rounded-full ${color} shadow-sm transition-all duration-500`}
+                            style={{ width: `${pct}%` }}
+                          />
                         </div>
                       </div>
                     );
@@ -296,11 +363,14 @@ export default function CharacterPage() {
           <div className="space-y-5 lg:col-span-3">
 
             {/* Equipment slots */}
-            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-sm shadow-zinc-950/5 dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none">
-              <div className="border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
+            <div className="overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+              <div className="border-b border-zinc-200/80 px-5 py-4 dark:border-slate-800/50">
                 <h2 className="font-bold text-zinc-900 dark:text-slate-200">Trang bị đang mặc</h2>
+                <p className="mt-0.5 text-xs text-zinc-500 dark:text-slate-500">
+                  Nhấp ô có đồ để tháo nhanh
+                </p>
               </div>
-              <div className="grid grid-cols-5 gap-3 p-4">
+              <div className="grid grid-cols-5 gap-2 p-4 sm:gap-3">
                 {slots.map(({ key, label, icon, desc }) => {
                   const item = equipped[key];
                   return (
@@ -308,10 +378,12 @@ export default function CharacterPage() {
                       {/* Slot */}
                       <div
                         onClick={() => item && equip(item)}
+                        onMouseEnter={(e) => item && setItemPopup(positionItemPopup(item, e.currentTarget))}
+                        onMouseLeave={() => setItemPopup(null)}
                         className={`relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-2xl border-2 text-3xl transition-all ${
                           item
-                            ? `${item.border} bg-gradient-to-br ${item.color} shadow-lg hover:scale-105`
-                            : 'border-dashed border-zinc-300 bg-zinc-100/80 hover:border-zinc-400 dark:border-slate-700/50 dark:bg-slate-900/50 dark:hover:border-slate-600'
+                            ? `${item.border} bg-gradient-to-br ${item.color} shadow-md hover:scale-[1.04] active:scale-[0.98]`
+                            : 'border-dashed border-zinc-300/90 bg-zinc-50/90 hover:border-[#1392ec]/40 hover:bg-blue-50/50 dark:border-slate-700/60 dark:bg-slate-900/50 dark:hover:border-sky-500/35'
                         }`}
                       >
                         {item ? item.icon : (
@@ -341,24 +413,26 @@ export default function CharacterPage() {
             </div>
 
             {/* Inventory grid (equippable items only) */}
-            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-sm shadow-zinc-950/5 dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none">
-              <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
+            <div className="overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+              <div className="flex flex-col gap-2 border-b border-zinc-200/80 px-5 py-4 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800/50">
                 <h2 className="font-bold text-zinc-900 dark:text-slate-200">Hành trang — Trang bị</h2>
-                <span className="text-xs text-zinc-500 dark:text-slate-400">{allItems.length} vật phẩm · Nhấp để trang bị / tháo</span>
+                <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-semibold text-zinc-600 dark:bg-slate-800 dark:text-slate-400">
+                  {allItems.length} vật phẩm · nhấp để đeo / tháo
+                </span>
               </div>
 
-              <div className="grid grid-cols-4 gap-3 p-5 sm:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5">
+              <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 sm:gap-3 sm:p-5 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
                 {allItems.map((item) => {
                   const isEquipped = equippedIds.has(item.id);
                   return (
                     <div key={item.id}
                       onClick={() => equip(item)}
-                      onMouseEnter={() => setHoveredItem(item)}
-                      onMouseLeave={() => setHoveredItem(null)}
-                      className={`group relative flex cursor-pointer flex-col items-center gap-2 overflow-hidden rounded-2xl border p-3 text-center transition-all duration-200 ${
+                      onMouseEnter={(e) => setItemPopup(positionItemPopup(item, e.currentTarget))}
+                      onMouseLeave={() => setItemPopup(null)}
+                      className={`group relative flex cursor-pointer flex-col items-center gap-2 overflow-hidden rounded-2xl border-2 p-3 text-center transition-all duration-200 ${item.border} ${
                         isEquipped
-                          ? `${item.border} bg-gradient-to-br ${item.color} shadow-xl ring-2 ring-white/10`
-                          : `${item.border} bg-white/85 shadow-sm shadow-zinc-950/5 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-900/60 dark:shadow-none`
+                          ? `bg-gradient-to-br ${item.color} shadow-lg ring-2 ring-[#1392ec]/25 ring-offset-2 ring-offset-white dark:ring-sky-400/30 dark:ring-offset-slate-950`
+                          : `bg-white/95 shadow-sm hover:-translate-y-0.5 hover:shadow-md dark:bg-slate-900/55`
                       }`}
                     >
                       {/* Equipped badge */}
@@ -394,35 +468,67 @@ export default function CharacterPage() {
                 })}
               </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            {/* Hovered item tooltip */}
-            {hoveredItem && (
-              <div className={`rounded-2xl border bg-white/95 px-5 py-4 shadow-sm shadow-zinc-950/5 backdrop-blur-sm transition-all dark:bg-slate-950/95 dark:shadow-none ${hoveredItem.border}`}>
-                <div className="flex items-center gap-3">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${hoveredItem.color} text-2xl shadow-md`}>
-                    {hoveredItem.icon}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <p className="font-black text-zinc-950 dark:text-white">{hoveredItem.name}</p>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${hoveredItem.rarityBadge}`}>{hoveredItem.rarity}</span>
-                    </div>
-                    <p className="text-sm text-zinc-500 dark:text-slate-400">{hoveredItem.effect}</p>
-                  </div>
-                  <div className="ml-auto flex items-center gap-3 text-sm">
-                    {Object.entries(hoveredItem.stats).map(([k, v]) => (
-                      <div key={k} className="text-center">
-                        <div className="font-black text-green-400">+{v?.toLocaleString()}</div>
-                        <div className="text-[10px] uppercase text-zinc-400 dark:text-slate-500">{k}</div>
-                      </div>
-                    ))}
-                  </div>
+      {/* Hover popup — fixed để không bị cắt bởi overflow */}
+      {itemPopup && (
+        <div
+          className="pointer-events-none fixed z-[300] w-[min(20rem,calc(100vw-1.5rem))] select-none"
+          style={{
+            left: itemPopup.left,
+            top: itemPopup.top,
+            transform: itemPopup.placeAbove ? 'translate(-50%, -100%)' : 'translate(-50%, 0)',
+          }}
+          role="tooltip"
+        >
+          <div
+            className={`rounded-2xl border border-zinc-200/90 bg-white/98 px-4 py-3 shadow-2xl shadow-zinc-950/20 ring-1 ring-black/5 backdrop-blur-md dark:border-slate-700/80 dark:bg-slate-950/95 dark:shadow-black/50 dark:ring-white/10 ${itemPopup.item.border}`}
+          >
+            <div className="flex gap-3">
+              <div
+                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br ${itemPopup.item.color} text-2xl shadow-md`}
+              >
+                {itemPopup.item.icon}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-black text-zinc-950 dark:text-white">{itemPopup.item.name}</p>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${itemPopup.item.rarityBadge}`}
+                  >
+                    {itemPopup.item.rarity}
+                  </span>
                 </div>
+                <p className="mt-1 text-xs leading-snug text-zinc-600 dark:text-slate-400">
+                  {itemPopup.item.effect}
+                </p>
+                <p className="mt-1.5 text-[10px] font-semibold text-zinc-400 dark:text-slate-500">
+                  Ô: {parseSlotLabel(itemPopup.item.slot)}
+                </p>
+              </div>
+            </div>
+            {Object.keys(itemPopup.item.stats).length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2 border-t border-zinc-200/80 pt-3 dark:border-slate-700/60">
+                {Object.entries(itemPopup.item.stats).map(([k, v]) => (
+                  <div
+                    key={k}
+                    className="rounded-lg bg-emerald-500/10 px-2.5 py-1 text-center dark:bg-emerald-500/15"
+                  >
+                    <div className="text-sm font-black text-emerald-600 dark:text-emerald-400">
+                      +{v?.toLocaleString('vi-VN')}
+                    </div>
+                    <div className="text-[10px] font-semibold uppercase text-zinc-500 dark:text-slate-500">
+                      {statLabelVi[k] ?? k}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

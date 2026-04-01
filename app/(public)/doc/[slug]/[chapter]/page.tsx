@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import type { ChapterDetailApiResponse, ComicDetailApiResponse } from '@/types/otruyen';
 import ReaderProgressTracker from './ReaderProgressTracker';
+import ReaderBottomBar from './ReaderBottomBar';
 
 async function getChapterByUrl(url: string): Promise<ChapterDetailApiResponse | null> {
   try {
@@ -190,17 +191,10 @@ export default async function ReaderPage({
         </div>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 dark:border-white/10 bg-white/95 dark:bg-slate-950/95 px-4 py-3 backdrop-blur-xl transition-colors">
-        <div className="mx-auto max-w-2xl">
-          <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
-            <span>{images.length} Trang</span>
-            <span>Chương {item.chapter_name}</span>
-          </div>
-          <div className="h-1 rounded-full bg-slate-800">
-            <div className="h-full w-full rounded-full bg-blue-500" />
-          </div>
-        </div>
-      </div>
+      <ReaderBottomBar
+        pageCount={images.length}
+        chapterLabel={`Chương ${item.chapter_name}${item.chapter_title ? ` · ${item.chapter_title}` : ''}`}
+      />
     </div>
   );
 }

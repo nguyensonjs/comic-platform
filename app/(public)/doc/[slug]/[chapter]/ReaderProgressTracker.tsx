@@ -60,7 +60,7 @@ export default function ReaderProgressTracker({ slug, chapter, comicTitle, chapt
       window.removeEventListener('scroll', onScroll);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [slug, chapter]);
+  }, [slug, chapter, comicTitle, chapterName]);
 
   return null;
 }

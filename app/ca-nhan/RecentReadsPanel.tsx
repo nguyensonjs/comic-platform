@@ -47,8 +47,8 @@ export default function RecentReadsPanel() {
 
   if (sorted.length === 0) {
     return (
-      <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/80 shadow-sm shadow-zinc-950/5 backdrop-blur-sm dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none">
-        <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
+      <div className="overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+        <div className="flex items-center justify-between border-b border-zinc-200/80 px-5 py-4 dark:border-slate-800/50">
           <h2 className="font-bold text-zinc-900 dark:text-slate-200">Đọc gần đây</h2>
         </div>
         <div className="px-5 py-6 text-sm text-zinc-500 dark:text-slate-500">
@@ -59,24 +59,24 @@ export default function RecentReadsPanel() {
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/80 shadow-sm shadow-zinc-950/5 backdrop-blur-sm dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none">
-      <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
+    <div className="overflow-hidden rounded-3xl border border-zinc-200/80 bg-white/90 shadow-xl shadow-zinc-950/5 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+      <div className="flex items-center justify-between border-b border-zinc-200/80 px-5 py-4 dark:border-slate-800/50">
         <h2 className="font-bold text-zinc-900 dark:text-slate-200">Đọc gần đây</h2>
         <Link
           href="/thu-vien"
-          className="text-xs text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300"
+          className="text-xs font-semibold text-[#1392ec] transition-colors hover:text-blue-700 dark:text-sky-400 dark:hover:text-sky-300"
         >
           Xem tất cả
         </Link>
       </div>
-      <div className="divide-y divide-zinc-200 dark:divide-slate-800/40">
+      <div className="divide-y divide-zinc-200/80 dark:divide-slate-800/40">
         {sorted.map((item) => (
           <Link
             key={item.slug}
             href={`/doc/${item.slug}/${item.chapter}`}
-            className="group flex items-center gap-3 px-5 py-3.5 transition-all hover:bg-purple-50 dark:hover:bg-purple-900/10"
+            className="group flex items-center gap-3 px-5 py-3.5 transition-all hover:bg-blue-50/90 dark:hover:bg-blue-950/25"
           >
-            <div className="flex h-10 w-7 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700">
+            <div className="flex h-10 w-7 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#1392ec] to-sky-700 shadow-sm shadow-blue-500/20">
               <BookOpen className="h-3.5 w-3.5 text-white/70" />
             </div>
             <div className="min-w-0 flex-1">
