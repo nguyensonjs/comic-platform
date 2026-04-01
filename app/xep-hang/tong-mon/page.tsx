@@ -15,6 +15,12 @@ const sectLevels = [
 ];
 
 const sectConfig = Object.fromEntries(sectLevels.map(r => [r.name, r]));
+const floatingTeal = Array.from({ length: 12 }, (_, i) => ({
+    top: `${9 + i * 7}%`,
+    left: `${6 + (i * 8) % 86}%`,
+    animationDelay: `${(i % 4) * 0.45}s`,
+    animationDuration: `${3 + (i % 3) * 0.55}s`
+}));
 
 const leaderboard = [
     {
@@ -105,23 +111,18 @@ export default function TopTongMonPage() {
 
     return (
         <div
-            className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+            className="relative min-h-screen pb-20 pt-20 text-foreground transition-[background,color] duration-500 sm:pb-24 sm:pt-24"
             style={{ background: 'var(--page-bg-gradient)' }}
         >
             {/* Ambient glows - Teal theme */}
             <div className="pointer-events-none fixed inset-0 overflow-hidden">
-                <div className="absolute -top-40 left-1/3 h-[500px] w-[700px] rounded-full bg-teal-900/20 blur-[120px]" />
-                <div className="absolute top-1/2 right-0 h-80 w-80 rounded-full bg-blue-800/10 blur-[100px]" />
-                <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-emerald-900/15 blur-[90px]" />
+                <div className="absolute -top-40 left-1/3 h-[500px] w-[700px] rounded-full bg-teal-300/20 blur-[120px] dark:bg-teal-900/20" />
+                <div className="absolute top-1/2 right-0 h-80 w-80 rounded-full bg-blue-300/15 blur-[100px] dark:bg-blue-800/10" />
+                <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-emerald-300/15 blur-[90px] dark:bg-emerald-900/15" />
                 {/* floating embers */}
-                {[...Array(12)].map((_, i) => (
-                    <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-teal-400/30"
-                        style={{
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 2}s`,
-                            animationDuration: `${3 + Math.random() * 2}s`
-                        }}
+                {floatingTeal.map((spark, i) => (
+                    <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-teal-500/25 dark:bg-teal-400/30"
+                        style={spark}
                     />
                 ))}
             </div>
@@ -130,26 +131,26 @@ export default function TopTongMonPage() {
 
                 {/* ── Page heading ── */}
                 <div className="mb-10 text-center">
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-teal-700/40 bg-teal-900/20 px-4 py-1.5 text-sm font-semibold text-teal-300 backdrop-blur-sm">
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-teal-300 bg-teal-50/80 px-4 py-1.5 text-sm font-semibold text-teal-700 backdrop-blur-sm dark:border-teal-700/40 dark:bg-teal-900/20 dark:text-teal-300">
                         <Castle className="h-4 w-4" />
                         Vạn Thế Tông Môn
                     </div>
-                    <h1 className="text-4xl font-black text-white md:text-5xl">
+                    <h1 className="text-4xl font-black text-zinc-950 dark:text-white md:text-5xl">
                         Bảng Xếp Hạng{' '}
                         <span className="bg-gradient-to-r from-teal-400 via-cyan-200 to-blue-500 bg-clip-text text-transparent">
                             Tông Môn
                         </span>
                     </h1>
-                    <p className="mt-3 text-slate-400 text-sm">Thế lực hùng mạnh, trấn áp quần hùng — Cập nhật hàng ngày</p>
+                    <p className="mt-3 text-sm text-zinc-500 dark:text-slate-400">Thế lực hùng mạnh, trấn áp quần hùng — Cập nhật hàng ngày</p>
 
                     {/* ── Tabs ── */}
                     <div className="mt-8 flex justify-center">
-                        <div className="flex p-1 bg-slate-900/80 border border-slate-800 rounded-2xl backdrop-blur-md">
-                            <Link href="/xep-hang" className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+                        <div className="flex rounded-2xl border border-zinc-200 bg-white/85 p-1 shadow-sm shadow-zinc-950/5 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-none">
+                            <Link href="/xep-hang" className="flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200">
                                 <Zap className="h-4 w-4" />
                                 Tu Vi
                             </Link>
-                            <Link href="/xep-hang/tai-phu" className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+                            <Link href="/xep-hang/tai-phu" className="flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200">
                                 <Coins className="h-4 w-4" />
                                 Tài Phú
                             </Link>
@@ -162,30 +163,30 @@ export default function TopTongMonPage() {
                 </div>
 
                 {/* ── Your sect banner ── */}
-                <div className="mb-8 flex items-center justify-between gap-4 rounded-2xl border border-teal-700/30 bg-teal-950/20 px-5 py-4 backdrop-blur-sm">
+                <div className="mb-8 flex items-center justify-between gap-4 rounded-2xl border border-teal-200 bg-white/85 px-5 py-4 shadow-sm shadow-zinc-950/5 backdrop-blur-sm dark:border-teal-700/30 dark:bg-teal-950/20 dark:shadow-none">
                     <div className="flex items-center gap-4">
                         <div className={`flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${userEntry.avatar} text-xl shadow-lg ring-1 ring-teal-500/30`}>
                             {userEntry.badge}
                         </div>
                         <div>
-                            <p className="text-sm text-slate-400">Vị thế Tông môn</p>
-                            <p className="font-black text-white">#{userEntry.rank} · {userEntry.name}</p>
+                            <p className="text-sm text-zinc-500 dark:text-slate-400">Vị thế Tông môn</p>
+                            <p className="font-black text-zinc-950 dark:text-white">#{userEntry.rank} · {userEntry.name}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-8 text-sm">
                         <div className="text-center">
                             <div className={`font-black ${sectConfig[userEntry.level]?.color}`}>{userEntry.level}</div>
-                            <div className="text-xs text-slate-500">Cấp bậc</div>
+                            <div className="text-xs text-zinc-500 dark:text-slate-500">Cấp bậc</div>
                         </div>
                         <div className="text-center">
                             <div className="flex items-center gap-1 font-black text-teal-400">
                                 <Flag className="h-3.5 w-3.5" />
                                 {formatVal(userEntry.prestige)}
                             </div>
-                            <div className="text-xs text-slate-500">Uy danh</div>
+                            <div className="text-xs text-zinc-500 dark:text-slate-500">Uy danh</div>
                         </div>
                     </div>
-                    <button className="flex items-center gap-1.5 rounded-xl border border-teal-700/40 bg-teal-900/30 px-4 py-2 text-sm font-semibold text-teal-300 transition-all hover:border-teal-600/60 hover:text-teal-200">
+                    <button className="flex items-center gap-1.5 rounded-xl border border-teal-300 bg-teal-50 px-4 py-2 text-sm font-semibold text-teal-700 transition-all hover:border-teal-400 hover:text-teal-800 dark:border-teal-700/40 dark:bg-teal-900/30 dark:text-teal-300 dark:hover:border-teal-600/60 dark:hover:text-teal-200">
                         Chi chi tiết <ChevronRight className="h-4 w-4" />
                     </button>
                 </div>
@@ -194,7 +195,7 @@ export default function TopTongMonPage() {
                 <div className="mb-8 grid grid-cols-3 gap-4 items-end">
 
                     {/* ── 2nd ── */}
-                    <div className="flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-red-700/30 bg-gradient-to-b from-red-950/40 to-slate-950/90 shadow-xl backdrop-blur-sm">
+                    <div className="flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-red-200 bg-gradient-to-b from-red-50 to-white shadow-xl backdrop-blur-sm dark:border-red-700/30 dark:from-red-950/40 dark:to-slate-950/90">
                         {/* Banner */}
                         <div className={`w-full border-b ${top3[1].titleBorder} ${top3[1].titleBg} px-3 py-2 text-center`}>
                             <div className="mb-0.5 text-lg">🥈</div>
@@ -211,7 +212,7 @@ export default function TopTongMonPage() {
                                 </div>
                             </div>
                             <div>
-                                <p className="font-black text-slate-100">{top3[1].name}</p>
+                                <p className="font-black text-zinc-900 dark:text-slate-100">{top3[1].name}</p>
                                 <p className={`text-xs font-semibold ${sectConfig[top3[1].level]?.color}`}>{top3[1].level}</p>
                             </div>
                             <div className="flex items-center gap-1.5 rounded-full border border-teal-700/30 bg-teal-900/20 px-3 py-1">
@@ -222,7 +223,7 @@ export default function TopTongMonPage() {
                     </div>
 
                     {/* ── 1st ── */}
-                    <div className="flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-blue-400/50 bg-gradient-to-b from-blue-950/40 to-slate-950/90 shadow-2xl shadow-blue-900/20 backdrop-blur-sm scale-110 z-20">
+                    <div className="z-20 flex scale-110 flex-col items-center gap-0 overflow-hidden rounded-2xl border border-blue-300 bg-gradient-to-b from-cyan-50 to-white shadow-2xl shadow-cyan-100/50 backdrop-blur-sm dark:border-blue-400/50 dark:from-blue-950/40 dark:to-slate-950/90 dark:shadow-blue-900/20">
                         {/* Banner */}
                         <div className={`w-full border-b ${top3[0].titleBorder} ${top3[0].titleBg} px-3 py-3 text-center`}>
                             <Crown className="mx-auto mb-1 h-5 w-5 text-cyan-400" />
@@ -239,7 +240,7 @@ export default function TopTongMonPage() {
                                 </div>
                             </div>
                             <div>
-                                <p className="text-lg font-black text-blue-100">{top3[0].name}</p>
+                                <p className="text-lg font-black text-blue-900 dark:text-blue-100">{top3[0].name}</p>
                                 <p className={`text-xs font-semibold ${sectConfig[top3[0].level]?.color}`}>{top3[0].level}</p>
                             </div>
                             <div className="flex items-center gap-1.5 rounded-full border border-teal-600/40 bg-teal-900/30 px-4 py-1.5">
@@ -250,7 +251,7 @@ export default function TopTongMonPage() {
                     </div>
 
                     {/* ── 3rd ── */}
-                    <div className="flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-emerald-700/30 bg-gradient-to-b from-emerald-950/40 to-slate-950/90 shadow-xl backdrop-blur-sm">
+                    <div className="flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-emerald-200 bg-gradient-to-b from-emerald-50 to-white shadow-xl backdrop-blur-sm dark:border-emerald-700/30 dark:from-emerald-950/40 dark:to-slate-950/90">
                         {/* Banner */}
                         <div className={`w-full border-b ${top3[2].titleBorder} ${top3[2].titleBg} px-3 py-2 text-center`}>
                             <div className="mb-0.5 text-lg">🥉</div>
@@ -267,7 +268,7 @@ export default function TopTongMonPage() {
                                 </div>
                             </div>
                             <div>
-                                <p className="font-black text-slate-100">{top3[2].name}</p>
+                                <p className="font-black text-zinc-900 dark:text-slate-100">{top3[2].name}</p>
                                 <p className={`text-xs font-semibold ${sectConfig[top3[2].level]?.color}`}>{top3[2].level}</p>
                             </div>
                             <div className="flex items-center gap-1.5 rounded-full border border-emerald-700/30 bg-emerald-900/20 px-3 py-1">
@@ -279,11 +280,14 @@ export default function TopTongMonPage() {
                 </div>
 
                 {/* ── Ranks 4–20 table ── */}
-                <div className="mt-12 overflow-hidden rounded-2xl border border-teal-900/20 backdrop-blur-sm shadow-2xl shadow-black/40"
-                    style={{ background: 'linear-gradient(180deg, rgba(5,20,20,0.95) 0%, rgba(0,5,5,0.98) 100%)' }}
+                <div className="mt-12 overflow-hidden rounded-2xl border border-teal-200 bg-white/90 shadow-2xl shadow-zinc-950/5 backdrop-blur-sm dark:border-teal-900/20 dark:shadow-black/40"
+                    style={{ background: 'linear-gradient(180deg, rgba(240,253,250,0.96) 0%, rgba(255,255,255,0.98) 100%)' }}
                 >
+                    <div className="absolute inset-0 hidden dark:block"
+                        style={{ background: 'linear-gradient(180deg, rgba(5,20,20,0.95) 0%, rgba(0,5,5,0.98) 100%)' }}
+                    />
                     {/* Table header */}
-                    <div className="grid grid-cols-12 gap-4 border-b border-teal-900/20 px-5 py-4 text-xs font-bold uppercase tracking-widest text-teal-700">
+                    <div className="relative grid grid-cols-12 gap-4 border-b border-teal-200 px-5 py-4 text-xs font-bold uppercase tracking-widest text-teal-700 dark:border-teal-900/20">
                         <div className="col-span-1 text-center">#</div>
                         <div className="col-span-4">Tông Môn</div>
                         <div className="col-span-2 text-center hidden sm:block">Đệ tử</div>
@@ -291,7 +295,7 @@ export default function TopTongMonPage() {
                         <div className="col-span-3 text-right">Uy danh</div>
                     </div>
 
-                    <div className="divide-y divide-teal-900/10">
+                    <div className="relative divide-y divide-teal-100 dark:divide-teal-900/10">
                         {rest.map((entry) => {
                             const sc = sectConfig[entry.level] ?? { color: 'text-slate-400' };
                             const isUser = entry.isUser;
@@ -300,11 +304,11 @@ export default function TopTongMonPage() {
                                 <div
                                     key={entry.rank}
                                     className={`group grid grid-cols-12 items-center gap-4 px-5 py-4 transition-all ${isUser
-                                            ? 'bg-teal-950/30 border-l-4 border-teal-500'
-                                            : 'hover:bg-teal-900/10'
+                                            ? 'border-l-4 border-teal-500 bg-teal-50 dark:bg-teal-950/30'
+                                            : 'hover:bg-teal-50 dark:hover:bg-teal-900/10'
                                         }`}
                                 >
-                                    <div className={`col-span-1 text-center text-sm font-black ${entry.rank <= 10 ? 'text-teal-600' : 'text-slate-700'}`}>
+                                    <div className={`col-span-1 text-center text-sm font-black ${entry.rank <= 10 ? 'text-teal-600' : 'text-zinc-400 dark:text-slate-700'}`}>
                                         {entry.rank}
                                     </div>
 
@@ -314,7 +318,7 @@ export default function TopTongMonPage() {
                                         </div>
                                         <div className="min-w-0">
                                             <div className="flex items-center gap-2">
-                                                <span className={`truncate font-bold ${isUser ? 'text-teal-300' : 'text-slate-200'}`}>
+                                                <span className={`truncate font-bold ${isUser ? 'text-teal-700 dark:text-teal-300' : 'text-zinc-900 dark:text-slate-200'}`}>
                                                     {entry.name}
                                                 </span>
                                                 {isUser && (
@@ -326,14 +330,14 @@ export default function TopTongMonPage() {
                                     </div>
 
                                     <div className="col-span-2 hidden text-center sm:block">
-                                        <div className="flex items-center justify-center gap-1 text-sm text-slate-500 font-medium">
+                                        <div className="flex items-center justify-center gap-1 text-sm font-medium text-zinc-500 dark:text-slate-500">
                                             <Users className="h-3 w-3" />
                                             {entry.members.toLocaleString()}
                                         </div>
                                     </div>
 
                                     <div className="col-span-2 hidden text-center sm:block">
-                                        <div className="flex items-center justify-center gap-1 text-sm text-slate-500 font-medium">
+                                        <div className="flex items-center justify-center gap-1 text-sm font-medium text-zinc-500 dark:text-slate-500">
                                             <Shield className="h-3 w-3" />
                                             {entry.territories || 0}
                                         </div>
@@ -342,18 +346,18 @@ export default function TopTongMonPage() {
                                     <div className="col-span-3 text-right">
                                         <div className="flex items-center justify-end gap-1.5">
                                             <Flag className={`h-3.5 w-3.5 ${isUser ? 'text-teal-400' : 'text-teal-700'}`} />
-                                            <span className={`text-sm font-black ${isUser ? 'text-teal-300' : 'text-teal-100'}`}>
+                                            <span className={`text-sm font-black ${isUser ? 'text-teal-700 dark:text-teal-300' : 'text-teal-800 dark:text-teal-100'}`}>
                                                 {formatVal(entry.prestige)}
                                             </span>
                                         </div>
-                                        <span className="text-[10px] font-bold text-teal-900 uppercase">{entry.powerBase}</span>
+                                        <span className="text-[10px] font-bold uppercase text-teal-500 dark:text-teal-900">{entry.powerBase}</span>
                                     </div>
                                 </div>
                             );
                         })}
                     </div>
 
-                    <div className="border-t border-teal-900/10 px-6 py-4 text-center text-[10px] font-medium text-teal-900/60 uppercase tracking-widest">
+                    <div className="relative border-t border-teal-200 px-6 py-4 text-center text-[10px] font-medium uppercase tracking-widest text-teal-700/70 dark:border-teal-900/10 dark:text-teal-900/60">
                         Vạn phái triều tông · Khí vận hưng thịnh · Cập nhật từ thiên đình
                     </div>
                 </div>

@@ -19,11 +19,23 @@ export function readingProgressKey(slug: string) {
   return `${KEY_PREFIX}${slug}`;
 }
 
+const progressCache = new Map<string, { raw: string | null; value: ReadingProgress | null }>();
+
 export function safeReadProgress(slug: string): ReadingProgress | null {
   if (typeof window === 'undefined') return null;
+  const key = readingProgressKey(slug);
+  const raw = window.localStorage.getItem(key);
+
+  const cached = progressCache.get(slug);
+  if (cached && cached.raw === raw) {
+    return cached.value;
+  }
+
   try {
-    const raw = window.localStorage.getItem(readingProgressKey(slug));
-    if (!raw) return null;
+    if (!raw) {
+      progressCache.set(slug, { raw, value: null });
+      return null;
+    }
     const parsed = JSON.parse(raw) as Partial<ReadingProgress> | null;
     if (
       !parsed ||
@@ -32,10 +44,14 @@ export function safeReadProgress(slug: string): ReadingProgress | null {
       typeof parsed.scrollY !== 'number' ||
       typeof parsed.updatedAt !== 'number'
     ) {
+      progressCache.set(slug, { raw, value: null });
       return null;
     }
-    return parsed as ReadingProgress;
+    const value = parsed as ReadingProgress;
+    progressCache.set(slug, { raw, value });
+    return value;
   } catch {
+    progressCache.set(slug, { raw, value: null });
     return null;
   }
 }

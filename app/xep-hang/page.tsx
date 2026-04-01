@@ -56,17 +56,17 @@ export default function LeaderboardPage() {
 
   return (
     <div
-      className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+      className="relative min-h-screen pb-20 pt-20 text-foreground transition-[background,color] duration-500 sm:pb-24 sm:pt-24"
       style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Ambient glows */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-40 left-1/3 h-[500px] w-[700px] rounded-full bg-purple-900/15 blur-[120px]" />
-        <div className="absolute top-1/2 right-0 h-80 w-80 rounded-full bg-amber-800/8 blur-[100px]" />
-        <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-blue-900/15 blur-[90px]" />
+        <div className="absolute -top-40 left-1/3 h-[500px] w-[700px] rounded-full bg-purple-300/15 blur-[120px] dark:bg-purple-900/15" />
+        <div className="absolute top-1/2 right-0 h-80 w-80 rounded-full bg-amber-300/10 blur-[100px] dark:bg-amber-800/8" />
+        <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-blue-300/15 blur-[90px] dark:bg-blue-900/15" />
         {/* floating sparks */}
         {[...Array(10)].map((_, i) => (
-          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-amber-300/30"
+          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-sky-500/25 dark:bg-amber-300/30"
             style={{ top: `${8 + i * 9}%`, left: `${4 + i * 10}%`, animationDelay: `${i * 0.35}s`, animationDuration: `${1.8 + i * 0.25}s` }}
           />
         ))}
@@ -76,30 +76,30 @@ export default function LeaderboardPage() {
 
         {/* ── Page heading ── */}
         <div className="mb-6 text-center px-2 sm:mb-10 sm:px-0">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-700/40 bg-amber-900/20 px-3 py-1 text-xs font-semibold text-amber-300 backdrop-blur-sm sm:mb-4 sm:px-4 sm:py-1.5 sm:text-sm">
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50/80 px-3 py-1 text-xs font-semibold text-amber-700 backdrop-blur-sm sm:mb-4 sm:px-4 sm:py-1.5 sm:text-sm dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
             <Sparkles className="h-4 w-4" />
             Thiên Địa Huyền Hoàng
           </div>
-          <h1 className="text-2xl font-black text-white sm:text-4xl md:text-5xl">
+          <h1 className="text-2xl font-black text-zinc-950 dark:text-white sm:text-4xl md:text-5xl">
             Bảng Xếp Hạng{' '}
             <span className="bg-gradient-to-r from-amber-300 via-yellow-200 to-amber-400 bg-clip-text text-transparent">
               Tu Vi
             </span>
           </h1>
-          <p className="mt-2 text-xs text-slate-500 sm:mt-3 sm:text-sm">Top 20 tu sĩ mạnh nhất thiên hạ — cập nhật mỗi ngày</p>
+          <p className="mt-2 text-xs text-zinc-500 dark:text-slate-500 sm:mt-3 sm:text-sm">Top 20 tu sĩ mạnh nhất thiên hạ — cập nhật mỗi ngày</p>
 
           {/* ── Tabs ── */}
           <div className="mt-5 flex justify-center overflow-x-auto sm:mt-8">
-            <div className="flex shrink-0 gap-0.5 p-1 bg-slate-900/80 border border-slate-800 rounded-xl backdrop-blur-md sm:rounded-2xl">
+            <div className="flex shrink-0 gap-0.5 rounded-xl border border-zinc-200 bg-white/85 p-1 shadow-sm shadow-zinc-950/5 backdrop-blur-md sm:rounded-2xl dark:border-slate-800 dark:bg-slate-900/80 dark:shadow-none">
               <Link href="/xep-hang" className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold transition-all bg-blue-600 text-white shadow-lg shadow-blue-600/20 sm:gap-2 sm:px-6 sm:py-2.5 sm:rounded-xl sm:text-sm">
                 <Zap className="h-4 w-4" />
                 Tu Vi
               </Link>
-              <Link href="/xep-hang/tai-phu" className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800 sm:gap-2 sm:px-6 sm:py-2.5 sm:rounded-xl sm:text-sm">
+              <Link href="/xep-hang/tai-phu" className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-900 sm:gap-2 sm:px-6 sm:py-2.5 sm:rounded-xl sm:text-sm dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200">
                 <Coins className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 Tài Phú
               </Link>
-              <Link href="/xep-hang/tong-mon" className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800 sm:gap-2 sm:px-6 sm:py-2.5 sm:rounded-xl sm:text-sm">
+              <Link href="/xep-hang/tong-mon" className="flex items-center gap-1.5 rounded-lg px-4 py-2 text-xs font-bold text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-900 sm:gap-2 sm:px-6 sm:py-2.5 sm:rounded-xl sm:text-sm dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200">
                 <Castle className="h-4 w-4" />
                 Tông Môn
               </Link>
@@ -108,28 +108,28 @@ export default function LeaderboardPage() {
         </div>
 
         {/* ── Your rank banner ── */}
-        <div className="mb-6 flex flex-col gap-4 rounded-xl border border-blue-700/30 bg-blue-950/30 px-4 py-3 backdrop-blur-sm sm:mb-8 sm:flex-row sm:items-center sm:justify-between sm:rounded-2xl sm:px-5 sm:py-4">
+        <div className="mb-6 flex flex-col gap-4 rounded-xl border border-blue-200 bg-white/80 px-4 py-3 shadow-sm shadow-zinc-950/5 backdrop-blur-sm sm:mb-8 sm:flex-row sm:items-center sm:justify-between sm:rounded-2xl sm:px-5 sm:py-4 dark:border-blue-700/30 dark:bg-blue-950/30 dark:shadow-none">
           <div className="flex items-center gap-3 sm:gap-4">
             <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${userEntry.avatar} text-lg sm:h-12 sm:w-12 sm:text-xl`}>
               {userEntry.badge}
             </div>
             <div className="min-w-0">
-              <p className="text-xs text-slate-400 sm:text-sm">Xếp hạng của bạn</p>
-              <p className="truncate font-black text-white text-sm sm:text-base">#{userEntry.rank} · {userEntry.name}</p>
+              <p className="text-xs text-zinc-500 dark:text-slate-400 sm:text-sm">Xếp hạng của bạn</p>
+              <p className="truncate text-sm font-black text-zinc-950 dark:text-white sm:text-base">#{userEntry.rank} · {userEntry.name}</p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs sm:gap-6 sm:text-sm">
             <div className="text-center">
               <div className={`font-black text-purple-400`}>{userEntry.realm}</div>
-              <div className="text-xs text-slate-600">{userEntry.stage}</div>
+              <div className="text-xs text-zinc-500 dark:text-slate-600">{userEntry.stage}</div>
             </div>
             <div className="text-center">
               <div className="font-black text-amber-300">{formatPower(userEntry.power)}</div>
-              <div className="text-xs text-slate-600">linh lực</div>
+              <div className="text-xs text-zinc-500 dark:text-slate-600">linh lực</div>
             </div>
           </div>
           <Link href="/ca-nhan"
-            className="flex items-center gap-1.5 rounded-lg border border-blue-700/40 bg-blue-900/30 px-3 py-1.5 text-xs font-semibold text-blue-300 transition-all hover:border-blue-600/60 hover:text-blue-200 sm:rounded-xl sm:px-4 sm:py-2 sm:text-sm"
+            className="flex items-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 transition-all hover:border-blue-300 hover:text-blue-800 sm:rounded-xl sm:px-4 sm:py-2 sm:text-sm dark:border-blue-700/40 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:border-blue-600/60 dark:hover:text-blue-200"
           >
             Hồ sơ <ChevronRight className="h-4 w-4" />
           </Link>
@@ -139,7 +139,7 @@ export default function LeaderboardPage() {
         <div className="mb-6 grid grid-cols-1 gap-4 items-stretch sm:mb-8 sm:grid-cols-3 sm:items-end">
 
           {/* ── 2nd ── */}
-          <div className="order-2 flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-violet-700/30 bg-gradient-to-b from-violet-950/50 to-slate-950/80 shadow-lg shadow-violet-950/30 backdrop-blur-sm">
+          <div className="order-2 flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-violet-200 bg-gradient-to-b from-violet-50 to-white shadow-lg shadow-violet-100/40 backdrop-blur-sm dark:border-violet-700/30 dark:from-violet-950/50 dark:to-slate-950/80 dark:shadow-violet-950/30">
             {/* Danh hiệu banner */}
             <div className={`w-full border-b ${top3[1].titleBorder} ${top3[1].titleBg} px-3 py-2 text-center`}>
               <div className="mb-0.5 text-lg">🥈</div>
@@ -156,7 +156,7 @@ export default function LeaderboardPage() {
                 </div>
               </div>
               <div>
-                <p className="font-black text-slate-100">{top3[1].name}</p>
+                <p className="font-black text-zinc-900 dark:text-slate-100">{top3[1].name}</p>
                 <p className={`text-xs font-semibold ${realmConfig[top3[1].realm]?.color}`}>{top3[1].realm} · {top3[1].stage}</p>
               </div>
               <div className="flex items-center gap-1.5 rounded-full border border-violet-700/30 bg-violet-900/20 px-3 py-1">
@@ -167,7 +167,7 @@ export default function LeaderboardPage() {
           </div>
 
           {/* ── 1st ── */}
-          <div className="order-1 flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-amber-600/50 bg-gradient-to-b from-amber-950/60 to-slate-950/80 shadow-2xl shadow-amber-950/50 backdrop-blur-sm">
+          <div className="order-1 flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-amber-300 bg-gradient-to-b from-amber-50 to-white shadow-2xl shadow-amber-200/60 backdrop-blur-sm dark:border-amber-600/50 dark:from-amber-950/60 dark:to-slate-950/80 dark:shadow-amber-950/50">
             {/* Danh hiệu banner */}
             <div className={`w-full border-b ${top3[0].titleBorder} ${top3[0].titleBg} px-3 py-3 text-center`}>
               <Crown className="mx-auto mb-1 h-5 w-5 text-amber-400" />
@@ -185,7 +185,7 @@ export default function LeaderboardPage() {
                 </div>
               </div>
               <div>
-                <p className="text-lg font-black text-amber-100">{top3[0].name}</p>
+                <p className="text-lg font-black text-amber-900 dark:text-amber-100">{top3[0].name}</p>
                 <p className={`text-xs font-semibold ${realmConfig[top3[0].realm]?.color}`}>{top3[0].realm} · {top3[0].stage}</p>
               </div>
               <div className="flex items-center gap-1.5 rounded-full border border-amber-600/40 bg-amber-900/30 px-4 py-1.5">
@@ -196,7 +196,7 @@ export default function LeaderboardPage() {
           </div>
 
           {/* ── 3rd ── */}
-          <div className="order-3 flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-rose-700/30 bg-gradient-to-b from-rose-950/50 to-slate-950/80 shadow-lg shadow-rose-950/30 backdrop-blur-sm">
+          <div className="order-3 flex flex-col items-center gap-0 overflow-hidden rounded-2xl border border-rose-200 bg-gradient-to-b from-rose-50 to-white shadow-lg shadow-rose-100/40 backdrop-blur-sm dark:border-rose-700/30 dark:from-rose-950/50 dark:to-slate-950/80 dark:shadow-rose-950/30">
             {/* Danh hiệu banner */}
             <div className={`w-full border-b ${top3[2].titleBorder} ${top3[2].titleBg} px-3 py-2 text-center`}>
               <div className="mb-0.5 text-lg">🥉</div>
@@ -213,7 +213,7 @@ export default function LeaderboardPage() {
                 </div>
               </div>
               <div>
-                <p className="font-black text-slate-100">{top3[2].name}</p>
+                <p className="font-black text-zinc-900 dark:text-slate-100">{top3[2].name}</p>
                 <p className={`text-xs font-semibold ${realmConfig[top3[2].realm]?.color}`}>{top3[2].realm} · {top3[2].stage}</p>
               </div>
               <div className="flex items-center gap-1.5 rounded-full border border-rose-700/30 bg-rose-900/20 px-3 py-1">
@@ -225,11 +225,14 @@ export default function LeaderboardPage() {
         </div>
 
         {/* ── Ranks 4–20 table ── */}
-        <div className="overflow-hidden rounded-2xl border border-slate-800/50 backdrop-blur-sm"
-          style={{ background: 'linear-gradient(180deg, rgba(12,8,35,0.96) 0%, rgba(4,6,18,0.98) 100%)' }}
+        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-sm shadow-zinc-950/5 backdrop-blur-sm dark:border-slate-800/50 dark:shadow-none"
+          style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(244,244,245,0.98) 100%)' }}
         >
+          <div className="absolute inset-0 hidden dark:block"
+            style={{ background: 'linear-gradient(180deg, rgba(12,8,35,0.96) 0%, rgba(4,6,18,0.98) 100%)' }}
+          />
           {/* Table header */}
-          <div className="grid grid-cols-12 gap-2 border-b border-slate-800/50 px-3 py-2 text-[10px] font-semibold uppercase tracking-widest text-slate-600 sm:gap-4 sm:px-5 sm:py-3 sm:text-xs">
+          <div className="relative grid grid-cols-12 gap-2 border-b border-zinc-200 px-3 py-2 text-[10px] font-semibold uppercase tracking-widest text-zinc-500 sm:gap-4 sm:px-5 sm:py-3 sm:text-xs dark:border-slate-800/50 dark:text-slate-600">
             <div className="col-span-1 text-center">#</div>
             <div className="col-span-6 sm:col-span-5">Tu Sĩ</div>
             <div className="col-span-2 text-center hidden sm:block">Truyện đọc</div>
@@ -237,7 +240,7 @@ export default function LeaderboardPage() {
             <div className="col-span-5 text-right sm:col-span-2">Linh lực</div>
           </div>
 
-          <div className="divide-y divide-slate-800/30">
+          <div className="relative divide-y divide-zinc-200 dark:divide-slate-800/30">
             {rest.map((entry) => {
               const rc = realmConfig[entry.realm] ?? { color: 'text-slate-400', bg: '', border: '' };
               const isUser = entry.isUser;
@@ -246,12 +249,12 @@ export default function LeaderboardPage() {
                 <div
                   key={entry.rank}
                   className={`group grid grid-cols-12 items-center gap-2 px-3 py-3 transition-all sm:gap-4 sm:px-5 sm:py-4 ${isUser
-                    ? 'bg-blue-950/40 border-l-2 border-blue-500'
-                    : 'hover:bg-slate-900/50'
+                    ? 'border-l-2 border-blue-500 bg-blue-50 dark:bg-blue-950/40'
+                    : 'hover:bg-zinc-50 dark:hover:bg-slate-900/50'
                     }`}
                 >
                   {/* Rank number */}
-                  <div className="col-span-1 text-center text-sm font-black text-slate-500">{entry.rank}</div>
+                  <div className="col-span-1 text-center text-sm font-black text-zinc-500 dark:text-slate-500">{entry.rank}</div>
 
                   {/* Avatar + name */}
                   <div className="col-span-6 flex items-center gap-2 min-w-0 sm:col-span-5 sm:gap-3">
@@ -260,7 +263,7 @@ export default function LeaderboardPage() {
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className={`truncate font-bold ${isUser ? 'text-blue-300' : 'text-slate-200'}`}>
+                        <span className={`truncate font-bold ${isUser ? 'text-blue-700 dark:text-blue-300' : 'text-zinc-900 dark:text-slate-200'}`}>
                           {entry.name}
                         </span>
                         {isUser && (
@@ -273,16 +276,16 @@ export default function LeaderboardPage() {
 
                   {/* Reads */}
                   <div className="col-span-2 hidden text-center sm:block">
-                    <div className="flex items-center justify-center gap-1 text-sm text-slate-400">
-                      <Trophy className="h-3.5 w-3.5 text-slate-600" />
+                      <div className="flex items-center justify-center gap-1 text-sm text-zinc-500 dark:text-slate-400">
+                        <Trophy className="h-3.5 w-3.5 text-zinc-400 dark:text-slate-600" />
                       {entry.reads.toLocaleString()}
                     </div>
                   </div>
 
                   {/* Reviews */}
                   <div className="col-span-2 hidden text-center sm:block">
-                    <div className="flex items-center justify-center gap-1 text-sm text-slate-400">
-                      <Star className="h-3.5 w-3.5 text-slate-600" />
+                      <div className="flex items-center justify-center gap-1 text-sm text-zinc-500 dark:text-slate-400">
+                        <Star className="h-3.5 w-3.5 text-zinc-400 dark:text-slate-600" />
                       {entry.reviews}
                     </div>
                   </div>
@@ -291,18 +294,18 @@ export default function LeaderboardPage() {
                   <div className="col-span-5 text-right sm:col-span-2">
                     <div className="flex items-center justify-end gap-1">
                       <Zap className={`h-3 w-3 sm:h-3.5 sm:w-3.5 ${isUser ? 'text-blue-400' : 'text-slate-600'}`} />
-                      <span className={`text-xs font-black sm:text-sm ${isUser ? 'text-blue-300' : 'text-slate-300'}`}>
+                      <span className={`text-xs font-black sm:text-sm ${isUser ? 'text-blue-700 dark:text-blue-300' : 'text-zinc-700 dark:text-slate-300'}`}>
                         {formatPower(entry.power)}
                       </span>
                     </div>
-                    <span className="text-[10px] text-slate-700">linh lực</span>
+                    <span className="text-[10px] text-zinc-400 dark:text-slate-700">linh lực</span>
                   </div>
                 </div>
               );
             })}
           </div>
 
-          <div className="border-t border-slate-800/40 px-6 py-4 text-center text-xs text-slate-700">
+          <div className="relative border-t border-zinc-200 px-6 py-4 text-center text-xs text-zinc-500 dark:border-slate-800/40 dark:text-slate-700">
             Bảng xếp hạng cập nhật hằng ngày lúc 00:00 · Linh lực tích lũy từ hoạt động đọc truyện, đánh giá và bình luận
           </div>
         </div>

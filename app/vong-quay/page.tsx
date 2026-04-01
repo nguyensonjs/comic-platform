@@ -1,7 +1,7 @@
 'use client';
 
 import { ChevronRight, Crown, Flame, Gift, Package, Sparkles, Star, Zap } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import Link from 'next/link';
 
@@ -239,6 +239,13 @@ const rarityConfig: Record<
   },
 };
 
+const starPositions = Array.from({ length: 20 }, (_, i) => ({
+  top: 6 + ((i * 11) % 88),
+  left: 4 + ((i * 13) % 90),
+  width: 1 + (i % 3),
+  height: 1 + (i % 3),
+}));
+
 function roll(pool: GachaItem[], count: number): GachaItem[] {
   const results: GachaItem[] = [];
   for (let i = 0; i < count; i++) {
@@ -283,28 +290,6 @@ export default function VongQuayPage() {
     [],
   );
 
-  // Generate fixed star positions once on client side to avoid hydration mismatch
-  const [starPositions, setStarPositions] = useState<
-    Array<{ top: number; left: number; width: number; height: number }>
-  >(() => {
-    // Return empty array initially, will be populated on mount
-    return [];
-  });
-
-  useEffect(() => {
-    // Only run on client side after mount
-    if (starPositions.length === 0) {
-      setStarPositions(
-        Array.from({ length: 20 }, (_, i) => ({
-          top: Math.random() * 100,
-          left: Math.random() * 100,
-          width: 1 + (i % 3),
-          height: 1 + (i % 3),
-        }))
-      );
-    }
-  }, [starPositions.length]);
-
   const doPull = useCallback(
     async (count: 1 | 10) => {
       const cost = activeBanner.cost * count;
@@ -343,17 +328,17 @@ export default function VongQuayPage() {
 
   return (
     <div
-      className="text-foreground relative min-h-screen pt-20 pb-20 transition-[background,color] duration-300 sm:pt-24 sm:pb-24"
+      className="text-foreground relative min-h-screen pt-20 pb-20 transition-[background,color] duration-500 sm:pt-24 sm:pb-24"
       style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Ambient */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-20 left-1/3 h-[600px] w-[700px] rounded-full bg-purple-900/20 blur-[130px]" />
-        <div className="absolute top-1/2 right-0 h-96 w-96 rounded-full bg-amber-800/10 blur-[100px]" />
+        <div className="absolute -top-20 left-1/3 h-[600px] w-[700px] rounded-full bg-purple-300/20 blur-[130px] dark:bg-purple-900/20" />
+        <div className="absolute top-1/2 right-0 h-96 w-96 rounded-full bg-amber-300/15 blur-[100px] dark:bg-amber-800/10" />
         {[...Array(12)].map((_, i) => (
           <div
             key={i}
-            className="absolute h-1 w-1 animate-pulse rounded-full bg-amber-300/20"
+            className="absolute h-1 w-1 animate-pulse rounded-full bg-sky-500/20 dark:bg-amber-300/20"
             style={{ top: `${8 + i * 8}%`, left: `${3 + i * 9}%`, animationDelay: `${i * 0.35}s` }}
           />
         ))}
@@ -366,23 +351,23 @@ export default function VongQuayPage() {
             <div className="absolute -top-2 -left-2 animate-pulse">
               <Crown className="h-6 w-6 text-amber-400" />
             </div>
-            <div className="mb-1.5 inline-flex items-center gap-2 rounded-full border border-amber-700/40 bg-linear-to-r from-amber-900/30 to-orange-900/30 px-2.5 py-1 text-[10px] font-semibold text-amber-300 shadow-lg shadow-amber-900/20 sm:mb-2 sm:px-3 sm:py-1.5 sm:text-xs">
+            <div className="mb-1.5 inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50/80 px-2.5 py-1 text-[10px] font-semibold text-amber-700 shadow-lg shadow-amber-200/20 sm:mb-2 sm:px-3 sm:py-1.5 sm:text-xs dark:border-amber-700/40 dark:bg-linear-to-r dark:from-amber-900/30 dark:to-orange-900/30 dark:text-amber-300 dark:shadow-amber-900/20">
               <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> Thiên Cơ Vòng Quay
             </div>
-            <h1 className="animate-pulse bg-linear-to-r from-white via-amber-100 to-yellow-200 bg-clip-text text-2xl font-black text-transparent sm:text-4xl">
+            <h1 className="animate-pulse bg-linear-to-r from-zinc-950 via-amber-700 to-yellow-600 bg-clip-text text-2xl font-black text-transparent dark:from-white dark:via-amber-100 dark:to-yellow-200 sm:text-4xl">
               Vòng Quay{' '}
               <span className="bg-linear-to-r from-amber-300 to-yellow-200 bg-clip-text text-transparent">
                 Linh Bảo
               </span>
             </h1>
-            <p className="mt-1 flex items-center gap-1 text-slate-500">
+            <p className="mt-1 flex items-center gap-1 text-zinc-500 dark:text-slate-500">
               <Flame className="h-3 w-3 text-orange-400" />
               Dùng linh thạch và đan dược để triệu hồi vật phẩm thần kỳ
             </p>
           </div>
           <Link
             href="/ca-nhan"
-            className="group flex items-center gap-1.5 rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2 text-sm text-slate-400 transition-all duration-300 hover:border-amber-600/50 hover:bg-amber-900/20 hover:text-slate-200"
+            className="group flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white/85 px-4 py-2 text-sm text-zinc-600 shadow-sm shadow-zinc-950/5 transition-all duration-300 hover:border-amber-300 hover:bg-amber-50 hover:text-zinc-900 dark:border-slate-700/50 dark:bg-slate-900/50 dark:text-slate-400 dark:shadow-none dark:hover:border-amber-600/50 dark:hover:bg-amber-900/20 dark:hover:text-slate-200"
           >
             <Package className="h-4 w-4 group-hover:animate-bounce" /> Hành trang
             <ChevronRight className="h-3 w-3 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -394,12 +379,12 @@ export default function VongQuayPage() {
           {(Object.entries(wallet) as [keyof typeof wallet, number][]).map(([key, val]) => (
             <div
               key={key}
-              className="group relative flex items-center gap-2 rounded-2xl border border-slate-800/50 bg-linear-to-r from-slate-900/60 to-slate-800/60 px-4 py-2.5 transition-all duration-300 hover:border-amber-600/30 hover:shadow-lg hover:shadow-amber-900/20"
+              className="group relative flex items-center gap-2 rounded-2xl border border-zinc-200 bg-white/85 px-4 py-2.5 shadow-sm shadow-zinc-950/5 transition-all duration-300 hover:border-amber-300 hover:shadow-lg hover:shadow-amber-200/20 dark:border-slate-800/50 dark:bg-linear-to-r dark:from-slate-900/60 dark:to-slate-800/60 dark:shadow-none dark:hover:border-amber-600/30 dark:hover:shadow-amber-900/20"
             >
-              <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-amber-900/5 to-orange-900/5 opacity-0 transition-opacity group-hover:opacity-100" />
-              <span className="relative flex items-center gap-1 font-black text-slate-200">
+              <div className="absolute inset-0 rounded-2xl bg-linear-to-r from-amber-100/40 to-orange-100/40 opacity-0 transition-opacity group-hover:opacity-100 dark:from-amber-900/5 dark:to-orange-900/5" />
+              <span className="relative flex items-center gap-1 font-black text-zinc-800 dark:text-slate-200">
                 {currencyLabel[key].split(' ')[0]}
-                <span className="text-xs text-slate-400">{currencyLabel[key].split(' ')[1]}</span>
+                <span className="text-xs text-zinc-500 dark:text-slate-400">{currencyLabel[key].split(' ')[1]}</span>
               </span>
               <span className="relative rounded-full border border-amber-600/30 bg-linear-to-r from-amber-800/50 to-orange-800/50 px-2.5 py-0.5 text-sm font-black text-amber-300">
                 {val.toLocaleString()}
@@ -418,16 +403,13 @@ export default function VongQuayPage() {
                 setResults(null);
               }}
               className={`overflow-hidden rounded-2xl border p-4 text-left transition-all hover:-translate-y-0.5 ${activeBanner.id === b.id
-                  ? 'border-amber-500/50 shadow-xl shadow-amber-900/30'
-                  : 'border-slate-800/50 opacity-60 hover:border-slate-700 hover:opacity-90'
+                  ? 'border-amber-500/50 bg-white shadow-xl shadow-amber-200/30 dark:bg-slate-950/95 dark:shadow-amber-900/30'
+                  : 'border-zinc-200 bg-zinc-50 opacity-80 hover:border-zinc-300 hover:bg-white hover:opacity-100 dark:border-slate-800/50 dark:bg-slate-950/70 dark:opacity-60 dark:hover:border-slate-700 dark:hover:opacity-90'
                 }`}
-              style={{
-                background: `linear-gradient(135deg, ${activeBanner.id === b.id ? 'rgba(10,6,30,0.97)' : 'rgba(6,6,18,0.95)'})`,
-              }}
             >
               <div className="mb-2 text-3xl">{b.icon}</div>
               <p className={`text-sm font-black ${b.accentColor}`}>{b.name}</p>
-              <p className="mt-0.5 text-[11px] text-slate-600">
+              <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-slate-600">
                 {b.cost} {currencyLabel[b.currency]} / lần
               </p>
             </button>
@@ -436,13 +418,14 @@ export default function VongQuayPage() {
 
         {/* ── Main banner card ── */}
         <div
-          className={`relative overflow-hidden rounded-3xl border border-slate-700/40 bg-linear-to-br ${activeBanner.gradient} mb-6 shadow-2xl`}
+          className={`relative mb-6 overflow-hidden rounded-3xl border border-zinc-200 bg-white/92 shadow-2xl shadow-zinc-950/5 dark:border-slate-700/40 dark:bg-linear-to-br ${activeBanner.gradient} dark:shadow-black/20`}
         >
+          <div className="absolute inset-0 hidden dark:block bg-linear-to-br from-slate-950/20 via-transparent to-black/20" />
           {/* Decorative stars */}
           {starPositions.map((pos, i) => (
             <div
               key={i}
-              className="absolute h-px w-px animate-pulse rounded-full bg-white/30"
+              className="absolute h-px w-px animate-pulse rounded-full bg-zinc-400/40 dark:bg-white/30"
               style={{
                 top: `${pos.top}%`,
                 left: `${pos.left}%`,
@@ -455,7 +438,7 @@ export default function VongQuayPage() {
 
           <div className="relative px-8 py-10 text-center">
             {/* Banner display */}
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-bold text-white/70">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-100/80 px-4 py-1.5 text-xs font-bold text-zinc-600 dark:border-white/10 dark:bg-white/5 dark:text-white/70">
               <Star className="h-3.5 w-3.5 text-amber-300" />
               {activeBanner.rateUp ? `Tỷ lệ cao: ${activeBanner.rateUp}` : 'Banner tiêu chuẩn'}
             </div>
@@ -463,7 +446,7 @@ export default function VongQuayPage() {
             <h2 className={`mt-3 text-3xl font-black ${activeBanner.accentColor}`}>
               {activeBanner.name}
             </h2>
-            <p className="mt-2 text-sm text-white/50">{activeBanner.subtitle}</p>
+            <p className="mt-2 text-sm text-zinc-500 dark:text-white/50">{activeBanner.subtitle}</p>
 
             {/* Spin orb */}
             <div className="relative my-8 flex justify-center">
@@ -514,9 +497,9 @@ export default function VongQuayPage() {
                   pulling ||
                   wallet[activeBanner.currency as keyof typeof wallet] < activeBanner.cost
                 }
-                className="group relative flex items-center gap-2 overflow-hidden rounded-2xl border border-white/10 bg-white/10 px-6 py-3.5 font-black text-white backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/20 hover:shadow-lg hover:shadow-white/10 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
+                className="group relative flex items-center gap-2 overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 px-6 py-3.5 font-black text-zinc-900 backdrop-blur-sm transition-all hover:scale-105 hover:bg-white hover:shadow-lg hover:shadow-zinc-950/10 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 dark:border-white/10 dark:bg-white/10 dark:text-white dark:hover:bg-white/20 dark:hover:shadow-white/10"
               >
-                <div className="absolute inset-0 bg-linear-to-r from-blue-600/20 to-purple-600/20 opacity-0 transition-opacity group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-linear-to-r from-blue-100/60 to-purple-100/60 opacity-0 transition-opacity group-hover:opacity-100 dark:from-blue-600/20 dark:to-purple-600/20" />
                 <Zap className="relative h-4 w-4 group-hover:animate-pulse" />
                 <span className="relative">
                   Quay x1 · {activeBanner.cost} {activeBanner.icon}
@@ -528,9 +511,9 @@ export default function VongQuayPage() {
                   pulling ||
                   wallet[activeBanner.currency as keyof typeof wallet] < activeBanner.cost * 10
                 }
-                className="group relative flex items-center gap-2 overflow-hidden rounded-2xl border border-amber-400/40 bg-linear-to-r from-amber-600/30 to-orange-600/30 px-6 py-3.5 font-black text-amber-200 backdrop-blur-sm transition-all hover:scale-105 hover:from-amber-600/50 hover:to-orange-600/50 hover:shadow-lg hover:shadow-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100"
+                className="group relative flex items-center gap-2 overflow-hidden rounded-2xl border border-amber-300 bg-linear-to-r from-amber-100 to-orange-100 px-6 py-3.5 font-black text-amber-800 backdrop-blur-sm transition-all hover:scale-105 hover:from-amber-200 hover:to-orange-200 hover:shadow-lg hover:shadow-amber-200/40 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:scale-100 dark:border-amber-400/40 dark:from-amber-600/30 dark:to-orange-600/30 dark:text-amber-200 dark:hover:from-amber-600/50 dark:hover:to-orange-600/50 dark:hover:shadow-amber-500/20"
               >
-                <div className="absolute inset-0 bg-linear-to-r from-amber-500/30 to-orange-500/30 opacity-0 transition-opacity group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-linear-to-r from-amber-200/70 to-orange-200/70 opacity-0 transition-opacity group-hover:opacity-100 dark:from-amber-500/30 dark:to-orange-500/30" />
                 <Sparkles className="relative h-4 w-4 group-hover:animate-spin" />
                 <span className="relative">
                   Quay x10 · {(activeBanner.cost * 10).toLocaleString()} {activeBanner.icon}
@@ -544,10 +527,10 @@ export default function VongQuayPage() {
         {/* ── Results ── */}
         {results && (
           <div
-            className={`mb-6 overflow-hidden rounded-2xl border border-purple-800/40 bg-slate-950/90 backdrop-blur-sm transition-all duration-500 ${showResults ? 'animate-in slide-in-from-bottom-5 fade-in-50' : ''}`}
+            className={`mb-6 overflow-hidden rounded-2xl border border-purple-200 bg-white/90 shadow-sm shadow-zinc-950/5 backdrop-blur-sm transition-all duration-500 dark:border-purple-800/40 dark:bg-slate-950/90 dark:shadow-none ${showResults ? 'animate-in slide-in-from-bottom-5 fade-in-50' : ''}`}
           >
-            <div className="flex items-center justify-between border-b border-slate-800/50 px-6 py-4">
-              <h3 className="font-black text-white">Kết quả triệu hồi</h3>
+            <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-slate-800/50">
+              <h3 className="font-black text-zinc-950 dark:text-white">Kết quả triệu hồi</h3>
               {bestItem && (
                 <span
                   className={`rounded-full px-3 py-1 text-sm font-black ${rarityConfig[bestItem.rarity].badge}`}
@@ -568,7 +551,7 @@ export default function VongQuayPage() {
                           ? 'border-purple-600/50 bg-purple-900/20 shadow-lg shadow-purple-900/30'
                           : item.rarity === 'Hiếm'
                             ? 'border-blue-700/40 bg-blue-900/15'
-                            : 'border-slate-800/40 bg-slate-900/40'
+                            : 'border-zinc-200 bg-zinc-100/70 dark:border-slate-800/40 dark:bg-slate-900/40'
                       }`}
                   >
                     {item.rarity === 'Thần thoại' && (
@@ -596,11 +579,11 @@ export default function VongQuayPage() {
         )}
 
         {/* ── Rates table ── */}
-        <div className="mb-6 overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/70">
-          <div className="border-b border-slate-800/50 px-6 py-4">
-            <h3 className="font-bold text-slate-200">Tỷ lệ triệu hồi</h3>
+        <div className="mb-6 overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-sm shadow-zinc-950/5 dark:border-slate-800/50 dark:bg-slate-950/70 dark:shadow-none">
+          <div className="border-b border-zinc-200 px-6 py-4 dark:border-slate-800/50">
+            <h3 className="font-bold text-zinc-900 dark:text-slate-200">Tỷ lệ triệu hồi</h3>
           </div>
-          <div className="grid grid-cols-4 divide-x divide-slate-800/50 p-0">
+          <div className="grid grid-cols-4 divide-x divide-zinc-200 p-0 dark:divide-slate-800/50">
             {(Object.entries(rarityConfig) as [Rarity, (typeof rarityConfig)[Rarity]][]).map(
               ([rarity, cfg]) => (
                 <div key={rarity} className="py-5 text-center">
@@ -619,10 +602,10 @@ export default function VongQuayPage() {
 
         {/* ── Pull history ── */}
         {history.length > 0 && (
-          <div className="overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/70">
-            <div className="flex items-center justify-between border-b border-slate-800/50 px-6 py-4">
-              <h3 className="font-bold text-slate-200">Lịch sử triệu hồi</h3>
-              <span className="text-xs text-slate-600">{history.length} lần gần nhất</span>
+          <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-sm shadow-zinc-950/5 dark:border-slate-800/50 dark:bg-slate-950/70 dark:shadow-none">
+            <div className="flex items-center justify-between border-b border-zinc-200 px-6 py-4 dark:border-slate-800/50">
+              <h3 className="font-bold text-zinc-900 dark:text-slate-200">Lịch sử triệu hồi</h3>
+              <span className="text-xs text-zinc-500 dark:text-slate-600">{history.length} lần gần nhất</span>
             </div>
             <div className="flex flex-wrap gap-2 p-4">
               {history.slice(0, 20).map(({ item }, i) => {
@@ -635,7 +618,7 @@ export default function VongQuayPage() {
                           ? 'border-purple-700/50 bg-purple-900/20 text-purple-300'
                           : item.rarity === 'Hiếm'
                             ? 'border-blue-800/40 bg-blue-900/15 text-blue-300'
-                            : 'border-slate-800 bg-slate-900/50 text-slate-500'
+                            : 'border-zinc-200 bg-zinc-100/80 text-zinc-500 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-500'
                       }`}
                   >
                     <span>{item.icon}</span>

@@ -43,34 +43,41 @@ export default async function TruyenDetailPage({ params }: Props) {
     allChapters.length > 0 ? allChapters[0].chapter_api_data.split('/').pop() ?? null : null;
 
   const statusColor = {
-    ongoing: 'bg-green-900/40 text-green-400 border-green-700/50',
-    completed: 'bg-blue-900/40 text-blue-400 border-blue-700/50',
-    coming_soon: 'bg-amber-900/40 text-amber-400 border-amber-700/50',
-  }[item.status] ?? 'bg-slate-800 text-slate-400 border-slate-700';
+    ongoing:
+      'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-700/50 dark:bg-emerald-900/40 dark:text-emerald-300',
+    completed:
+      'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-700/50 dark:bg-blue-900/40 dark:text-blue-300',
+    coming_soon:
+      'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-700/50 dark:bg-amber-900/40 dark:text-amber-300',
+  }[item.status] ?? 'border-zinc-200 bg-zinc-100 text-zinc-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300';
 
   return (
-    <div className="min-h-screen bg-background pt-20 pb-12 sm:pt-24 sm:pb-16 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-zinc-50 via-white to-zinc-100 pt-20 pb-12 transition-colors duration-500 dark:from-zinc-950 dark:via-[#060b16] dark:to-slate-950 sm:pt-24 sm:pb-16">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.14),_transparent_55%)] dark:bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_55%)]" />
       <div className="mx-auto max-w-6xl px-3 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="mb-4 flex flex-wrap items-center gap-1.5 text-xs text-slate-500 sm:mb-6 sm:gap-2 sm:text-sm">
-          <Link href="/" className="hover:text-slate-300 transition-colors">Trang chủ</Link>
+        <nav className="mb-4 flex flex-wrap items-center gap-1.5 text-xs text-zinc-500 sm:mb-6 sm:gap-2 sm:text-sm dark:text-slate-500">
+          <Link href="/" className="transition-colors hover:text-zinc-900 dark:hover:text-slate-200">Trang chủ</Link>
           <ChevronRight className="h-4 w-4" />
           {item.category[0] && (
             <>
-              <Link href={`/the-loai/${item.category[0].slug}`} className="hover:text-slate-300 transition-colors">
+              <Link
+                href={`/the-loai/${item.category[0].slug}`}
+                className="transition-colors hover:text-zinc-900 dark:hover:text-slate-200"
+              >
                 {item.category[0].name}
               </Link>
               <ChevronRight className="h-4 w-4" />
             </>
           )}
-          <span className="line-clamp-1 text-slate-700 dark:text-slate-300">{item.name}</span>
+          <span className="line-clamp-1 text-zinc-700 dark:text-slate-300">{item.name}</span>
         </nav>
 
         {/* Main info */}
         <div className="mb-8 flex flex-col gap-6 sm:mb-10 sm:gap-8 md:flex-row">
           {/* Thumbnail */}
           <div className="shrink-0">
-            <div className="relative mx-auto w-36 overflow-hidden rounded-xl border border-slate-800/60 shadow-2xl shadow-black/60 sm:w-48 md:w-56 sm:rounded-2xl">
+            <div className="relative mx-auto w-36 overflow-hidden rounded-xl border border-zinc-200/80 bg-white shadow-2xl shadow-zinc-950/10 ring-1 ring-black/5 sm:w-48 sm:rounded-2xl dark:border-slate-800/60 dark:bg-slate-950 dark:shadow-black/60 dark:ring-white/5 md:w-56">
               <Image
                 src={imgUrl}
                 alt={item.name}
@@ -86,74 +93,79 @@ export default async function TruyenDetailPage({ params }: Props) {
 
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h1 className="mb-1.5 text-xl font-black leading-tight text-slate-900 dark:text-white sm:mb-2 sm:text-2xl md:text-3xl lg:text-4xl">{item.name}</h1>
+            <div className="rounded-3xl border border-zinc-200/80 bg-white/90 p-4 shadow-xl shadow-zinc-950/5 backdrop-blur sm:p-6 dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
+              <h1 className="mb-1.5 text-xl font-black leading-tight text-zinc-950 dark:text-white sm:mb-2 sm:text-2xl md:text-3xl lg:text-4xl">{item.name}</h1>
 
-            {item.origin_name?.filter(Boolean).length > 0 && (
-              <p className="mb-4 text-sm text-slate-500 italic">{item.origin_name.filter(Boolean).join(' · ')}</p>
-            )}
-
-            {/* Meta badges */}
-            <div className="mb-5 flex flex-wrap gap-2">
-              <span className={`rounded-full border px-3 py-1 text-xs font-bold ${statusColor}`}>
-                {statusLabel(item.status)}
-              </span>
-              {item.sub_docquyen && (
-                <span className="rounded-full border border-yellow-700/50 bg-yellow-900/30 px-3 py-1 text-xs font-bold text-yellow-400">
-                  Độc quyền
-                </span>
+              {item.origin_name?.filter(Boolean).length > 0 && (
+                <p className="mb-4 text-sm italic text-zinc-500 dark:text-slate-500">{item.origin_name.filter(Boolean).join(' · ')}</p>
               )}
-            </div>
 
-            {/* Details table */}
-            <dl className="mb-4 space-y-2 sm:mb-6 sm:space-y-3">
-              {item.author && item.author.filter(Boolean).length > 0 && (
+              {/* Meta badges */}
+              <div className="mb-5 flex flex-wrap gap-2">
+                <span className={`rounded-full border px-3 py-1 text-xs font-bold ${statusColor}`}>
+                  {statusLabel(item.status)}
+                </span>
+                {item.sub_docquyen && (
+                  <span className="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700 dark:border-yellow-700/50 dark:bg-yellow-900/30 dark:text-yellow-300">
+                    Độc quyền
+                  </span>
+                )}
+              </div>
+
+              {/* Details table */}
+              <dl className="mb-4 space-y-2 sm:mb-6 sm:space-y-3">
+                {item.author && item.author.filter(Boolean).length > 0 && (
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <dt className="flex w-20 shrink-0 items-center gap-1.5 text-xs text-zinc-500 dark:text-slate-500 sm:w-24 sm:text-sm">
+                      <User className="h-3.5 w-3.5" /> Tác giả
+                    </dt>
+                    <dd className="text-sm text-zinc-700 dark:text-slate-300">{item.author.filter(Boolean).join(', ')}</dd>
+                  </div>
+                )}
                 <div className="flex items-start gap-2 sm:gap-3">
-                  <dt className="flex shrink-0 items-center gap-1.5 text-xs text-slate-500 w-20 sm:w-24 sm:text-sm">
-                    <User className="h-3.5 w-3.5" /> Tác giả
+                  <dt className="flex w-20 shrink-0 items-center gap-1.5 text-xs text-zinc-500 dark:text-slate-500 sm:w-24 sm:text-sm">
+                    <Tag className="h-3.5 w-3.5" /> Thể loại
                   </dt>
-                  <dd className="text-sm text-slate-700 dark:text-slate-300">{item.author.filter(Boolean).join(', ')}</dd>
+                  <dd className="flex flex-wrap gap-1.5">
+                    {item.category.map(cat => (
+                      <Link
+                        key={cat.id}
+                        href={`/the-loai/${cat.slug}`}
+                        className="rounded-full border border-zinc-200 bg-zinc-100 px-2.5 py-0.5 text-xs text-zinc-700 transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 dark:border-slate-700/60 dark:bg-slate-800/70 dark:text-slate-300 dark:hover:border-blue-500/40 dark:hover:bg-blue-900/20 dark:hover:text-blue-300"
+                      >
+                        {cat.name}
+                      </Link>
+                    ))}
+                  </dd>
+                </div>
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <dt className="flex w-20 shrink-0 items-center gap-1.5 text-xs text-zinc-500 dark:text-slate-500 sm:w-24 sm:text-sm">
+                    <Clock className="h-3.5 w-3.5" /> Cập nhật
+                  </dt>
+                  <dd className="text-sm text-zinc-600 dark:text-slate-400">
+                    {new Date(item.updatedAt).toLocaleString('vi-VN')}
+                  </dd>
+                </div>
+              </dl>
+
+              {/* Description */}
+              {item.content && (
+                <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/80 p-4 dark:border-slate-800/60 dark:bg-slate-900/45">
+                  <h2 className="mb-2 text-sm font-bold uppercase tracking-wider text-zinc-500 dark:text-slate-400">Nội dung</h2>
+                  <p className="line-clamp-5 text-sm leading-relaxed text-zinc-600 dark:text-slate-300">{item.content}</p>
                 </div>
               )}
-              <div className="flex items-start gap-2 sm:gap-3">
-                <dt className="flex shrink-0 items-center gap-1.5 text-xs text-slate-500 w-20 sm:w-24 sm:text-sm">
-                  <Tag className="h-3.5 w-3.5" /> Thể loại
-                </dt>
-                <dd className="flex flex-wrap gap-1.5">
-                  {item.category.map(cat => (
-                    <Link key={cat.id} href={`/the-loai/${cat.slug}`}
-                      className="rounded-full border border-slate-700/60 bg-slate-800/60 px-2.5 py-0.5 text-xs text-slate-400 transition-all hover:border-blue-500/40 hover:bg-blue-900/20 hover:text-blue-300">
-                      {cat.name}
-                    </Link>
-                  ))}
-                </dd>
-              </div>
-              <div className="flex items-start gap-2 sm:gap-3">
-                <dt className="flex shrink-0 items-center gap-1.5 text-xs text-slate-500 w-20 sm:w-24 sm:text-sm">
-                  <Clock className="h-3.5 w-3.5" /> Cập nhật
-                </dt>
-                <dd className="text-sm text-slate-400">
-                  {new Date(item.updatedAt).toLocaleString('vi-VN')}
-                </dd>
-              </div>
-            </dl>
-
-            {/* Description */}
-            {item.content && (
-              <div>
-                <h2 className="mb-2 text-sm font-bold text-slate-400 uppercase tracking-wider">Nội dung</h2>
-                <p className="text-sm leading-relaxed text-slate-400 line-clamp-5">{item.content}</p>
-              </div>
-            )}
+            </div>
           </div>
         </div>
 
         {/* Chapter list */}
         {allChapters.length > 0 && (
-          <div>
+          <div className="rounded-3xl border border-zinc-200/80 bg-white/90 p-4 shadow-xl shadow-zinc-950/5 backdrop-blur sm:p-6 dark:border-slate-800/70 dark:bg-slate-950/55 dark:shadow-black/20">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-black text-slate-900 dark:text-white">
+              <h2 className="text-lg font-black text-zinc-950 dark:text-white">
                 Danh sách chương
-                <span className="ml-2 text-sm font-normal text-slate-500">({allChapters.length} chương)</span>
+                <span className="ml-2 text-sm font-normal text-zinc-500 dark:text-slate-500">({allChapters.length} chương)</span>
               </h2>
             </div>
             <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
@@ -161,14 +173,14 @@ export default async function TruyenDetailPage({ params }: Props) {
                 <Link
                   key={ch.chapter_api_data}
                   href={`/doc/${slug}/${ch.chapter_api_data.split('/').pop()}`}
-                  className="group flex items-center gap-2 rounded-lg border border-slate-200 dark:border-slate-800/40 bg-white dark:bg-slate-900/30 px-3 py-2 text-xs transition-all hover:border-blue-500/40 hover:bg-slate-50 dark:hover:bg-slate-900/60 sm:gap-3 sm:rounded-xl sm:px-4 sm:py-2.5 sm:text-sm"
+                  className="group flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50/90 px-3 py-2 text-xs transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-300 hover:bg-white hover:shadow-lg hover:shadow-blue-500/10 dark:border-slate-800/40 dark:bg-slate-900/40 dark:hover:border-blue-500/40 dark:hover:bg-slate-900/75 sm:gap-3 sm:rounded-xl sm:px-4 sm:py-2.5 sm:text-sm"
                 >
-                  <BookOpen className="h-4 w-4 shrink-0 text-slate-600 group-hover:text-blue-400" />
-                  <span className="flex-1 truncate text-slate-400 group-hover:text-slate-200">
+                  <BookOpen className="h-4 w-4 shrink-0 text-zinc-500 transition-colors group-hover:text-blue-600 dark:text-slate-500 dark:group-hover:text-blue-400" />
+                  <span className="flex-1 truncate text-zinc-700 transition-colors group-hover:text-zinc-950 dark:text-slate-300 dark:group-hover:text-white">
                     Chương {ch.chapter_name}
-                    {ch.chapter_title && <span className="ml-1 text-slate-600">– {ch.chapter_title}</span>}
+                    {ch.chapter_title && <span className="ml-1 text-zinc-500 dark:text-slate-500">- {ch.chapter_title}</span>}
                   </span>
-                  <ExternalLink className="h-3.5 w-3.5 shrink-0 text-slate-700 group-hover:text-slate-500" />
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-400 transition-colors group-hover:text-blue-500 dark:text-slate-600 dark:group-hover:text-slate-400" />
                 </Link>
               ))}
             </div>

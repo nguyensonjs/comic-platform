@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Package, Swords, Shield, Gem, Zap, Flame, RefreshCcw, ChevronRight, Star, Wind } from 'lucide-react';
+import { Package, Swords, Shield, Gem, Zap, Flame, ChevronRight, Star, Wind } from 'lucide-react';
 
 /* ─────────── Types ─────────── */
 
@@ -144,15 +144,15 @@ export default function CharacterPage() {
 
   return (
     <div
-      className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+      className="relative min-h-screen pb-20 pt-20 text-foreground transition-[background,color] duration-500 sm:pb-24 sm:pt-24"
       style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Ambient */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-20 left-1/4 h-[500px] w-[600px] rounded-full bg-purple-900/15 blur-[120px]" />
-        <div className="absolute top-1/2 right-0 h-80 w-80 rounded-full bg-amber-800/8 blur-[100px]" />
+        <div className="absolute -top-20 left-1/4 h-[500px] w-[600px] rounded-full bg-purple-300/15 blur-[120px] dark:bg-purple-900/15" />
+        <div className="absolute top-1/2 right-0 h-80 w-80 rounded-full bg-amber-300/10 blur-[100px] dark:bg-amber-800/8" />
         {[...Array(8)].map((_, i) => (
-          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-amber-300/25"
+          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-sky-500/20 dark:bg-amber-300/25"
             style={{ top: `${10 + i * 11}%`, left: `${5 + i * 12}%`, animationDelay: `${i * 0.4}s` }} />
         ))}
       </div>
@@ -162,16 +162,16 @@ export default function CharacterPage() {
         {/* ── Header ── */}
         <div className="mb-8 flex items-end justify-between">
           <div>
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-purple-700/40 bg-purple-900/20 px-3 py-1.5 text-xs font-semibold text-purple-300">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-purple-300 bg-purple-50/80 px-3 py-1.5 text-xs font-semibold text-purple-700 dark:border-purple-700/40 dark:bg-purple-900/20 dark:text-purple-300">
               <Package className="h-3.5 w-3.5" /> Trang bị nhân vật
             </div>
-            <h1 className="text-4xl font-black text-white">
+            <h1 className="text-4xl font-black text-zinc-950 dark:text-white">
               Nhân Vật{' '}
               <span className="bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">Tu Sĩ</span>
             </h1>
-            <p className="mt-1 text-slate-500">Chọn trang bị từ hành trang, kéo sức mạnh đến đỉnh phong</p>
+            <p className="mt-1 text-zinc-500 dark:text-slate-500">Chọn trang bị từ hành trang, kéo sức mạnh đến đỉnh phong</p>
           </div>
-          <Link href="/ca-nhan" className="flex items-center gap-1.5 rounded-xl border border-slate-700/50 bg-slate-900/50 px-4 py-2 text-sm text-slate-400 hover:text-slate-200">
+          <Link href="/ca-nhan" className="flex items-center gap-1.5 rounded-xl border border-zinc-200 bg-white/85 px-4 py-2 text-sm text-zinc-600 shadow-sm shadow-zinc-950/5 hover:border-zinc-300 hover:text-zinc-900 dark:border-slate-700/50 dark:bg-slate-900/50 dark:text-slate-400 dark:shadow-none dark:hover:text-slate-200">
             Hành trang <ChevronRight className="h-4 w-4" />
           </Link>
         </div>
@@ -181,11 +181,14 @@ export default function CharacterPage() {
 
           {/* ── Left: Character display ── */}
           <div className="lg:col-span-2">
-            <div className="overflow-hidden rounded-3xl border border-purple-800/40 shadow-2xl shadow-purple-950/40"
-              style={{ background: 'linear-gradient(180deg, rgba(20,8,50,0.97) 0%, rgba(5,6,18,0.99) 100%)' }}
+            <div className="relative overflow-hidden rounded-3xl border border-purple-200 shadow-2xl shadow-purple-100/40 dark:border-purple-800/40 dark:shadow-purple-950/40"
+              style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(244,244,245,0.98) 100%)' }}
             >
+              <div className="absolute inset-0 z-0 hidden dark:block"
+                style={{ background: 'linear-gradient(180deg, rgba(20,8,50,0.97) 0%, rgba(5,6,18,0.99) 100%)' }}
+              />
               {/* Character area */}
-              <div className="relative flex flex-col items-center justify-center px-6 py-10">
+              <div className="relative z-10 flex flex-col items-center justify-center px-6 py-10">
                 {/* Outer aura rings */}
                 <div className="absolute h-64 w-64 animate-ping rounded-full border border-purple-500/5 opacity-40" style={{ animationDuration: '4s' }} />
                 <div className="absolute h-52 w-52 animate-ping rounded-full border border-blue-500/8 opacity-50"  style={{ animationDuration: '3s' }} />
@@ -212,7 +215,7 @@ export default function CharacterPage() {
 
                   {/* Character info */}
                   <div className="mt-4 text-center">
-                    <h2 className="text-xl font-black text-white">Nguyễn Văn A</h2>
+                    <h2 className="text-xl font-black text-zinc-950 dark:text-white">Nguyễn Văn A</h2>
                     <p className="text-sm text-purple-400">Hóa Thần · Đỉnh phong</p>
                   </div>
 
@@ -220,10 +223,10 @@ export default function CharacterPage() {
                   <div className="mt-3 flex gap-4">
                     {equipped.weapon && (
                       <div className="flex flex-col items-center gap-1">
-                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.weapon.color} text-xl shadow-lg shadow-${rarityGlow(equipped.weapon.rarity)}`}>
+                        <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.weapon.color} text-xl shadow-lg ${rarityGlow(equipped.weapon.rarity)}`}>
                           {equipped.weapon.icon}
                         </div>
-                        <span className="text-[10px] text-slate-500">Tả thủ</span>
+                        <span className="text-[10px] text-zinc-500 dark:text-slate-500">Tả thủ</span>
                       </div>
                     )}
                     {equipped.armor && (
@@ -231,7 +234,7 @@ export default function CharacterPage() {
                         <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.armor.color} text-xl shadow-lg`}>
                           {equipped.armor.icon}
                         </div>
-                        <span className="text-[10px] text-slate-500">Thân giáp</span>
+                        <span className="text-[10px] text-zinc-500 dark:text-slate-500">Thân giáp</span>
                       </div>
                     )}
                     {equipped.ring && (
@@ -239,7 +242,7 @@ export default function CharacterPage() {
                         <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.ring.color} text-xl shadow-lg`}>
                           {equipped.ring.icon}
                         </div>
-                        <span className="text-[10px] text-slate-500">Nhẫn</span>
+                        <span className="text-[10px] text-zinc-500 dark:text-slate-500">Nhẫn</span>
                       </div>
                     )}
                     {equipped.amulet && (
@@ -247,7 +250,7 @@ export default function CharacterPage() {
                         <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${equipped.amulet.color} text-xl shadow-lg`}>
                           {equipped.amulet.icon}
                         </div>
-                        <span className="text-[10px] text-slate-500">Linh bội</span>
+                        <span className="text-[10px] text-zinc-500 dark:text-slate-500">Linh bội</span>
                       </div>
                     )}
                   </div>
@@ -255,8 +258,8 @@ export default function CharacterPage() {
               </div>
 
               {/* Combat stats */}
-              <div className="border-t border-slate-800/50 p-5">
-                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-600">Chiến lực tổng hợp</p>
+              <div className="relative z-10 border-t border-zinc-200 p-5 dark:border-slate-800/50">
+                <p className="mb-3 text-xs font-bold uppercase tracking-widest text-zinc-500 dark:text-slate-400">Chiến lực tổng hợp</p>
                 <div className="space-y-2.5">
                   {([
                     { label: 'Công kích', key: 'atk', color: 'bg-red-500',    icon: <Flame className="h-3 w-3 text-red-400" /> },
@@ -271,13 +274,13 @@ export default function CharacterPage() {
                     return (
                       <div key={key}>
                         <div className="mb-1 flex items-center justify-between text-xs">
-                          <span className="flex items-center gap-1.5 text-slate-400">{icon}{label}</span>
-                          <span className="font-black text-white">
+                          <span className="flex items-center gap-1.5 text-zinc-600 dark:text-slate-400">{icon}{label}</span>
+                          <span className="font-black text-zinc-950 dark:text-white">
                             {total.toLocaleString()}
                             {bonus > 0 && <span className="ml-1 text-green-400 font-semibold">+{bonus.toLocaleString()}</span>}
                           </span>
                         </div>
-                        <div className="h-1.5 overflow-hidden rounded-full bg-slate-800">
+                        <div className="h-1.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-slate-800">
                           <div className={`h-full rounded-full ${color} transition-all duration-500`}
                             style={{ width: `${pct}%` }} />
                         </div>
@@ -293,9 +296,9 @@ export default function CharacterPage() {
           <div className="space-y-5 lg:col-span-3">
 
             {/* Equipment slots */}
-            <div className="overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/80">
-              <div className="border-b border-slate-800/50 px-5 py-4">
-                <h2 className="font-bold text-slate-200">Trang bị đang mặc</h2>
+            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-sm shadow-zinc-950/5 dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none">
+              <div className="border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
+                <h2 className="font-bold text-zinc-900 dark:text-slate-200">Trang bị đang mặc</h2>
               </div>
               <div className="grid grid-cols-5 gap-3 p-4">
                 {slots.map(({ key, label, icon, desc }) => {
@@ -308,27 +311,27 @@ export default function CharacterPage() {
                         className={`relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-2xl border-2 text-3xl transition-all ${
                           item
                             ? `${item.border} bg-gradient-to-br ${item.color} shadow-lg hover:scale-105`
-                            : 'border-dashed border-slate-700/50 bg-slate-900/50 hover:border-slate-600'
+                            : 'border-dashed border-zinc-300 bg-zinc-100/80 hover:border-zinc-400 dark:border-slate-700/50 dark:bg-slate-900/50 dark:hover:border-slate-600'
                         }`}
                       >
                         {item ? item.icon : (
-                          <span className="text-slate-700">{icon}</span>
+                          <span className="text-zinc-400 dark:text-slate-500">{icon}</span>
                         )}
                         {item && (
-                          <button onClick={(e) => { e.stopPropagation(); equip(item); }}
-                            className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-800/80 text-[10px] text-red-300 hover:bg-red-700"
-                            title="Tháo ra"
+                        <button onClick={(e) => { e.stopPropagation(); equip(item); }}
+                          className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-800/80 text-[10px] text-red-300 hover:bg-red-700"
+                          title="Tháo ra"
                           >
                             ×
                           </button>
                         )}
                       </div>
                       <div className="text-center">
-                        <p className="text-[11px] font-semibold text-slate-400">{label}</p>
+                        <p className="text-[11px] font-semibold text-zinc-600 dark:text-slate-400">{label}</p>
                         {item ? (
-                          <p className="max-w-[70px] truncate text-[10px] text-slate-500">{item.name}</p>
+                          <p className="max-w-[70px] truncate text-[10px] text-zinc-500 dark:text-slate-500">{item.name}</p>
                         ) : (
-                          <p className="text-[10px] text-slate-700">{desc}</p>
+                          <p className="text-[10px] text-zinc-400 dark:text-slate-500">{desc}</p>
                         )}
                       </div>
                     </div>
@@ -338,16 +341,15 @@ export default function CharacterPage() {
             </div>
 
             {/* Inventory grid (equippable items only) */}
-            <div className="overflow-hidden rounded-2xl border border-slate-800/50 bg-slate-950/80">
-              <div className="flex items-center justify-between border-b border-slate-800/50 px-5 py-4">
-                <h2 className="font-bold text-slate-200">Hành trang — Trang bị</h2>
-                <span className="text-xs text-slate-600">{allItems.length} vật phẩm · Nhấp để trang bị / tháo</span>
+            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-sm shadow-zinc-950/5 dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none">
+              <div className="flex items-center justify-between border-b border-zinc-200 px-5 py-4 dark:border-slate-800/50">
+                <h2 className="font-bold text-zinc-900 dark:text-slate-200">Hành trang — Trang bị</h2>
+                <span className="text-xs text-zinc-500 dark:text-slate-400">{allItems.length} vật phẩm · Nhấp để trang bị / tháo</span>
               </div>
 
               <div className="grid grid-cols-4 gap-3 p-5 sm:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5">
                 {allItems.map((item) => {
                   const isEquipped = equippedIds.has(item.id);
-                  const isHovered  = hoveredItem?.id === item.id;
                   return (
                     <div key={item.id}
                       onClick={() => equip(item)}
@@ -356,7 +358,7 @@ export default function CharacterPage() {
                       className={`group relative flex cursor-pointer flex-col items-center gap-2 overflow-hidden rounded-2xl border p-3 text-center transition-all duration-200 ${
                         isEquipped
                           ? `${item.border} bg-gradient-to-br ${item.color} shadow-xl ring-2 ring-white/10`
-                          : `${item.border} bg-slate-900/60 hover:-translate-y-1 hover:shadow-lg`
+                          : `${item.border} bg-white/85 shadow-sm shadow-zinc-950/5 hover:-translate-y-1 hover:shadow-lg dark:bg-slate-900/60 dark:shadow-none`
                       }`}
                     >
                       {/* Equipped badge */}
@@ -379,7 +381,7 @@ export default function CharacterPage() {
                       </div>
 
                       {/* Name */}
-                      <p className={`text-[11px] font-bold leading-tight ${isEquipped ? 'text-white' : 'text-slate-300'}`}>
+                      <p className={`text-[11px] font-bold leading-tight ${isEquipped ? 'text-white' : 'text-zinc-800 dark:text-slate-300'}`}>
                         {item.name}
                       </p>
 
@@ -395,23 +397,23 @@ export default function CharacterPage() {
 
             {/* Hovered item tooltip */}
             {hoveredItem && (
-              <div className={`rounded-2xl border bg-slate-950/95 px-5 py-4 backdrop-blur-sm ${hoveredItem.border} transition-all`}>
+              <div className={`rounded-2xl border bg-white/95 px-5 py-4 shadow-sm shadow-zinc-950/5 backdrop-blur-sm transition-all dark:bg-slate-950/95 dark:shadow-none ${hoveredItem.border}`}>
                 <div className="flex items-center gap-3">
                   <div className={`flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${hoveredItem.color} text-2xl shadow-md`}>
                     {hoveredItem.icon}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-black text-white">{hoveredItem.name}</p>
+                      <p className="font-black text-zinc-950 dark:text-white">{hoveredItem.name}</p>
                       <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${hoveredItem.rarityBadge}`}>{hoveredItem.rarity}</span>
                     </div>
-                    <p className="text-sm text-slate-400">{hoveredItem.effect}</p>
+                    <p className="text-sm text-zinc-500 dark:text-slate-400">{hoveredItem.effect}</p>
                   </div>
                   <div className="ml-auto flex items-center gap-3 text-sm">
                     {Object.entries(hoveredItem.stats).map(([k, v]) => (
                       <div key={k} className="text-center">
                         <div className="font-black text-green-400">+{v?.toLocaleString()}</div>
-                        <div className="text-[10px] text-slate-600 uppercase">{k}</div>
+                        <div className="text-[10px] uppercase text-zinc-400 dark:text-slate-500">{k}</div>
                       </div>
                     ))}
                   </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle2, Clock, Zap, BookOpen, Star, MessageCircle, Trophy, RefreshCcw, ChevronRight } from 'lucide-react';
+import { CheckCircle2, Clock, Zap, Trophy, RefreshCcw } from 'lucide-react';
 
 type QuestStatus = 'done' | 'active' | 'locked';
 
@@ -53,15 +53,15 @@ export default function QuestsPage() {
 
   return (
     <div
-      className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+      className="relative min-h-screen pb-20 pt-20 text-foreground transition-[background,color] duration-500 sm:pb-24 sm:pt-24"
       style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Glow */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute top-0 right-1/4 h-[500px] w-[500px] rounded-full bg-blue-900/12 blur-[120px]" />
-        <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-amber-900/8 blur-[100px]" />
+        <div className="absolute top-0 right-1/4 h-[500px] w-[500px] rounded-full bg-blue-300/15 blur-[120px] dark:bg-blue-900/12" />
+        <div className="absolute bottom-0 left-0 h-80 w-80 rounded-full bg-amber-300/10 blur-[100px] dark:bg-amber-900/8" />
         {[...Array(6)].map((_, i) => (
-          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-cyan-300/20"
+          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-cyan-500/20 dark:bg-cyan-300/20"
             style={{ top: `${12 + i * 14}%`, left: `${8 + i * 15}%`, animationDelay: `${i * 0.5}s` }}
           />
         ))}
@@ -72,38 +72,38 @@ export default function QuestsPage() {
         {/* Header */}
         <div className="mb-6 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-blue-700/40 bg-blue-900/20 px-2.5 py-1 text-[10px] font-semibold text-blue-300 sm:mb-3 sm:px-3 sm:py-1.5 sm:text-xs">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-blue-300 bg-blue-50/80 px-2.5 py-1 text-[10px] font-semibold text-blue-700 sm:mb-3 sm:px-3 sm:py-1.5 sm:text-xs dark:border-blue-700/40 dark:bg-blue-900/20 dark:text-blue-300">
               <Trophy className="h-3.5 w-3.5" />
               Nhiệm vụ tu luyện
             </div>
-            <h1 className="text-2xl font-black text-white sm:text-4xl">
+            <h1 className="text-2xl font-black text-zinc-950 dark:text-white sm:text-4xl">
               Tông Môn{' '}
               <span className="bg-gradient-to-r from-blue-300 to-cyan-300 bg-clip-text text-transparent">
                 Nhiệm Vụ
               </span>
             </h1>
-            <p className="mt-2 text-slate-500">Hoàn thành nhiệm vụ để nhận linh thạch và vật phẩm quý</p>
+            <p className="mt-2 text-zinc-500 dark:text-slate-500">Hoàn thành nhiệm vụ để nhận linh thạch và vật phẩm quý</p>
           </div>
-          <div className="flex items-center gap-2 rounded-2xl border border-blue-800/30 bg-blue-900/15 px-5 py-3 text-sm">
+          <div className="flex items-center gap-2 rounded-2xl border border-blue-200 bg-white/80 px-5 py-3 text-sm shadow-sm shadow-zinc-950/5 dark:border-blue-800/30 dark:bg-blue-900/15 dark:shadow-none">
             <Clock className="h-4 w-4 text-blue-400" />
-            <span className="text-slate-400">Reset sau:</span>
-            <span className="font-black text-blue-300">{resetIn}</span>
+            <span className="text-zinc-500 dark:text-slate-400">Reset sau:</span>
+            <span className="font-black text-blue-500 dark:text-blue-300">{resetIn}</span>
           </div>
         </div>
 
         {/* Stats */}
         <div className="mb-8 grid grid-cols-3 gap-4">
-          <div className="rounded-2xl border border-green-800/30 bg-green-900/10 px-5 py-5 text-center">
-            <div className="text-3xl font-black text-green-400">{doneCount}/{quests.length}</div>
-            <div className="mt-1 text-xs text-slate-500">Đã hoàn thành</div>
+          <div className="rounded-2xl border border-green-200 bg-white/80 px-5 py-5 text-center shadow-sm shadow-zinc-950/5 dark:border-green-800/30 dark:bg-green-900/10 dark:shadow-none">
+            <div className="text-3xl font-black text-green-500 dark:text-green-400">{doneCount}/{quests.length}</div>
+            <div className="mt-1 text-xs text-zinc-500 dark:text-slate-500">Đã hoàn thành</div>
           </div>
-          <div className="rounded-2xl border border-amber-800/30 bg-amber-900/10 px-5 py-5 text-center">
-            <div className="text-3xl font-black text-amber-300">💎 {totalEarned.toLocaleString()}</div>
-            <div className="mt-1 text-xs text-slate-500">Linh thạch kiếm được</div>
+          <div className="rounded-2xl border border-amber-200 bg-white/80 px-5 py-5 text-center shadow-sm shadow-zinc-950/5 dark:border-amber-800/30 dark:bg-amber-900/10 dark:shadow-none">
+            <div className="text-3xl font-black text-amber-500 dark:text-amber-300">💎 {totalEarned.toLocaleString()}</div>
+            <div className="mt-1 text-xs text-zinc-500 dark:text-slate-500">Linh thạch kiếm được</div>
           </div>
-          <div className="rounded-2xl border border-blue-800/30 bg-blue-900/10 px-5 py-5 text-center">
-            <div className="text-3xl font-black text-blue-300">🔥 5</div>
-            <div className="mt-1 text-xs text-slate-500">Ngày liên tiếp</div>
+          <div className="rounded-2xl border border-blue-200 bg-white/80 px-5 py-5 text-center shadow-sm shadow-zinc-950/5 dark:border-blue-800/30 dark:bg-blue-900/10 dark:shadow-none">
+            <div className="text-3xl font-black text-blue-500 dark:text-blue-300">🔥 5</div>
+            <div className="mt-1 text-xs text-zinc-500 dark:text-slate-500">Ngày liên tiếp</div>
           </div>
         </div>
 
@@ -114,7 +114,7 @@ export default function QuestsPage() {
               className={`flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold transition-all ${
                 tab === t.id
                   ? 'bg-blue-600 text-white shadow-lg shadow-blue-800/30'
-                  : 'border border-slate-800 bg-slate-900/50 text-slate-400 hover:border-slate-700 hover:text-slate-200'
+                  : 'border border-zinc-200 bg-white/80 text-zinc-600 shadow-sm shadow-zinc-950/5 hover:border-zinc-300 hover:text-zinc-900 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-400 dark:shadow-none dark:hover:border-slate-700 dark:hover:text-slate-200'
               }`}
             >
               {t.icon} {t.label}
@@ -129,17 +129,17 @@ export default function QuestsPage() {
             return (
               <div key={q.id}
                 className={`overflow-hidden rounded-2xl border transition-all ${
-                  q.status === 'done'   ? 'border-green-800/40 bg-green-950/20'
-                  : q.status === 'locked' ? 'border-slate-800/40 bg-slate-950/50 opacity-60'
-                  : 'border-slate-800/50 bg-slate-950/80 hover:border-slate-700/60'
+                  q.status === 'done'   ? 'border-green-200 bg-green-50 dark:border-green-800/40 dark:bg-green-950/20'
+                  : q.status === 'locked' ? 'border-zinc-200 bg-zinc-100/80 opacity-60 dark:border-slate-800/40 dark:bg-slate-950/50'
+                  : 'border-zinc-200 bg-white/85 shadow-sm shadow-zinc-950/5 hover:border-zinc-300 dark:border-slate-800/50 dark:bg-slate-950/80 dark:shadow-none dark:hover:border-slate-700/60'
                 }`}
               >
                 <div className="flex items-center gap-5 px-6 py-5">
                   {/* Icon */}
                   <div className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl text-3xl ${
-                    q.status === 'done'   ? 'bg-green-900/30'
-                    : q.status === 'locked' ? 'bg-slate-800/50'
-                    : 'bg-blue-900/20'
+                    q.status === 'done'   ? 'bg-green-100 dark:bg-green-900/30'
+                    : q.status === 'locked' ? 'bg-zinc-200 dark:bg-slate-800/50'
+                    : 'bg-blue-100 dark:bg-blue-900/20'
                   }`}>
                     {q.status === 'done' ? '✅' : q.status === 'locked' ? '🔒' : q.icon}
                   </div>
@@ -147,17 +147,17 @@ export default function QuestsPage() {
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="mb-1.5 flex items-center gap-2">
-                      <h3 className={`text-base font-black ${q.status === 'done' ? 'text-green-300' : q.status === 'locked' ? 'text-slate-600' : 'text-white'}`}>
+                      <h3 className={`text-base font-black ${q.status === 'done' ? 'text-green-600 dark:text-green-300' : q.status === 'locked' ? 'text-zinc-400 dark:text-slate-600' : 'text-zinc-950 dark:text-white'}`}>
                         {q.title}
                       </h3>
                       {q.status === 'done' && (
-                        <span className="rounded-full bg-green-800/40 px-2 py-0.5 text-[10px] font-bold text-green-400">XONG</span>
+                        <span className="rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700 dark:bg-green-800/40 dark:text-green-400">XONG</span>
                       )}
                     </div>
-                    <p className="mb-3 text-sm text-slate-500">{q.desc}</p>
+                    <p className="mb-3 text-sm text-zinc-500 dark:text-slate-500">{q.desc}</p>
                     {/* Progress bar */}
                     <div className="flex items-center gap-3">
-                      <div className="flex-1 overflow-hidden rounded-full bg-slate-800 h-2">
+                      <div className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-slate-800">
                         <div
                           className={`h-full rounded-full transition-all ${
                             q.status === 'done' ? 'bg-gradient-to-r from-green-500 to-emerald-400' : 'bg-gradient-to-r from-blue-600 to-cyan-400'
@@ -165,7 +165,7 @@ export default function QuestsPage() {
                           style={{ width: `${pct}%` }}
                         />
                       </div>
-                      <span className="shrink-0 text-xs font-semibold text-slate-500">{q.progress}/{q.total}</span>
+                      <span className="shrink-0 text-xs font-semibold text-zinc-500 dark:text-slate-500">{q.progress}/{q.total}</span>
                     </div>
                   </div>
 
@@ -173,13 +173,13 @@ export default function QuestsPage() {
                   <div className="ml-2 flex w-32 shrink-0 flex-col items-end gap-2">
                     <div className="flex items-center gap-1.5">
                       <span className="text-lg">💎</span>
-                      <span className="text-lg font-black text-amber-300">{q.reward}</span>
+                      <span className="text-lg font-black text-amber-500 dark:text-amber-300">{q.reward}</span>
                     </div>
                     {q.bonus && (
                       <span className="text-right text-[11px] font-semibold text-purple-400">+ {q.bonus}</span>
                     )}
                     {q.status === 'done' && (
-                      <span className="flex items-center gap-1 text-xs text-green-400">
+                      <span className="flex items-center gap-1 text-xs text-green-600 dark:text-green-400">
                         <CheckCircle2 className="h-3.5 w-3.5" /> Đã nhận
                       </span>
                     )}
@@ -189,7 +189,7 @@ export default function QuestsPage() {
                       </button>
                     )}
                     {q.status === 'active' && pct < 100 && (
-                      <span className="flex items-center gap-1 text-xs text-slate-500">
+                      <span className="flex items-center gap-1 text-xs text-zinc-500 dark:text-slate-500">
                         <Zap className="h-3 w-3" /> {Math.round(pct)}%
                       </span>
                     )}
@@ -206,7 +206,7 @@ export default function QuestsPage() {
         </div>
 
         {/* Refresh note */}
-        <div className="mt-10 flex items-center justify-center gap-2 text-xs text-slate-600">
+        <div className="mt-10 flex items-center justify-center gap-2 text-xs text-zinc-500 dark:text-slate-600">
           <RefreshCcw className="h-3.5 w-3.5" />
           Nhiệm vụ hằng ngày reset lúc 00:00 · Hàng tuần reset thứ Hai
         </div>

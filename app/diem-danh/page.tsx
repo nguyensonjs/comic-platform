@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Gift, Calendar, CheckCircle2, Lock, Zap, Crown, ChevronRight } from 'lucide-react';
+import { Sparkles, Calendar, CheckCircle2, Lock } from 'lucide-react';
 
 const checkInDays = [
   { day: 1,  reward: '50',   unit: 'Linh thạch',  icon: '💎', claimed: true  },
@@ -29,15 +29,15 @@ export default function CheckInPage() {
 
   return (
     <div
-      className="relative min-h-screen text-foreground pb-20 pt-20 transition-[background,color] duration-300 sm:pb-24 sm:pt-24"
+      className="relative min-h-screen pb-20 pt-20 text-foreground transition-[background,color] duration-500 sm:pb-24 sm:pt-24"
       style={{ background: 'var(--page-bg-gradient)' }}
     >
       {/* Glow orbs */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute -top-20 left-1/3 h-[500px] w-[600px] rounded-full bg-purple-900/15 blur-[120px]" />
-        <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-amber-800/8 blur-[100px]" />
+        <div className="absolute -top-20 left-1/3 h-[500px] w-[600px] rounded-full bg-purple-300/15 blur-[120px] dark:bg-purple-900/15" />
+        <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-amber-300/10 blur-[100px] dark:bg-amber-800/8" />
         {[...Array(8)].map((_, i) => (
-          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-amber-300/30"
+          <div key={i} className="absolute h-1 w-1 animate-pulse rounded-full bg-sky-500/25 dark:bg-amber-300/30"
             style={{ top: `${10 + i * 11}%`, left: `${5 + i * 12}%`, animationDelay: `${i * 0.4}s`, animationDuration: `${2 + i * 0.3}s` }}
           />
         ))}
@@ -47,49 +47,52 @@ export default function CheckInPage() {
 
         {/* Header */}
         <div className="mb-6 text-center px-2 sm:mb-8 sm:px-0">
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-amber-700/40 bg-amber-900/20 px-3 py-1 text-xs font-semibold text-amber-300 sm:mb-3 sm:px-4 sm:py-1.5 sm:text-sm">
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50/80 px-3 py-1 text-xs font-semibold text-amber-700 sm:mb-3 sm:px-4 sm:py-1.5 sm:text-sm dark:border-amber-700/40 dark:bg-amber-900/20 dark:text-amber-300">
             <Calendar className="h-4 w-4" />
             Điểm danh hằng ngày
           </div>
-          <h1 className="text-2xl font-black text-white sm:text-3xl md:text-4xl">
+          <h1 className="text-2xl font-black text-zinc-950 dark:text-white sm:text-3xl md:text-4xl">
             Tu Luyện{' '}
             <span className="bg-gradient-to-r from-amber-300 to-yellow-200 bg-clip-text text-transparent">
               Mỗi Ngày
             </span>
           </h1>
-          <p className="mt-2 text-slate-500">Điểm danh để nhận linh thạch và vật phẩm quý giá</p>
+          <p className="mt-2 text-zinc-500 dark:text-slate-500">Điểm danh để nhận linh thạch và vật phẩm quý giá</p>
         </div>
 
         {/* Stats bar */}
         <div className="mb-6 grid grid-cols-3 gap-2 sm:mb-8 sm:gap-4">
-          <div className="rounded-xl border border-amber-800/30 bg-amber-900/15 p-3 text-center sm:rounded-2xl sm:p-4">
-            <div className="text-lg font-black text-amber-300 sm:text-2xl">💎 {totalStones.toLocaleString()}</div>
-            <div className="text-[10px] text-slate-500 sm:text-xs">Linh thạch tích lũy</div>
+          <div className="rounded-xl border border-amber-200 bg-white/80 p-3 text-center shadow-sm shadow-zinc-950/5 sm:rounded-2xl sm:p-4 dark:border-amber-800/30 dark:bg-amber-900/15 dark:shadow-none">
+            <div className="text-lg font-black text-amber-500 dark:text-amber-300 sm:text-2xl">💎 {totalStones.toLocaleString()}</div>
+            <div className="text-[10px] text-zinc-500 dark:text-slate-500 sm:text-xs">Linh thạch tích lũy</div>
           </div>
-          <div className="rounded-xl border border-purple-800/30 bg-purple-900/15 p-3 text-center sm:rounded-2xl sm:p-4">
-            <div className="text-lg font-black text-purple-300 sm:text-2xl">🔥 {currentStreak}</div>
-            <div className="text-[10px] text-slate-500 sm:text-xs">Chuỗi ngày liên tiếp</div>
+          <div className="rounded-xl border border-purple-200 bg-white/80 p-3 text-center shadow-sm shadow-zinc-950/5 sm:rounded-2xl sm:p-4 dark:border-purple-800/30 dark:bg-purple-900/15 dark:shadow-none">
+            <div className="text-lg font-black text-purple-500 dark:text-purple-300 sm:text-2xl">🔥 {currentStreak}</div>
+            <div className="text-[10px] text-zinc-500 dark:text-slate-500 sm:text-xs">Chuỗi ngày liên tiếp</div>
           </div>
-          <div className="rounded-xl border border-blue-800/30 bg-blue-900/15 p-3 text-center sm:rounded-2xl sm:p-4">
-            <div className="text-lg font-black text-blue-300 sm:text-2xl">🗓 {new Date().getDate()}/27</div>
-            <div className="text-[10px] text-slate-500 sm:text-xs">Ngày trong tháng</div>
+          <div className="rounded-xl border border-blue-200 bg-white/80 p-3 text-center shadow-sm shadow-zinc-950/5 sm:rounded-2xl sm:p-4 dark:border-blue-800/30 dark:bg-blue-900/15 dark:shadow-none">
+            <div className="text-lg font-black text-blue-500 dark:text-blue-300 sm:text-2xl">🗓 {new Date().getDate()}/27</div>
+            <div className="text-[10px] text-zinc-500 dark:text-slate-500 sm:text-xs">Ngày trong tháng</div>
           </div>
         </div>
 
         {/* Today's check-in hero */}
-        <div className="mb-6 overflow-hidden rounded-2xl border border-amber-600/40 shadow-2xl shadow-amber-950/40 sm:mb-8 sm:rounded-3xl"
-          style={{ background: 'linear-gradient(135deg, rgba(40,20,5,0.95) 0%, rgba(10,8,25,0.98) 100%)' }}
+        <div className="relative mb-6 overflow-hidden rounded-2xl border border-amber-300 shadow-2xl shadow-amber-100/50 sm:mb-8 sm:rounded-3xl dark:border-amber-600/40 dark:shadow-amber-950/40"
+          style={{ background: 'linear-gradient(135deg, rgba(255,250,235,0.96) 0%, rgba(255,255,255,0.98) 100%)' }}
         >
-          <div className="relative p-5 text-center sm:p-8">
+          <div className="absolute inset-0 z-0 hidden dark:block"
+            style={{ background: 'linear-gradient(135deg, rgba(40,20,5,0.95) 0%, rgba(10,8,25,0.98) 100%)' }}
+          />
+          <div className="relative z-10 p-5 text-center sm:p-8">
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <div className="h-64 w-64 rounded-full bg-amber-400/5 blur-3xl" />
+              <div className="h-64 w-64 rounded-full bg-amber-400/10 blur-3xl dark:bg-amber-400/5" />
             </div>
             <div className="relative">
               <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full border-2 border-amber-500/40 bg-gradient-to-br from-amber-500 to-orange-600 text-4xl shadow-2xl shadow-amber-900/60 sm:mb-4 sm:h-24 sm:w-24 sm:text-5xl">
                 💎
               </div>
-              <p className="mb-1 text-slate-400">Phần thưởng hôm nay — Ngày {currentStreak + 1}</p>
-              <p className="text-2xl font-black text-amber-300 sm:text-4xl">+300 Linh thạch</p>
+              <p className="mb-1 text-zinc-500 dark:text-slate-400">Phần thưởng hôm nay — Ngày {currentStreak + 1}</p>
+              <p className="text-2xl font-black text-amber-500 dark:text-amber-300 sm:text-4xl">+300 Linh thạch</p>
 
               {!claimed ? (
                 <button
@@ -100,7 +103,7 @@ export default function CheckInPage() {
                   Điểm danh ngay!
                 </button>
               ) : (
-                <div className="mt-6 inline-flex items-center gap-2 rounded-2xl border border-green-600/40 bg-green-900/20 px-8 py-4 text-green-400">
+                <div className="mt-6 inline-flex items-center gap-2 rounded-2xl border border-green-200 bg-green-50 px-8 py-4 text-green-700 dark:border-green-600/40 dark:bg-green-900/20 dark:text-green-400">
                   <CheckCircle2 className="h-5 w-5" />
                   <span className="font-bold">Đã điểm danh hôm nay!</span>
                 </div>
@@ -110,23 +113,26 @@ export default function CheckInPage() {
         </div>
 
         {/* 30-day calendar grid */}
-        <div className="mb-8 overflow-hidden rounded-2xl border border-slate-800/50"
-          style={{ background: 'linear-gradient(180deg, rgba(12,8,35,0.96) 0%, rgba(4,6,18,0.98) 100%)' }}
+        <div className="relative mb-8 overflow-hidden rounded-2xl border border-zinc-200 bg-white/90 shadow-sm shadow-zinc-950/5 dark:border-slate-800/50 dark:shadow-none"
+          style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(244,244,245,0.98) 100%)' }}
         >
-          <div className="border-b border-slate-800/50 px-6 py-4">
-            <h2 className="font-black text-white">Lịch điểm danh tháng này</h2>
+          <div className="absolute inset-0 z-0 hidden dark:block"
+            style={{ background: 'linear-gradient(180deg, rgba(12,8,35,0.96) 0%, rgba(4,6,18,0.98) 100%)' }}
+          />
+          <div className="relative z-10 border-b border-zinc-200 px-6 py-4 dark:border-slate-800/50">
+            <h2 className="font-black text-zinc-950 dark:text-white">Lịch điểm danh tháng này</h2>
           </div>
-          <div className="grid grid-cols-3 gap-2 p-3 sm:grid-cols-5 sm:gap-3 sm:p-5 md:grid-cols-7">
+          <div className="relative z-10 grid grid-cols-3 gap-2 p-3 sm:grid-cols-5 sm:gap-3 sm:p-5 md:grid-cols-7">
             {checkInDays.map((d) => (
               <div key={d.day}
                 className={`relative flex flex-col items-center gap-1 rounded-xl border p-3 text-center transition-all ${
                   d.isMilestone
-                    ? 'border-amber-700/50 bg-amber-900/20'
+                    ? 'border-amber-300 bg-amber-50 dark:border-amber-700/50 dark:bg-amber-900/20'
                     : d.isToday
-                    ? 'border-blue-600/50 bg-blue-950/40'
+                    ? 'border-blue-300 bg-blue-50 dark:border-blue-600/50 dark:bg-blue-950/40'
                     : d.claimed
-                    ? 'border-green-700/30 bg-green-950/20'
-                    : 'border-slate-800/50 bg-slate-900/30'
+                    ? 'border-green-200 bg-green-50 dark:border-green-700/30 dark:bg-green-950/20'
+                    : 'border-zinc-200 bg-white/80 dark:border-slate-800/50 dark:bg-slate-900/30'
                 }`}
               >
                 {d.claimed && (
@@ -135,11 +141,11 @@ export default function CheckInPage() {
                 {d.isToday && !d.claimed && (
                   <div className="absolute -top-1.5 -right-1.5 h-3 w-3 animate-pulse rounded-full bg-blue-400" />
                 )}
-                <span className={`text-xs font-bold ${d.claimed ? 'text-green-400' : d.isToday ? 'text-blue-400' : d.isMilestone ? 'text-amber-400' : 'text-slate-600'}`}>
+                <span className={`text-xs font-bold ${d.claimed ? 'text-green-500 dark:text-green-400' : d.isToday ? 'text-blue-500 dark:text-blue-400' : d.isMilestone ? 'text-amber-500 dark:text-amber-400' : 'text-zinc-500 dark:text-slate-400'}`}>
                   Ngày {d.day}
                 </span>
-                <span className="text-2xl">{d.claimed ? '✅' : d.isToday ? d.icon : d.claimed === false && !d.isMilestone ? <Lock className="h-4 w-4 text-slate-700" /> : d.icon}</span>
-                <span className="text-[10px] font-semibold text-slate-500">{d.reward} {d.unit}</span>
+                <span className="text-2xl">{d.claimed ? '✅' : d.isToday ? d.icon : d.claimed === false && !d.isMilestone ? <Lock className="h-4 w-4 text-zinc-400 dark:text-slate-500" /> : d.icon}</span>
+                <span className="text-[10px] font-semibold text-zinc-500 dark:text-slate-500">{d.reward} {d.unit}</span>
               </div>
             ))}
           </div>
@@ -147,17 +153,17 @@ export default function CheckInPage() {
 
         {/* Streak bonus */}
         <div>
-          <h2 className="mb-4 text-lg font-black text-white">Thưởng chuỗi liên tiếp</h2>
+          <h2 className="mb-4 text-lg font-black text-zinc-950 dark:text-white">Thưởng chuỗi liên tiếp</h2>
           <div className="space-y-3">
             {bonusStreak.map((b) => (
-              <div key={b.streak} className={`flex flex-wrap items-center gap-3 rounded-xl border ${b.border} ${b.bg} px-4 py-3 sm:flex-nowrap sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4`}>
+              <div key={b.streak} className={`flex flex-wrap items-center gap-3 rounded-xl border ${b.border} ${b.bg} px-4 py-3 shadow-sm shadow-zinc-950/5 sm:flex-nowrap sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4 dark:shadow-none`}>
                 <span className="text-2xl sm:text-3xl">{b.icon}</span>
                 <div className="flex-1 min-w-0">
                   <p className={`text-sm font-black sm:text-base ${b.color}`}>{b.label} liên tiếp</p>
-                  <p className="text-xs text-slate-400 sm:text-sm">{b.reward}</p>
+                  <p className="text-xs text-zinc-500 dark:text-slate-400 sm:text-sm">{b.reward}</p>
                 </div>
                 <div className="flex w-full items-center gap-2 sm:w-auto">
-                  <div className="h-2 flex-1 min-w-0 overflow-hidden rounded-full bg-slate-800 sm:w-28 sm:flex-none">
+                  <div className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-slate-800 sm:w-28 sm:flex-none">
                     <div className={`h-full rounded-full ${b.color.replace('text-', 'bg-').replace('-400', '-500')}`}
                       style={{ width: `${Math.min(100, (currentStreak / b.streak) * 100)}%` }} />
                   </div>
